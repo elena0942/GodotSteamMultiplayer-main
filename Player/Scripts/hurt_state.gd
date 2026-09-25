@@ -21,8 +21,6 @@ var is_kb_done: bool
 func on_process(delta : float):
 	pass
 
-func _on_physics_process(delta: float) -> void:
-	pass
 
 func knockback():
 	#print("DEBUG: Player KB (hurt_state.gd)")
@@ -52,7 +50,9 @@ func _on_hitbox_entered(area: Area2D) -> void:
 	#print("DEBUG: area ", EnemyAttackArea)
 	pass
 
-func _physics_process(delta: float) -> void:
+func _on_physics_process(delta: float) -> void:
+	if !is_multiplayer_authority():
+		return
 	var direction: Vector2 = GameInputEvents.movement_input()
 	if player:
 		player.velocity = player.velocity.move_toward(Vector2.ZERO, 800.0 * delta)

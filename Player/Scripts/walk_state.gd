@@ -13,17 +13,18 @@ func _on_process(_delta: float) -> void:
 	pass
 
 func _on_physics_process(_delta: float) -> void:
-	if is_multiplayer_authority():
-		if player.is_moving:
-			if is_kb_done:
-				current_speed = walk_speed
-				animated_sprite_2d.speed_scale = 1.0
-			else:
-				return
-			player.velocity = player.player_direction * current_speed
+	#if is_multiplayer_authority():
+	if player.is_moving:
+		if is_kb_done:
+			current_speed = walk_speed
+			animated_sprite_2d.speed_scale = 1.0
 		else:
-			player.velocity = Vector2.ZERO
-		player.move_and_slide()
+			return
+		player.velocity = player.player_direction * current_speed
+	else:
+		player.velocity = Vector2.ZERO
+	player.move_and_slide()
+
 
 	# Runs for every peer — animation only, driven by replicated state
 	match player.player_direction:
@@ -78,6 +79,7 @@ func _on_next_transitions() -> void:
 	##elif Input.is_action_just_pressed("hit"):
 		##animated_sprite_2d.stop()
 		##transition.emit("Hit")
+@warning_ignore("unused_parameter")
 func _on_detect_area_area_entered(area: Area2D) -> void:
 	pass
 
@@ -86,7 +88,8 @@ func _on_enter() -> void:
 	pass
 
 func _on_exit() -> void:
-	animated_sprite_2d.stop()
+	#animated_sprite_2d.stop()
+	pass
 
 func _on_kb_cooldown_timeout():
 	is_kb_done = true
