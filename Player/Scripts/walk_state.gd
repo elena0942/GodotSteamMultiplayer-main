@@ -24,6 +24,7 @@ func _on_physics_process(_delta: float) -> void:
 	else:
 		player.velocity = Vector2.ZERO
 	player.move_and_slide()
+	player.net_position = player.global_position
 
 
 	# Runs for every peer — animation only, driven by replicated state

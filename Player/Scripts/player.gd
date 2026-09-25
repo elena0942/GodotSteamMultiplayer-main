@@ -12,6 +12,7 @@ signal healthChanged
 @export var inventory_data: InventoryData
 @export var player_direction: Vector2
 @export var is_moving: bool
+@export var net_position: Vector2
 
 var interactable = null
 var _building: Node = null
@@ -50,6 +51,7 @@ func set_building(new_building):
 	_building = new_building
 
 func _ready():
+	net_position = global_position
 	camera.enabled = is_multiplayer_authority()
 	health = max_health
 	#Global.set_player_reference(self) ## INVENTORY V1
@@ -78,6 +80,7 @@ func _enter_tree() -> void:
 func _physics_process(delta: float) -> void:
 	# First check if we have authority over this player
 	if not is_multiplayer_authority():
+		global_position = global_position.lerp(net_position, 0.25)
 		return
 	var direction: Vector2 = GameInputEvents.movement_input()
 	is_moving = direction != Vector2.ZERO

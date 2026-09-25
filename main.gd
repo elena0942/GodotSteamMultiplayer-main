@@ -7,20 +7,26 @@ var players: Array[CharacterBody2D]
 func _ready() -> void:
 	Networking.host_created.connect(on_host_created)
 
-
 func on_host_created() -> void:
 	# Spawn the server player
-	spawn_player(multiplayer.get_unique_id())
-	multiplayer.peer_connected.connect(spawn_player)
+	_on_player_connected(multiplayer.get_unique_id())
+	multiplayer.peer_connected.connect(_on_player_connected)
+	multiplayer.peer_disconnected.connect(_on_player_disconnected)
 
 
 # The server spawns the player that just connected
-func spawn_player(peer_id: int) -> void:
+func _on_player_connected(peer_id: int):
 	var new_player = PLAYER_CONTROLLER.instantiate()
 	new_player.name = str(peer_id)
 	add_child(new_player)
 	initialize_player(new_player)
 
+func _on_player_disconnected(peer_id: int):
+	print("Player disconnected: ", peer_id)
+	var player_node = $".".get_node_or_null(str(peer_id))
+	
+	if player_node:
+		player_node.queue_free()
 
 func initialize_player(player: CharacterBody2D) -> void:
 	player.position = $SpawnPoint.position
