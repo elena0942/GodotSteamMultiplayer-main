@@ -16,7 +16,7 @@ text = "HOST"
 position = Vector2(553, 308)
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=1177078280]
-_spawnable_scenes = PackedStringArray("uid://disid262nfj6n")
+_spawnable_scenes = PackedStringArray("uid://dp0anu84vqtlk")
 spawn_path = NodePath("..")
 
 [connection signal="pressed" from="CanvasLayer/Host" to="." method="_on_host_pressed"]

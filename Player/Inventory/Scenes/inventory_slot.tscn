@@ -1,8 +1,6 @@
 [gd_scene format=3 uid="uid://b33ctkqrnq7x1"]
 
-[ext_resource type="Script" uid="uid://bk0f238h5fug0" path="res://player/Inventory/Scripts/ui_slot.gd" id="2_1hpu2"]
-[ext_resource type="FontFile" uid="uid://i5g5v511el3y" path="res://Misc Resources/Fonts/MedodicaRegular.otf" id="3_dtnyo"]
-[ext_resource type="Texture2D" uid="uid://bpnhwyr4jpwyo" path="res://Crops/crops/Singular Crops/1px/30.png" id="4_o3jel"]
+[ext_resource type="Script" uid="uid://bk0f238h5fug0" path="res://Player/Inventory/Scripts/ui_slot.gd" id="2_1hpu2"]
 [ext_resource type="Texture2D" uid="uid://bpaahu0dqqyt7" path="res://Sprites/UI/UI inventory.png" id="5_68ejf"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xxsbn"]
@@ -56,7 +54,6 @@ offset_bottom = 23.117283
 grow_horizontal = 0
 grow_vertical = 0
 scale = Vector2(0.286932, 0.286932)
-theme_override_fonts/font = ExtResource("3_dtnyo")
 theme_override_font_sizes/font_size = 16
 text = "1"
 horizontal_alignment = 1
@@ -66,7 +63,6 @@ vertical_alignment = 1
 texture_filter = 1
 position = Vector2(20, 19)
 scale = Vector2(1.3599994, 1.3599994)
-texture = ExtResource("4_o3jel")
 
 [node name="ItemButton" type="Button" parent="UISlot" unique_id=1296333722]
 layout_mode = 2
@@ -85,7 +81,6 @@ offset_left = 20.0
 offset_top = 20.0
 offset_right = 138.0
 offset_bottom = 43.0
-theme_override_fonts/font = ExtResource("3_dtnyo")
 text = "Name"
 
 [node name="ItemType" type="Label" parent="UISlot/DetailsPanel" unique_id=1521623842]
@@ -100,7 +95,6 @@ scale = Vector2(0.8, 0.8)
 theme_override_colors/font_color = Color(0.968465, 0.969279, 0.969975, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
-theme_override_fonts/font = ExtResource("3_dtnyo")
 theme_override_font_sizes/font_size = 16
 text = "Type
 "
@@ -112,7 +106,6 @@ offset_left = 20.0
 offset_top = 60.0
 offset_right = 138.0
 offset_bottom = 113.0
-theme_override_fonts/font = ExtResource("3_dtnyo")
 text = "Effect"
 
 [node name="UsagePanel" type="TextureRect" parent="UISlot" unique_id=1774238149]
@@ -135,7 +128,6 @@ grow_horizontal = 2
 scale = Vector2(0.40000048, 0.40000048)
 theme_override_colors/font_hover_pressed_color = Color(0.548963, 0.548963, 0.548963, 1)
 theme_override_colors/icon_hover_color = Color(0.873298, 0.873298, 0.873298, 1)
-theme_override_fonts/font = ExtResource("3_dtnyo")
 text = "Use
 "
 
@@ -156,7 +148,6 @@ grow_vertical = 0
 scale = Vector2(0.40000048, 0.40000048)
 theme_override_colors/font_hover_pressed_color = Color(0.548963, 0.548963, 0.548963, 1)
 theme_override_colors/icon_hover_color = Color(0.873298, 0.873298, 0.873298, 1)
-theme_override_fonts/font = ExtResource("3_dtnyo")
 text = "Drop"
 
 [node name="AssignButton" type="Button" parent="UISlot/UsagePanel" unique_id=435411031]
