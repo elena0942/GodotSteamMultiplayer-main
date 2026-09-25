@@ -70,6 +70,10 @@ func _physics_process(delta: float) -> void:
 			player.player_direction = direction
 		player.move_and_slide()
 
+func _on_next_transitions() -> void:
+	if not player.is_multiplayer_authority():
+		return
+
 func Enter() -> void:
 	knockback()
 

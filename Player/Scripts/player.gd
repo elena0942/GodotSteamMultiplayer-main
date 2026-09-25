@@ -10,8 +10,9 @@ signal healthChanged
 #### VARIABLES ####
 
 @export var inventory_data: InventoryData
+@export var player_direction: Vector2
+@export var is_moving: bool
 
-var player_direction: Vector2
 var interactable = null
 var _building: Node = null
 var building: Node:
@@ -25,6 +26,7 @@ var is_dead: bool
 @onready var max_health: float = 100.0
 @onready var _hitbox: CollisionShape2D = $DetectArea/Hitbox
 @onready var inventory_ui = $PlayerUI/Inventory/InventoryUI
+@onready var camera: Camera2D = $Camera2D
 
 ##### FUNCTIONS ######
 
@@ -48,6 +50,7 @@ func set_building(new_building):
 	_building = new_building
 
 func _ready():
+	camera.enabled = is_multiplayer_authority()
 	health = max_health
 	#Global.set_player_reference(self) ## INVENTORY V1
 	await get_tree().process_frame
@@ -74,6 +77,8 @@ func _physics_process(delta: float) -> void:
 	# First check if we have authority over this player
 	if not is_multiplayer_authority():
 		return
+	if velocity != Vector2.ZERO:
+		is_moving == false
 
 # Health
 func set_health(value) -> void:

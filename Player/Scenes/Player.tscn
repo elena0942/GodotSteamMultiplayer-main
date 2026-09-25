@@ -975,9 +975,12 @@ corner_radius_bottom_left = 10
 properties/0/path = NodePath(".:position")
 properties/0/spawn = true
 properties/0/replication_mode = 1
-properties/1/path = NodePath("Hat:scale")
+properties/1/path = NodePath(".:player_direction")
 properties/1/spawn = true
-properties/1/replication_mode = 1
+properties/1/replication_mode = 2
+properties/2/path = NodePath(".:is_moving")
+properties/2/spawn = true
+properties/2/replication_mode = 2
 
 [node name="CharacterBody2D" type="CharacterBody2D" unique_id=248146850 groups=["Player"]]
 process_mode = 3
@@ -1094,7 +1097,6 @@ grow_vertical = 2
 pivot_offset = Vector2(99, 214)
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=2130983591]
-root_path = NodePath("../..")
 replication_config = SubResource("SceneReplicationConfig_ac4ik")
 
 [node name="Player" type="Node2D" parent="." unique_id=2132629109]
