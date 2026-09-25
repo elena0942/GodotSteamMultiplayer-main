@@ -20,14 +20,6 @@
 [ext_resource type="PackedScene" uid="uid://cxdkyy3omij2p" path="res://Player/Inventory/Scenes/inventory.tscn" id="17_w24id"]
 [ext_resource type="Script" uid="uid://b00re6y080lj3" path="res://Player/Scripts/progress_bar.gd" id="18_ofhxi"]
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ac4ik"]
-properties/0/path = NodePath(".:position")
-properties/0/spawn = true
-properties/0/replication_mode = 1
-properties/1/path = NodePath("Hat:scale")
-properties/1/spawn = true
-properties/1/replication_mode = 1
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_w24id"]
 atlas = ExtResource("2_v4f8b")
 region = Rect2(0, 80, 80, 80)
@@ -979,26 +971,29 @@ corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
-[node name="Player" type="Node2D" unique_id=2132629109]
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ac4ik"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("Hat:scale")
+properties/1/spawn = true
+properties/1/replication_mode = 1
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=2130983591]
-replication_config = SubResource("SceneReplicationConfig_ac4ik")
-
-[node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=248146850 groups=["Player"]]
+[node name="CharacterBody2D" type="CharacterBody2D" unique_id=248146850 groups=["Player"]]
 process_mode = 3
 collision_layer = 2
 collision_mask = 15
 script = ExtResource("1_opueo")
 
-[node name="Camera2D" type="Camera2D" parent="CharacterBody2D" unique_id=555620542]
+[node name="Camera2D" type="Camera2D" parent="." unique_id=555620542]
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="CharacterBody2D" unique_id=1762238580]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=1762238580]
 visibility_layer = 29
 position = Vector2(-2.3332, 4.03349)
 scale = Vector2(2.28667, 2.76667)
 polygon = PackedVector2Array(-3.49854, 5.78313, 4.81049, 5.78313, 4.81049, 5.06024, 0.437317, 3.61445, -3.49854, 5.06024)
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharacterBody2D" unique_id=2042436102]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=2042436102]
 z_as_relative = false
 y_sort_enabled = true
 texture_filter = 1
@@ -1009,53 +1004,53 @@ animation = &"hurt_l"
 autoplay = "idle_d"
 offset = Vector2(0, -7)
 
-[node name="StateMachine" type="Node" parent="CharacterBody2D" unique_id=1573023618 node_paths=PackedStringArray("initial_node_state")]
+[node name="StateMachine" type="Node" parent="." unique_id=1573023618 node_paths=PackedStringArray("initial_node_state")]
 script = ExtResource("9_08jwl")
 initial_node_state = NodePath("Idle")
 
-[node name="Idle" type="Node" parent="CharacterBody2D/StateMachine" unique_id=1597012512 node_paths=PackedStringArray("player", "animated_sprite_2d")]
+[node name="Idle" type="Node" parent="StateMachine" unique_id=1597012512 node_paths=PackedStringArray("player", "animated_sprite_2d")]
 script = ExtResource("10_amso8")
 player = NodePath("../..")
 animated_sprite_2d = NodePath("../../AnimatedSprite2D")
 
-[node name="Walk" type="Node" parent="CharacterBody2D/StateMachine" unique_id=1013377695 node_paths=PackedStringArray("player", "animated_sprite_2d")]
+[node name="Walk" type="Node" parent="StateMachine" unique_id=1013377695 node_paths=PackedStringArray("player", "animated_sprite_2d")]
 script = ExtResource("11_vvcvv")
 player = NodePath("../..")
 animated_sprite_2d = NodePath("../../AnimatedSprite2D")
 
-[node name="Attack" type="Node" parent="CharacterBody2D/StateMachine" unique_id=306617617 node_paths=PackedStringArray("player", "animated_sprite_2d")]
+[node name="Attack" type="Node" parent="StateMachine" unique_id=306617617 node_paths=PackedStringArray("player", "animated_sprite_2d")]
 script = ExtResource("15_q6miu")
 player = NodePath("../..")
 animated_sprite_2d = NodePath("../../AnimatedSprite2D")
 
-[node name="Hurt" type="Node" parent="CharacterBody2D/StateMachine" unique_id=564622824 node_paths=PackedStringArray("player", "animated_sprite_2d")]
+[node name="Hurt" type="Node" parent="StateMachine" unique_id=564622824 node_paths=PackedStringArray("player", "animated_sprite_2d")]
 script = ExtResource("14_t8epa")
 player = NodePath("../..")
 animated_sprite_2d = NodePath("../../AnimatedSprite2D")
 
-[node name="Key" type="Sprite2D" parent="CharacterBody2D" unique_id=46848297 groups=["Player"]]
+[node name="Key" type="Sprite2D" parent="." unique_id=46848297 groups=["Player"]]
 modulate = Color(0.223529, 0.760784, 0.756863, 1)
 texture_filter = 1
 position = Vector2(0, -48)
 scale = Vector2(2, 2)
 texture = ExtResource("11_b32pr")
 
-[node name="KeyPrompt" type="AnimationPlayer" parent="CharacterBody2D" unique_id=704744079 groups=["Player"]]
+[node name="KeyPrompt" type="AnimationPlayer" parent="." unique_id=704744079 groups=["Player"]]
 libraries/ = SubResource("AnimationLibrary_d4g0h")
 
-[node name="DetectArea" type="Area2D" parent="CharacterBody2D" unique_id=697093498 groups=["Player"]]
+[node name="DetectArea" type="Area2D" parent="." unique_id=697093498 groups=["Player"]]
 visible = false
 collision_layer = 2
 collision_mask = 16
 
-[node name="Hitbox" type="CollisionShape2D" parent="CharacterBody2D/DetectArea" unique_id=123508072 groups=["Player"]]
+[node name="Hitbox" type="CollisionShape2D" parent="DetectArea" unique_id=123508072 groups=["Player"]]
 visibility_layer = 2
 position = Vector2(-0.333199, 0.033493)
 shape = SubResource("CapsuleShape2D_b32pr")
 
-[node name="KB Cooldown" type="Timer" parent="CharacterBody2D" unique_id=930956242]
+[node name="KB Cooldown" type="Timer" parent="." unique_id=930956242]
 
-[node name="PlayerUI" type="Control" parent="CharacterBody2D" unique_id=1813022155]
+[node name="PlayerUI" type="Control" parent="." unique_id=1813022155]
 z_index = 1
 custom_minimum_size = Vector2(150, 25)
 layout_mode = 3
@@ -1065,7 +1060,7 @@ offset_top = -540.0
 offset_right = 960.0
 offset_bottom = 540.0
 
-[node name="ProgressBar" type="ProgressBar" parent="CharacterBody2D/PlayerUI" unique_id=1594236400 node_paths=PackedStringArray("player")]
+[node name="ProgressBar" type="ProgressBar" parent="PlayerUI" unique_id=1594236400 node_paths=PackedStringArray("player")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1083,7 +1078,7 @@ show_percentage = false
 script = ExtResource("18_ofhxi")
 player = NodePath("../..")
 
-[node name="Inventory" parent="CharacterBody2D/PlayerUI" unique_id=607886135 instance=ExtResource("17_w24id")]
+[node name="Inventory" parent="PlayerUI" unique_id=607886135 instance=ExtResource("17_w24id")]
 visible = false
 layout_mode = 1
 anchor_left = 0.448
@@ -1098,12 +1093,18 @@ grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(99, 214)
 
-[connection signal="area_entered" from="CharacterBody2D/DetectArea" to="CharacterBody2D/StateMachine/Walk" method="_on_detect_area_area_entered"]
-[connection signal="area_entered" from="CharacterBody2D/DetectArea" to="CharacterBody2D/StateMachine/Hurt" method="_on_hitbox_entered"]
-[connection signal="area_exited" from="CharacterBody2D/DetectArea" to="CharacterBody2D" method="_on_detect_area_area_exited"]
-[connection signal="area_exited" from="CharacterBody2D/DetectArea" to="CharacterBody2D/StateMachine/Hurt" method="_on_hitbox_exited"]
-[connection signal="body_entered" from="CharacterBody2D/DetectArea" to="CharacterBody2D" method="_on_detect_area_body_entered"]
-[connection signal="body_exited" from="CharacterBody2D/DetectArea" to="CharacterBody2D" method="_on_detect_area_body_exited"]
-[connection signal="timeout" from="CharacterBody2D/KB Cooldown" to="CharacterBody2D/StateMachine/Idle" method="_on_kb_cooldown_timeout"]
-[connection signal="timeout" from="CharacterBody2D/KB Cooldown" to="CharacterBody2D/StateMachine/Walk" method="_on_kb_cooldown_timeout"]
-[connection signal="timeout" from="CharacterBody2D/KB Cooldown" to="CharacterBody2D/StateMachine/Hurt" method="_on_kb_cooldown_timeout"]
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=2130983591]
+root_path = NodePath("../..")
+replication_config = SubResource("SceneReplicationConfig_ac4ik")
+
+[node name="Player" type="Node2D" parent="." unique_id=2132629109]
+
+[connection signal="area_entered" from="DetectArea" to="StateMachine/Walk" method="_on_detect_area_area_entered"]
+[connection signal="area_entered" from="DetectArea" to="StateMachine/Hurt" method="_on_hitbox_entered"]
+[connection signal="area_exited" from="DetectArea" to="." method="_on_detect_area_area_exited"]
+[connection signal="area_exited" from="DetectArea" to="StateMachine/Hurt" method="_on_hitbox_exited"]
+[connection signal="body_entered" from="DetectArea" to="." method="_on_detect_area_body_entered"]
+[connection signal="body_exited" from="DetectArea" to="." method="_on_detect_area_body_exited"]
+[connection signal="timeout" from="KB Cooldown" to="StateMachine/Idle" method="_on_kb_cooldown_timeout"]
+[connection signal="timeout" from="KB Cooldown" to="StateMachine/Walk" method="_on_kb_cooldown_timeout"]
+[connection signal="timeout" from="KB Cooldown" to="StateMachine/Hurt" method="_on_kb_cooldown_timeout"]

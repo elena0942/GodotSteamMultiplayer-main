@@ -2,7 +2,7 @@ extends Node2D
 
 const PLAYER_CONTROLLER = preload("uid://dp0anu84vqtlk")
 
-var players: Array[Node2D]
+var players: Array[CharacterBody2D]
 
 func _ready() -> void:
 	Networking.host_created.connect(on_host_created)
@@ -22,7 +22,7 @@ func spawn_player(peer_id: int) -> void:
 	initialize_player(new_player)
 
 
-func initialize_player(player: Node2D) -> void:
+func initialize_player(player: CharacterBody2D) -> void:
 	player.position = $SpawnPoint.position
 	for other in players:
 		player.add_collision_exception_with(other)
