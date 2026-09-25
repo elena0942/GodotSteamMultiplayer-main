@@ -1,8 +1,8 @@
 extends Node2D
 
-const PLAYER_CONTROLLER = preload("uid://disid262nfj6n")
+const PLAYER_CONTROLLER = preload("uid://dp0anu84vqtlk")
 
-var players: Array[CharacterBody2D]
+var players: Array[Node2D]
 
 func _ready() -> void:
 	Networking.host_created.connect(on_host_created)
@@ -16,13 +16,13 @@ func on_host_created() -> void:
 
 # The server spawns the player that just connected
 func spawn_player(peer_id: int) -> void:
-	var new_player := PLAYER_CONTROLLER.instantiate() as CharacterBody2D
+	var new_player = PLAYER_CONTROLLER.instantiate()
 	new_player.name = str(peer_id)
 	add_child(new_player)
 	initialize_player(new_player)
 
 
-func initialize_player(player: CharacterBody2D) -> void:
+func initialize_player(player: Node2D) -> void:
 	player.position = $SpawnPoint.position
 	for other in players:
 		player.add_collision_exception_with(other)

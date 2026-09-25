@@ -1,0 +1,176 @@
+[gd_scene format=3 uid="uid://b33ctkqrnq7x1"]
+
+[ext_resource type="Script" uid="uid://bk0f238h5fug0" path="res://player/Inventory/Scripts/ui_slot.gd" id="2_1hpu2"]
+[ext_resource type="FontFile" uid="uid://i5g5v511el3y" path="res://Misc Resources/Fonts/MedodicaRegular.otf" id="3_dtnyo"]
+[ext_resource type="Texture2D" uid="uid://bpnhwyr4jpwyo" path="res://Crops/crops/Singular Crops/1px/30.png" id="4_o3jel"]
+[ext_resource type="Texture2D" uid="uid://bpaahu0dqqyt7" path="res://Sprites/UI/UI inventory.png" id="5_68ejf"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xxsbn"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xrqeh"]
+atlas = ExtResource("5_68ejf")
+region = Rect2(191.97, 64.1877, 48.1312, 47.9012)
+
+[node name="Inventory_Slot" type="Control" unique_id=256339347]
+custom_minimum_size = Vector2(14, 14)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -2176.0
+offset_bottom = -1276.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="UISlot" type="PanelContainer" parent="." unique_id=93461512]
+layout_mode = 0
+offset_left = 130.0
+offset_top = 100.0
+offset_right = 170.0
+offset_bottom = 140.0
+script = ExtResource("2_1hpu2")
+
+[node name="Background" type="ColorRect" parent="UISlot" unique_id=1127105784]
+layout_mode = 2
+color = Color(1, 1, 1, 0.509804)
+
+[node name="Contents" type="ColorRect" parent="UISlot" unique_id=548987463]
+custom_minimum_size = Vector2(14, 14)
+layout_mode = 2
+color = Color(0.737255, 0.737255, 0.737255, 0)
+
+[node name="ItemAmount" type="Label" parent="UISlot/Contents" unique_id=21681065]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.785714
+anchor_top = 0.571428
+anchor_right = 0.990665
+anchor_bottom = 1.00183
+offset_left = 4.5714417
+offset_top = 8.142881
+offset_right = 11.702122
+offset_bottom = 23.117283
+grow_horizontal = 0
+grow_vertical = 0
+scale = Vector2(0.286932, 0.286932)
+theme_override_fonts/font = ExtResource("3_dtnyo")
+theme_override_font_sizes/font_size = 16
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ItemIcon" type="Sprite2D" parent="UISlot/Contents" unique_id=803970839]
+texture_filter = 1
+position = Vector2(20, 19)
+scale = Vector2(1.3599994, 1.3599994)
+texture = ExtResource("4_o3jel")
+
+[node name="ItemButton" type="Button" parent="UISlot" unique_id=1296333722]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_xxsbn")
+
+[node name="DetailsPanel" type="TextureRect" parent="UISlot" unique_id=2011002192]
+visible = false
+texture_filter = 1
+layout_mode = 2
+texture = SubResource("AtlasTexture_xrqeh")
+
+[node name="ItemName" type="Label" parent="UISlot/DetailsPanel" unique_id=401695660]
+texture_filter = 1
+layout_mode = 1
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 138.0
+offset_bottom = 43.0
+theme_override_fonts/font = ExtResource("3_dtnyo")
+text = "Name"
+
+[node name="ItemType" type="Label" parent="UISlot/DetailsPanel" unique_id=1521623842]
+modulate = Color(0.488738, 0.700245, 0.505989, 1)
+texture_filter = 1
+layout_mode = 1
+offset_left = 20.0
+offset_top = 35.0
+offset_right = 138.0
+offset_bottom = 70.0
+scale = Vector2(0.8, 0.8)
+theme_override_colors/font_color = Color(0.968465, 0.969279, 0.969975, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("3_dtnyo")
+theme_override_font_sizes/font_size = 16
+text = "Type
+"
+
+[node name="ItemEffect" type="Label" parent="UISlot/DetailsPanel" unique_id=1090084796]
+texture_filter = 1
+layout_mode = 0
+offset_left = 20.0
+offset_top = 60.0
+offset_right = 138.0
+offset_bottom = 113.0
+theme_override_fonts/font = ExtResource("3_dtnyo")
+text = "Effect"
+
+[node name="UsagePanel" type="TextureRect" parent="UISlot" unique_id=1774238149]
+visible = false
+texture_filter = 1
+layout_mode = 2
+texture = SubResource("AtlasTexture_xrqeh")
+
+[node name="UseButton" type="Button" parent="UISlot/UsagePanel" unique_id=1248584003]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -16.0
+offset_top = 28.0
+offset_right = 64.0
+offset_bottom = 68.0
+grow_horizontal = 2
+scale = Vector2(0.40000048, 0.40000048)
+theme_override_colors/font_hover_pressed_color = Color(0.548963, 0.548963, 0.548963, 1)
+theme_override_colors/icon_hover_color = Color(0.873298, 0.873298, 0.873298, 1)
+theme_override_fonts/font = ExtResource("3_dtnyo")
+text = "Use
+"
+
+[node name="DropButton" type="Button" parent="UISlot/UsagePanel" unique_id=1825524953]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -16.0
+offset_top = -32.0
+offset_right = 64.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(0.40000048, 0.40000048)
+theme_override_colors/font_hover_pressed_color = Color(0.548963, 0.548963, 0.548963, 1)
+theme_override_colors/icon_hover_color = Color(0.873298, 0.873298, 0.873298, 1)
+theme_override_fonts/font = ExtResource("3_dtnyo")
+text = "Drop"
+
+[node name="AssignButton" type="Button" parent="UISlot/UsagePanel" unique_id=435411031]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 5.0
+offset_right = 108.0
+offset_bottom = 36.0
+scale = Vector2(0.32000017, 0.32000017)
+text = "Assign"
+
+[connection signal="mouse_entered" from="UISlot/ItemButton" to="." method="_on_item_button_mouse_entered"]
+[connection signal="mouse_exited" from="UISlot/ItemButton" to="." method="_on_item_button_mouse_exited"]
+[connection signal="pressed" from="UISlot/ItemButton" to="." method="_on_item_button_pressed"]
+[connection signal="pressed" from="UISlot/UsagePanel/UseButton" to="." method="_on_use_button_pressed"]
+[connection signal="pressed" from="UISlot/UsagePanel/DropButton" to="." method="_on_drop_button_pressed"]
+[connection signal="pressed" from="UISlot/UsagePanel/AssignButton" to="." method="_on_assign_button_pressed"]

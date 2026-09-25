@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://ca3d5g5kuojs6"]
+
+[ext_resource type="Script" uid="uid://ccg2ucpbykuc1" path="res://player/Inventory/Scripts/inventory_item.gd" id="1_tuu7q"]
+[ext_resource type="Texture2D" uid="uid://c1xf6v2veajvp" path="res://Sprites/UI/e_big.png" id="2_13sqk"]
+[ext_resource type="Texture2D" uid="uid://dc0olksw11cac" path="res://Crops/crops/Singular Crops/1px/1.png" id="2_v1q73"]
+[ext_resource type="Texture2D" uid="uid://gfning3ba52s" path="res://Sprites/UI/e_small.png" id="3_v1q73"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_13sqk"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_gubi5"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_13sqk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_v1q73")
+}],
+"loop": 1,
+"name": &"keyprompt",
+"speed": 2.0
+}]
+
+[node name="Inventory_Item" type="Node2D" unique_id=996275308 groups=["Items"]]
+script = ExtResource("1_tuu7q")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1660593641]
+scale = Vector2(2.04, 2.00357)
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=618497893]
+scale = Vector2(1.56, 1.56)
+shape = SubResource("CircleShape2D_13sqk")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=458070718]
+texture_filter = 1
+scale = Vector2(2, 2)
+texture = ExtResource("2_v1q73")
+
+[node name="detect_area" type="AnimatedSprite2D" parent="." unique_id=1679591166]
+modulate = Color(0.223529, 0.760784, 0.756863, 1)
+z_index = 3
+texture_filter = 1
+position = Vector2(17, 21)
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_gubi5")
+animation = &"keyprompt"
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]

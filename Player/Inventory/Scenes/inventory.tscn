@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://cxdkyy3omij2p"]
+
+[ext_resource type="Script" uid="uid://dymkdkunbhvop" path="res://player/Inventory/Scripts/inventory.gd" id="1_na5tq"]
+[ext_resource type="Resource" uid="uid://qlphlnjfd0yc" path="res://player/Inventory/Resources/player_inventory.tres" id="2_f52al"]
+[ext_resource type="PackedScene" uid="uid://b33ctkqrnq7x1" path="res://player/Inventory/Scenes/inventory_slot.tscn" id="3_54o16"]
+
+[node name="Inventory" type="Control" unique_id=607886135]
+layout_mode = 3
+anchor_right = 0.104
+anchor_bottom = 0.104
+offset_right = 0.31999207
+offset_bottom = -0.3199997
+pivot_offset = Vector2(100, 56)
+size_flags_horizontal = 0
+size_flags_vertical = 0
+script = ExtResource("1_na5tq")
+inventory_data = ExtResource("2_f52al")
+ui_slot_prefab = ExtResource("3_54o16")
+
+[node name="InventoryUI" type="CanvasLayer" parent="." unique_id=1796069591]
+
+[node name="PanelContainer" type="PanelContainer" parent="InventoryUI" unique_id=299580958]
+visible = false
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="InventoryUI/PanelContainer" unique_id=89551338]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="InventoryUI/PanelContainer/VBoxContainer" unique_id=24015943]
+visible = false
+layout_mode = 2
+text = "Inventory"
+
+[node name="GridContainer" type="GridContainer" parent="InventoryUI/PanelContainer/VBoxContainer" unique_id=320646704]
+layout_mode = 2
+columns = 5

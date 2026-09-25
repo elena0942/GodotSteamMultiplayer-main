@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://cai1bvhunjmrg"]
+
+[node name="PlayerUI" type="Control" unique_id=763996996]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ProgressBar" type="ProgressBar" parent="." unique_id=1840891977]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 6.9500003
+anchor_bottom = 1.2820001
+offset_left = 16.0
+offset_top = 16.0
+offset_right = -61.4552
+offset_bottom = -8.280003
+scale = Vector2(1.3064413, 1.3064413)

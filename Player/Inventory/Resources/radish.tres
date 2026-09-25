@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://uygddv4bqu3y"]
+
+[ext_resource type="Texture2D" uid="uid://d3bn3s4i4cg3d" path="res://Crops/crops/Singular Crops/2px/2.png" id="1_b4k4v"]
+[ext_resource type="Script" uid="uid://c0uok63d3c1ug" path="res://player/Inventory/Scripts/item_data.gd" id="2_fwfnb"]
+
+[resource]
+script = ExtResource("2_fwfnb")
+name = "radish"
+icon = ExtResource("1_b4k4v")
+type = "food"
+effect = "health"
+is_stackable = true
+metadata/_custom_type_script = "uid://c0uok63d3c1ug"

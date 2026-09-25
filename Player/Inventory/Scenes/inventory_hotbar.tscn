@@ -1,0 +1,67 @@
+[gd_scene format=3 uid="uid://bgiqftg43tv13"]
+
+[sub_resource type="GDScript" id="GDScript_oqqnt"]
+script/source = "extends Control
+
+@onready var hotbar_container = $hotbar_hboxcontainer
+
+func _ready():
+	Global.inventory_updated.connect(_update_hotbar)
+	_update_hotbar()
+
+func _update_hotbar():
+	clear_hotbar_container()
+	for i in range(Global.hotbar_size):
+		var item = Global.hotbar_inventory[i]
+		var slot = Global.inventory_slot_scene.instantiate()
+		slot.set_slot_index(i)
+		hotbar_container.add_child(slot)
+		if item != null:
+			slot.set_item(item)
+		else:
+			slot.set_empty()
+		slot.update_assignment_status()
+
+func clear_hotbar_container():
+	while hotbar_container.get_child_count() > 0:
+		var child = hotbar_container.get_child(0)
+		hotbar_container.remove_child(child)
+		child.queue_free()
+
+##TEST
+
+#func setup_hotbar_container():
+	#for child in hotbar_container.get_children():
+		#child.custom_minimum_size = Vector2(64, 64)
+		#child.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		#child.size_flags_vertical = Control.SIZE_EXPAND_FILL
+"
+
+[node name="Inventory_Hotbar" type="Control" unique_id=1797158877]
+layout_mode = 3
+anchor_top = 0.92200005
+anchor_right = 0.77400005
+anchor_bottom = 1.0
+offset_top = 0.39990234
+offset_right = 497.19995
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+script = SubResource("GDScript_oqqnt")
+
+[node name="hotbar_hboxcontainer" type="HBoxContainer" parent="." unique_id=1710155169]
+texture_filter = 1
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -512.0
+offset_top = -118.0
+offset_right = 515.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 15
+alignment = 1
