@@ -27,14 +27,23 @@ func _on_physics_process(_delta: float) -> void:
 		animated_sprite_2d.play("idle_d")
 
 func _on_next_transitions() -> void:
-	if not player.is_multiplayer_authority():
-		return
 	GameInputEvents.movement_input()
-
-	if GameInputEvents.is_movement_input() and is_kb_done: #player cannot move until knockback is done
+	
+	if GameInputEvents.is_movement_input() and is_kb_done:
 		transition.emit("Walk")
-	elif Input.is_action_pressed("hit"):
+	elif is_multiplayer_authority() and Input.is_action_pressed("hit"):
 		transition.emit("Hit")
+
+## works for SP, not MP
+#func _on_next_transitions() -> void:
+	#if not player.is_multiplayer_authority():
+		#return
+	#GameInputEvents.movement_input()
+#
+	#if GameInputEvents.is_movement_input() and is_kb_done: #player cannot move until knockback is done
+		#transition.emit("Walk")
+	#elif Input.is_action_pressed("hit"):
+		#transition.emit("Hit")
 
 func _on_enter() -> void:
 	pass

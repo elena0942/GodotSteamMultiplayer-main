@@ -77,8 +77,6 @@ func _physics_process(delta: float) -> void:
 	# First check if we have authority over this player
 	if not is_multiplayer_authority():
 		return
-	if velocity != Vector2.ZERO:
-		is_moving == false
 
 # Health
 func set_health(value) -> void:
