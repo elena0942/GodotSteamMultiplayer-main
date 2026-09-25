@@ -14,19 +14,13 @@ func _on_process(_delta: float) -> void:
 
 func _on_physics_process(_delta: float) -> void:
 	if is_multiplayer_authority():
-		var direction: Vector2 = GameInputEvents.movement_input()
-		player.is_moving = direction != Vector2.ZERO
-
 		if player.is_moving:
-			if is_kb_done: # player cannot speed up if knockback is active
+			if is_kb_done:
 				current_speed = walk_speed
 				animated_sprite_2d.speed_scale = 1.0
 			else:
-				return # skip movement entirely while knockback is resolving
-
-		if direction != Vector2.ZERO:
-			player.player_direction = direction
-			player.velocity = direction * current_speed
+				return
+			player.velocity = player.player_direction * current_speed
 		else:
 			player.velocity = Vector2.ZERO
 		player.move_and_slide()

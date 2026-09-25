@@ -27,9 +27,8 @@ func _on_physics_process(_delta: float) -> void:
 		animated_sprite_2d.play("idle_d")
 
 func _on_next_transitions() -> void:
-	GameInputEvents.movement_input()
-	
-	if GameInputEvents.is_movement_input() and is_kb_done:
+	if player.is_moving and is_kb_done:
+		print(player.is_moving, is_kb_done)
 		transition.emit("Walk")
 	elif is_multiplayer_authority() and Input.is_action_pressed("hit"):
 		transition.emit("Hit")

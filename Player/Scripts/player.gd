@@ -73,11 +73,16 @@ func _ready():
 func _enter_tree() -> void:
 	set_multiplayer_authority(name.to_int())
 	print("node name: ", name, " | authority: ", get_multiplayer_authority(), " | my id: ", multiplayer.get_unique_id(), " | is_authority: ", is_multiplayer_authority())
-
+	print(is_moving)
+	
 func _physics_process(delta: float) -> void:
 	# First check if we have authority over this player
 	if not is_multiplayer_authority():
 		return
+	var direction: Vector2 = GameInputEvents.movement_input()
+	is_moving = direction != Vector2.ZERO
+	if direction != Vector2.ZERO:
+		player_direction = direction
 
 # Health
 func set_health(value) -> void:
