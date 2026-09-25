@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://disid262nfj6n"]
+
+[ext_resource type="Script" uid="uid://yuiyiuc27blp" path="res://player_controller.gd" id="1_f0yg5"]
+[ext_resource type="Texture2D" uid="uid://bb1hmbipxgow1" path="res://icon.svg" id="2_tn7cv"]
+[ext_resource type="Texture2D" uid="uid://b548ngvwmwgk0" path="res://Hat.svg" id="3_va7e3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nyae5"]
+size = Vector2(128, 128)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_tn7cv"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("Hat:scale")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+
+[node name="PlayerController" type="CharacterBody2D" unique_id=269044838]
+script = ExtResource("1_f0yg5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1388888273]
+shape = SubResource("RectangleShape2D_nyae5")
+
+[node name="Icon" type="Sprite2D" parent="." unique_id=1519228118]
+texture = ExtResource("2_tn7cv")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=979780415]
+replication_config = SubResource("SceneReplicationConfig_tn7cv")
+
+[node name="Hat" type="Node2D" parent="." unique_id=547089519]
+unique_name_in_owner = true
+position = Vector2(0, -24)
+
+[node name="HatSprite" type="Sprite2D" parent="Hat" unique_id=517926601]
+position = Vector2(0, -59.999996)
+scale = Vector2(0.245, 0.245)
+texture = ExtResource("3_va7e3")
