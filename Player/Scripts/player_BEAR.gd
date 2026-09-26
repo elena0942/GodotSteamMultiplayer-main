@@ -1,6 +1,6 @@
 #### WORKING - SPAWNPOINTS V1 ####
 
-class_name Player
+class_name PlayerBear
 extends CharacterBody2D
 
 #### SIGNALS ####

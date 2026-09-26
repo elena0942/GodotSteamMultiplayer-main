@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://ceuqqq3clw6qn" path="res://main.gd" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://dpp0tjgjiep6r" path="res://Scenes/background.tscn" id="2_0xm2m"]
+[ext_resource type="PackedScene" uid="uid://swxktdgm3y02" path="res://Player/Scenes/PlayerBear.tscn" id="3_h2yge"]
 
 [node name="Main" type="Node2D" unique_id=491597528]
 script = ExtResource("1_ig7tw")
@@ -24,10 +25,13 @@ text = "Randomize Bear"
 position = Vector2(553, 308)
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=1177078280]
-_spawnable_scenes = PackedStringArray("uid://dp0anu84vqtlk")
+_spawnable_scenes = PackedStringArray("uid://dp0anu84vqtlk", "uid://swxktdgm3y02")
 spawn_path = NodePath("..")
 
 [node name="Background" parent="." unique_id=2050609957 instance=ExtResource("2_0xm2m")]
+
+[node name="CharacterBody2D" parent="." unique_id=248146850 groups=["PlayerBEAR", "PlayerPERSON"] instance=ExtResource("3_h2yge")]
+position = Vector2(407, 327)
 
 [connection signal="pressed" from="CanvasLayer/VBoxContainer/Host" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="CanvasLayer/VBoxContainer/Randomize Bear" to="." method="_on_randomize_bear_pressed"]

@@ -36,7 +36,7 @@ func _on_player_disconnected(peer_id: int):
 
 func initialize_player(peer_id: int, player: CharacterBody2D) -> void:
 	player.global_position = $SpawnPoint.position
-	for other in players:
+	for other in players.values():
 		player.add_collision_exception_with(other)
 	players[peer_id] = player
 
@@ -76,8 +76,12 @@ func swap_player_type(peer_id: int) -> void:
 	var old_player: Node = players[peer_id]
 	var saved_position: Vector2 = old_player.global_position #possibly unnecessary on scene swap
 	
+	if old_player.scene_file_path == "res://Player/Scenes/PlayerBear.tscn":
+		print("Returning, player is already a bear")
+		return
 	old_player.name = "retiring_" + str(peer_id) #free the name slot for new player to replace
 	old_player.queue_free()
+	await get_tree().process_frame
 	
 	var new_player: CharacterBody2D = PLAYER_BEAR.instantiate()
 	new_player.name = str(peer_id)

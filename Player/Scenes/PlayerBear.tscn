@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://swxktdgm3y02"]
 
-[ext_resource type="Script" uid="uid://dwacxugev0phj" path="res://Player/Scripts/player.gd" id="1_gewab"]
+[ext_resource type="Script" uid="uid://c465of6bmi6dx" path="res://Player/Scripts/player_BEAR.gd" id="1_gewab"]
 [ext_resource type="Texture2D" uid="uid://b6gvn67malv00" path="res://Sprites/Player/death.png" id="2_ss45x"]
 [ext_resource type="Texture2D" uid="uid://cwmqdb7itwo4x" path="res://Sprites/Player/hurt.png" id="3_o1iy5"]
 [ext_resource type="Texture2D" uid="uid://d0yi3gr241074" path="res://Sprites/Player/hurt(REVERSE).png" id="4_ra5by"]
@@ -10,11 +10,11 @@
 [ext_resource type="Texture2D" uid="uid://bjvhbnilf84xe" path="res://Sprites/Player/run(REVERSE).png" id="8_uwu18"]
 [ext_resource type="Texture2D" uid="uid://c3q1fwkrei0ru" path="res://Sprites/Bear/bear_walk_l.png" id="10_ss45x"]
 [ext_resource type="Script" uid="uid://cokhfsjulthj" path="res://Scripts/state_machine/node_state_machine.gd" id="11_8fc24"]
-[ext_resource type="Script" uid="uid://dun1lbydgjyaw" path="res://Player/Scripts/idle_state.gd" id="12_jwfdw"]
+[ext_resource type="Script" uid="uid://cxo8ed25edbgn" path="res://Player/Scripts/idle_state_BEAR.gd" id="12_gewab"]
 [ext_resource type="Texture2D" uid="uid://cavej3ejchshm" path="res://Sprites/Bear/bear_walk_r.png" id="12_ra5by"]
-[ext_resource type="Script" uid="uid://cag7ww5owl6rb" path="res://Player/Scripts/walk_state.gd" id="13_tb2ks"]
-[ext_resource type="Script" uid="uid://dce60pfmw3xhx" path="res://Player/Scripts/attack_state.gd" id="14_532sy"]
-[ext_resource type="Script" uid="uid://dt0pfltv0t6iq" path="res://Player/Scripts/hurt_state.gd" id="15_jvcix"]
+[ext_resource type="Script" uid="uid://daq5fwhfn4kk5" path="res://Player/Scripts/walk_state_BEAR.gd" id="13_ss45x"]
+[ext_resource type="Script" uid="uid://7mgusjr5y11a" path="res://Player/Scripts/attack_state_BEAR.gd" id="14_o1iy5"]
+[ext_resource type="Script" uid="uid://bj4ivt3blqewu" path="res://Player/Scripts/hurt_state_BEAR.gd" id="15_ss45x"]
 [ext_resource type="Texture2D" uid="uid://c1xf6v2veajvp" path="res://Sprites/UI/e_big.png" id="16_ya8f8"]
 [ext_resource type="Texture2D" uid="uid://gfning3ba52s" path="res://Sprites/UI/e_small.png" id="17_g3jhl"]
 [ext_resource type="Script" uid="uid://b00re6y080lj3" path="res://Player/Scripts/progress_bar.gd" id="18_uksgj"]
@@ -870,8 +870,8 @@ _data = {
 }
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_b32pr"]
-radius = 18.0
-height = 50.0
+radius = 48.952984
+height = 133.38855
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t8epa"]
 bg_color = Color(0.6, 0.6, 0.6, 0.5254902)
@@ -898,7 +898,7 @@ properties/2/path = NodePath(".:net_position")
 properties/2/spawn = true
 properties/2/replication_mode = 1
 
-[node name="CharacterBody2D" type="CharacterBody2D" unique_id=248146850 groups=["Player"]]
+[node name="CharacterBody2D" type="CharacterBody2D" unique_id=248146850 groups=["Player", "PlayerBEAR"]]
 process_mode = 3
 collision_layer = 2
 collision_mask = 15
@@ -907,9 +907,9 @@ script = ExtResource("1_gewab")
 [node name="Camera2D" type="Camera2D" parent="." unique_id=555620542]
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=1762238580]
-visibility_layer = 29
-position = Vector2(-2.3332, 4.03349)
-scale = Vector2(2.28667, 2.76667)
+visibility_layer = 7
+position = Vector2(-14.753278, 16.03349)
+scale = Vector2(11.057245, 2.7666693)
 polygon = PackedVector2Array(-3.49854, 5.78313, 4.81049, 5.78313, 4.81049, 5.06024, 0.437317, 3.61445, -3.49854, 5.06024)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=2042436102]
@@ -921,32 +921,24 @@ scale = Vector2(0.23809396, 0.23809421)
 sprite_frames = SubResource("SpriteFrames_egmc7")
 animation = &"idle_d"
 autoplay = "idle_d"
-frame_progress = 0.8861317
+frame_progress = 0.19863717
 offset = Vector2(0, -7)
 
 [node name="StateMachine" type="Node" parent="." unique_id=1573023618 node_paths=PackedStringArray("initial_node_state")]
 script = ExtResource("11_8fc24")
 initial_node_state = NodePath("Idle")
 
-[node name="Idle" type="Node" parent="StateMachine" unique_id=1597012512 node_paths=PackedStringArray("player", "animated_sprite_2d")]
-script = ExtResource("12_jwfdw")
-player = NodePath("../..")
-animated_sprite_2d = NodePath("../../AnimatedSprite2D")
+[node name="Idle" type="Node" parent="StateMachine" unique_id=1597012512]
+script = ExtResource("12_gewab")
 
-[node name="Walk" type="Node" parent="StateMachine" unique_id=1013377695 node_paths=PackedStringArray("player", "animated_sprite_2d")]
-script = ExtResource("13_tb2ks")
-player = NodePath("../..")
-animated_sprite_2d = NodePath("../../AnimatedSprite2D")
+[node name="Walk" type="Node" parent="StateMachine" unique_id=1013377695]
+script = ExtResource("13_ss45x")
 
-[node name="Attack" type="Node" parent="StateMachine" unique_id=306617617 node_paths=PackedStringArray("player", "animated_sprite_2d")]
-script = ExtResource("14_532sy")
-player = NodePath("../..")
-animated_sprite_2d = NodePath("../../AnimatedSprite2D")
+[node name="Attack" type="Node" parent="StateMachine" unique_id=306617617]
+script = ExtResource("14_o1iy5")
 
-[node name="Hurt" type="Node" parent="StateMachine" unique_id=564622824 node_paths=PackedStringArray("player", "animated_sprite_2d")]
-script = ExtResource("15_jvcix")
-player = NodePath("../..")
-animated_sprite_2d = NodePath("../../AnimatedSprite2D")
+[node name="Hurt" type="Node" parent="StateMachine" unique_id=564622824]
+script = ExtResource("15_ss45x")
 
 [node name="Key" type="Sprite2D" parent="." unique_id=46848297 groups=["Player"]]
 modulate = Color(0.223529, 0.760784, 0.756863, 1)
@@ -964,8 +956,9 @@ collision_layer = 2
 collision_mask = 16
 
 [node name="Hitbox" type="CollisionShape2D" parent="DetectArea" unique_id=123508072 groups=["Player"]]
-visibility_layer = 2
+visibility_layer = 7
 position = Vector2(-0.333199, 0.033493)
+rotation = 1.5645651
 shape = SubResource("CapsuleShape2D_b32pr")
 
 [node name="KB Cooldown" type="Timer" parent="." unique_id=930956242]
@@ -976,9 +969,9 @@ custom_minimum_size = Vector2(150, 25)
 layout_mode = 3
 anchors_preset = 0
 offset_left = -960.0
-offset_top = -540.0
+offset_top = -534.0
 offset_right = 960.0
-offset_bottom = 540.0
+offset_bottom = 546.0
 
 [node name="ProgressBar" type="ProgressBar" parent="PlayerUI" unique_id=1594236400 node_paths=PackedStringArray("player")]
 layout_mode = 1

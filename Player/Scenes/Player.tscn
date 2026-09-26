@@ -954,7 +954,7 @@ _data = {
 }
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_b32pr"]
-radius = 18.0
+radius = 21.333199
 height = 50.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t8epa"]
@@ -991,7 +991,7 @@ script = ExtResource("1_opueo")
 [node name="Camera2D" type="Camera2D" parent="." unique_id=555620542]
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=1762238580]
-visibility_layer = 29
+visibility_layer = 7
 position = Vector2(-2.3332, 4.03349)
 scale = Vector2(2.28667, 2.76667)
 polygon = PackedVector2Array(-3.49854, 5.78313, 4.81049, 5.78313, 4.81049, 5.06024, 0.437317, 3.61445, -3.49854, 5.06024)
@@ -1042,12 +1042,10 @@ texture = ExtResource("11_b32pr")
 libraries/ = SubResource("AnimationLibrary_d4g0h")
 
 [node name="DetectArea" type="Area2D" parent="." unique_id=697093498 groups=["Player"]]
-visible = false
-collision_layer = 2
-collision_mask = 16
+collision_mask = 7
 
 [node name="Hitbox" type="CollisionShape2D" parent="DetectArea" unique_id=123508072 groups=["Player"]]
-visibility_layer = 2
+visibility_layer = 7
 position = Vector2(-0.333199, 0.033493)
 shape = SubResource("CapsuleShape2D_b32pr")
 

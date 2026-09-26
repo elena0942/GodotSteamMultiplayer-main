@@ -1,11 +1,11 @@
 extends NodeState
-class_name HurtState
+class_name HurtStateBear
 
 @export var player: Player
 @export var animated_sprite_2d: AnimatedSprite2D
 @export var walk_speed: int = 170
 
-@onready var enemy = get_tree().get_first_node_in_group("PlayerBEAR")
+@onready var enemy = get_tree().get_first_node_in_group("PlayerPERSON")
 @onready var state_machine = get_parent()
 @onready var kb_cooldown := $"../../KB Cooldown"
 @onready var player_walk_script := $"../Walk"
@@ -24,8 +24,8 @@ func on_process(delta : float):
 
 func knockback():
 	#print("DEBUG: Player KB (hurt_state.gd)")
-	player = get_tree().get_first_node_in_group("PlayerPERSON") as CharacterBody2D
-	enemy = get_tree().get_first_node_in_group("PlayerBEAR") as CharacterBody2D
+	player = get_tree().get_first_node_in_group("PlayerBEAR") as CharacterBody2D
+	enemy = get_tree().get_first_node_in_group("PlayerPERSON") as CharacterBody2D
 	
 	if player and enemy:
 		var kb_dir = (player.global_position - enemy.global_position).normalized()
