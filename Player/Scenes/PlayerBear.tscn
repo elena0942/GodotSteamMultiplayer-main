@@ -897,6 +897,9 @@ properties/1/replication_mode = 2
 properties/2/path = NodePath(".:net_position")
 properties/2/spawn = true
 properties/2/replication_mode = 1
+properties/3/path = NodePath(".:owner_peer_id")
+properties/3/spawn = true
+properties/3/replication_mode = 2
 
 [node name="CharacterBody2D" type="CharacterBody2D" unique_id=248146850 groups=["Player", "PlayerBEAR"]]
 process_mode = 3
@@ -921,7 +924,7 @@ scale = Vector2(0.23809396, 0.23809421)
 sprite_frames = SubResource("SpriteFrames_egmc7")
 animation = &"walk_l"
 autoplay = "idle_d"
-frame_progress = 0.7304843
+frame_progress = 0.48699278
 offset = Vector2(0, -7)
 
 [node name="StateMachine" type="Node" parent="." unique_id=1573023618 node_paths=PackedStringArray("initial_node_state")]

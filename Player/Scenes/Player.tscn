@@ -981,8 +981,11 @@ properties/1/replication_mode = 2
 properties/2/path = NodePath(".:net_position")
 properties/2/spawn = true
 properties/2/replication_mode = 1
+properties/3/path = NodePath(".:owner_peer_id")
+properties/3/spawn = true
+properties/3/replication_mode = 2
 
-[node name="CharacterBody2D" type="CharacterBody2D" unique_id=248146850 groups=["Player"]]
+[node name="CharacterBody2D" type="CharacterBody2D" unique_id=248146850 groups=["Player", "PlayerPERSON"]]
 process_mode = 3
 collision_layer = 2
 collision_mask = 15
@@ -1051,7 +1054,7 @@ shape = SubResource("CapsuleShape2D_b32pr")
 
 [node name="KB Cooldown" type="Timer" parent="." unique_id=930956242]
 
-[node name="PlayerUI" type="Control" parent="." unique_id=1813022155]
+[node name="PlayerUI" type="Control" parent="." unique_id=1813022155 groups=["Player", "PlayerPERSON"]]
 z_index = 1
 custom_minimum_size = Vector2(150, 25)
 layout_mode = 3

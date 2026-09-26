@@ -9,6 +9,7 @@ signal healthChanged
 
 #### VARIABLES ####
 
+@export var owner_peer_id: int
 @export var inventory_data: InventoryData
 @export var player_direction: Vector2
 @export var is_moving: bool
@@ -75,10 +76,9 @@ func _ready():
 
 # Multiplayer
 func _enter_tree() -> void:
-	set_multiplayer_authority(name.to_int())
 	print("node name: ", name, " | authority: ", get_multiplayer_authority(), " | my id: ", multiplayer.get_unique_id(), " | is_authority: ", is_multiplayer_authority())
-	print(is_moving)
-	
+	set_multiplayer_authority(owner_peer_id)
+
 func _physics_process(delta: float) -> void:
 	# First check if we have authority over this player
 	if not is_multiplayer_authority():

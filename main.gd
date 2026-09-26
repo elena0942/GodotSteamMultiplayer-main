@@ -3,11 +3,20 @@ extends Node2D
 const PLAYER_CONTROLLER = preload("uid://dp0anu84vqtlk")
 const PLAYER_BEAR = preload("uid://swxktdgm3y02")
 
+@onready var spawner: MultiplayerSpawner = $MultiplayerSpawner
 var players: Dictionary = {}
 
 func _ready() -> void:
+	spawner.spawn_function = _do_spawn #testing
 	Networking.host_created.connect(on_host_created)
 	print(players)
+
+func _do_spawn(data: Dictionary) -> Node: #testing
+	var scene: PackedScene = PLAYER_CONTROLLER if data["type"] == "player" else PLAYER_BEAR
+	var node: CharacterBody2D = scene.instantiate()
+	node.owner_peer_id = data["peer_id"]
+	node.name = data["type"] + "_" + str(data["peer_id"])
+	return node
 
 func on_host_created() -> void:
 	# Spawn the server player
@@ -18,13 +27,18 @@ func on_host_created() -> void:
 # The server spawns the player that just connected
 func _on_player_connected(peer_id: int):
 	print("Player connected: ", peer_id)
-	var new_player = PLAYER_CONTROLLER.instantiate()
-	new_player.name = str(peer_id)
-	
-	add_child(new_player)
+	#testing:
+	var new_player: CharacterBody2D = spawner.spawn({"type": "player", "peer_id": peer_id})
 	initialize_player(peer_id, new_player)
-	
-	print(players)
+##old, mostly working
+	#var new_player = PLAYER_CONTROLLER.instantiate()
+	#new_player.owner_peer_id = peer_id
+	#new_player.name = "player_" + str(peer_id)
+	#
+	#add_child(new_player)
+	#initialize_player(peer_id, new_player)
+	#
+	#print(players)
 
 func _on_player_disconnected(peer_id: int):
 	print("Player disconnected: ", peer_id)
@@ -75,16 +89,24 @@ func request_swap() -> void:
 func swap_player_type(peer_id: int) -> void:
 	var old_player: Node = players[peer_id]
 	var saved_position: Vector2 = old_player.global_position #possibly unnecessary on scene swap
+## testing:
+	remove_child(old_player)
+	old_player.free()
 	
-	if old_player.scene_file_path == "res://Player/Scenes/PlayerBear.tscn":
-		print("Returning, player is already a bear")
-		return
-	old_player.name = "retiring_" + str(peer_id) #free the name slot for new player to replace
-	old_player.queue_free()
-	await get_tree().process_frame
-	
-	var new_player: CharacterBody2D = PLAYER_BEAR.instantiate()
-	new_player.name = str(peer_id)
+	var new_player: CharacterBody2D = spawner.spawn({"type": "player", "peer_id": peer_id})
 	players[peer_id] = new_player
-	add_child(new_player)
-	new_player.position = saved_position
+	new_player.global_position = saved_position
+## old, mostly working
+	#if old_player.scene_file_path == "res://Player/Scenes/PlayerBear.tscn":
+		#print("Returning, player is already a bear")
+		#return
+	#old_player.name = "retiring_" + str(peer_id) #free the name slot for new player to replace
+	#old_player.queue_free()
+	#await get_tree().process_frame
+	#
+	#var new_player: CharacterBody2D = PLAYER_BEAR.instantiate()
+	#new_player.owner_peer_id = peer_id
+	#new_player.name = "bear_" + str(peer_id) + "_" + str(Time.get_ticks_msec())
+	#players[peer_id] = new_player
+	#add_child(new_player)
+	#new_player.position = saved_position
