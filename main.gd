@@ -93,7 +93,7 @@ func swap_player_type(peer_id: int) -> void:
 	remove_child(old_player)
 	old_player.free()
 	
-	var new_player: CharacterBody2D = spawner.spawn({"type": "player", "peer_id": peer_id})
+	var new_player: CharacterBody2D = spawner.spawn({"type": "playerbear", "peer_id": peer_id})
 	players[peer_id] = new_player
 	new_player.global_position = saved_position
 ## old, mostly working
