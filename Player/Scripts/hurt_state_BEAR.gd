@@ -1,9 +1,9 @@
 extends NodeState
 class_name HurtStateBear
 
-@export var player: Player
+@export var player: CharacterBody2D
 @export var animated_sprite_2d: AnimatedSprite2D
-@export var walk_speed: int = 170
+@export var walk_speed: int = 200
 
 @onready var enemy = get_tree().get_first_node_in_group("PlayerPERSON")
 @onready var state_machine = get_parent()

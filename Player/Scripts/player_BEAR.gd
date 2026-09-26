@@ -24,7 +24,7 @@ var building: Node:
 var is_dead: bool
 
 @onready var health: float = max_health
-@onready var max_health: float = 100.0
+@onready var max_health: float = 500.0
 @onready var _hitbox: CollisionShape2D = $DetectArea/Hitbox
 @onready var inventory_ui = $PlayerUI/Inventory/InventoryUI
 @onready var camera: Camera2D = $Camera2D

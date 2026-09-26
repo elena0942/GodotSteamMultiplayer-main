@@ -1,7 +1,7 @@
 extends NodeState
 class_name IdleStateBear
 
-@export var player: Player
+@export var player: CharacterBody2D
 @export var animated_sprite_2d: AnimatedSprite2D
 
 var player_direction: Vector2
@@ -11,7 +11,7 @@ func _on_process(_delta: float) -> void:
 	pass
 
 func _on_physics_process(_delta: float) -> void:
-	var casted_player = player as Player
+	var casted_player = player as CharacterBody2D
 	if casted_player == null:
 		return 
 

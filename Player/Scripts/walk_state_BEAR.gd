@@ -1,9 +1,9 @@
 extends NodeState
 class_name WalkStateBear
 
-@export var player: Player
+@export var player: CharacterBody2D
 @export var animated_sprite_2d: AnimatedSprite2D
-@export var walk_speed: int = 170
+@export var walk_speed: int = 200
 @export var player_direction: Vector2
 
 var is_kb_done: bool = true
@@ -27,7 +27,7 @@ func _on_physics_process(_delta: float) -> void:
 	player.net_position = player.global_position
 
 
-	# Runs for every peer — animation only, driven by replicated state
+	# Runs for every peer, animation only, driven by replicated state
 	match player.player_direction:
 		Vector2.UP:    animated_sprite_2d.play("walk_u")
 		Vector2.RIGHT: animated_sprite_2d.play("walk_r")
