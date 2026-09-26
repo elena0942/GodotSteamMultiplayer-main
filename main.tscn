@@ -1,16 +1,24 @@
 [gd_scene format=3 uid="uid://dp3ckme4ui35i"]
 
 [ext_resource type="Script" uid="uid://ceuqqq3clw6qn" path="res://main.gd" id="1_ig7tw"]
+[ext_resource type="PackedScene" uid="uid://dpp0tjgjiep6r" path="res://Scenes/background.tscn" id="2_0xm2m"]
 
 [node name="Main" type="Node2D" unique_id=491597528]
 script = ExtResource("1_ig7tw")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1237504990]
 
-[node name="Host" type="Button" parent="CanvasLayer" unique_id=190439626]
-offset_right = 51.0
-offset_bottom = 31.0
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer" unique_id=1549299321]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Host" type="Button" parent="CanvasLayer/VBoxContainer" unique_id=190439626]
+layout_mode = 2
 text = "HOST"
+
+[node name="Randomize Bear" type="Button" parent="CanvasLayer/VBoxContainer" unique_id=1177352641]
+layout_mode = 2
+text = "Randomize Bear"
 
 [node name="SpawnPoint" type="Node2D" parent="." unique_id=1487529719]
 position = Vector2(553, 308)
@@ -19,5 +27,8 @@ position = Vector2(553, 308)
 _spawnable_scenes = PackedStringArray("uid://dp0anu84vqtlk")
 spawn_path = NodePath("..")
 
-[connection signal="pressed" from="CanvasLayer/Host" to="." method="_on_host_pressed"]
+[node name="Background" parent="." unique_id=2050609957 instance=ExtResource("2_0xm2m")]
+
+[connection signal="pressed" from="CanvasLayer/VBoxContainer/Host" to="." method="_on_host_pressed"]
+[connection signal="pressed" from="CanvasLayer/VBoxContainer/Randomize Bear" to="." method="_on_randomize_bear_pressed"]
 [connection signal="spawned" from="MultiplayerSpawner" to="." method="_on_multiplayer_spawner_spawned"]
