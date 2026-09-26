@@ -58,10 +58,10 @@ func initialize_player(peer_id: int, player: CharacterBody2D) -> void:
 func _on_host_pressed() -> void:
 	Networking.host_lobby()
 
-
-func _on_multiplayer_spawner_spawned(node: Node) -> void:
-	if node is CharacterBody2D:
-		initialize_player(node.name.to_int(), node)
+##redundant
+#func _on_multiplayer_spawner_spawned(node: Node) -> void:
+	#if node is CharacterBody2D:
+		#initialize_player(node.name.to_int(), node)
 
 func _on_randomize_bear_pressed() -> void:
 	if multiplayer.is_server():
@@ -89,24 +89,10 @@ func request_swap() -> void:
 func swap_player_type(peer_id: int) -> void:
 	var old_player: Node = players[peer_id]
 	var saved_position: Vector2 = old_player.global_position #possibly unnecessary on scene swap
-## testing:
+
 	remove_child(old_player)
 	old_player.free()
 	
 	var new_player: CharacterBody2D = spawner.spawn({"type": "playerbear", "peer_id": peer_id})
 	players[peer_id] = new_player
 	new_player.global_position = saved_position
-## old, mostly working
-	#if old_player.scene_file_path == "res://Player/Scenes/PlayerBear.tscn":
-		#print("Returning, player is already a bear")
-		#return
-	#old_player.name = "retiring_" + str(peer_id) #free the name slot for new player to replace
-	#old_player.queue_free()
-	#await get_tree().process_frame
-	#
-	#var new_player: CharacterBody2D = PLAYER_BEAR.instantiate()
-	#new_player.owner_peer_id = peer_id
-	#new_player.name = "bear_" + str(peer_id) + "_" + str(Time.get_ticks_msec())
-	#players[peer_id] = new_player
-	#add_child(new_player)
-	#new_player.position = saved_position

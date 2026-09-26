@@ -901,7 +901,7 @@ properties/3/path = NodePath(".:owner_peer_id")
 properties/3/spawn = true
 properties/3/replication_mode = 2
 
-[node name="CharacterBody2D" type="CharacterBody2D" unique_id=248146850 groups=["Player", "PlayerBEAR"]]
+[node name="CharacterBody2D" type="CharacterBody2D" unique_id=1627313156 groups=["Player", "PlayerBEAR"]]
 process_mode = 3
 collision_layer = 2
 collision_mask = 15
@@ -924,7 +924,7 @@ scale = Vector2(0.23809396, 0.23809421)
 sprite_frames = SubResource("SpriteFrames_egmc7")
 animation = &"walk_l"
 autoplay = "idle_d"
-frame_progress = 0.48699278
+frame_progress = 0.7994179
 offset = Vector2(0, -7)
 
 [node name="StateMachine" type="Node" parent="." unique_id=1573023618 node_paths=PackedStringArray("initial_node_state")]
@@ -1024,10 +1024,7 @@ replication_config = SubResource("SceneReplicationConfig_ac4ik")
 
 [connection signal="area_entered" from="DetectArea" to="StateMachine/Walk" method="_on_detect_area_area_entered"]
 [connection signal="area_entered" from="DetectArea" to="StateMachine/Hurt" method="_on_hitbox_entered"]
-[connection signal="area_exited" from="DetectArea" to="." method="_on_detect_area_area_exited"]
 [connection signal="area_exited" from="DetectArea" to="StateMachine/Hurt" method="_on_hitbox_exited"]
-[connection signal="body_entered" from="DetectArea" to="." method="_on_detect_area_body_entered"]
-[connection signal="body_exited" from="DetectArea" to="." method="_on_detect_area_body_exited"]
 [connection signal="timeout" from="KB Cooldown" to="StateMachine/Idle" method="_on_kb_cooldown_timeout"]
 [connection signal="timeout" from="KB Cooldown" to="StateMachine/Walk" method="_on_kb_cooldown_timeout"]
 [connection signal="timeout" from="KB Cooldown" to="StateMachine/Hurt" method="_on_kb_cooldown_timeout"]
