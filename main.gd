@@ -3,7 +3,7 @@ extends Node2D
 const PLAYER_CONTROLLER = preload("uid://dp0anu84vqtlk")
 const PLAYER_BEAR = preload("uid://swxktdgm3y02")
 
-@onready var spawner: MultiplayerSpawner = $MultiplayerSpawner
+@onready var spawner: MultiplayerSpawner = %MultiplayerSpawner
 var players: Dictionary = {}
 
 func _ready() -> void:

@@ -6,6 +6,7 @@ extends CharacterBody2D
 #### SIGNALS ####
 
 signal healthChanged
+signal can_track(value: bool)
 
 #### VARIABLES ####
 
@@ -24,6 +25,7 @@ var building: Node:
 		return _building
 var is_dead: bool
 
+
 @onready var health: float = max_health
 @onready var max_health: float = 500.0
 @onready var _hitbox: CollisionShape2D = $DetectArea/Hitbox
@@ -31,7 +33,16 @@ var is_dead: bool
 @onready var camera: Camera2D = $Camera2D
 @onready var player_ui: Control = $PlayerUI
 
+##### DICTIONARIES AND ARRAYS #####
+
+
+
 ##### FUNCTIONS ######
+
+# Tracking
+
+func tracking() -> void:
+	pass
 
 # Inventory
 @export var inventory : Array[Dictionary] = []

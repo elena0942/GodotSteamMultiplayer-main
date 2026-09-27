@@ -21,13 +21,15 @@ layout_mode = 2
 text = "Randomize Bear"
 
 [node name="SpawnPoint" type="Node2D" parent="." unique_id=1487529719]
-position = Vector2(553, 308)
+position = Vector2(569, 291)
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=1177078280]
+unique_name_in_owner = true
 _spawnable_scenes = PackedStringArray("uid://dp0anu84vqtlk", "uid://swxktdgm3y02")
 spawn_path = NodePath("..")
 
 [node name="Background" parent="." unique_id=2050609957 instance=ExtResource("2_0xm2m")]
+z_index = -2
 
 [connection signal="pressed" from="CanvasLayer/VBoxContainer/Host" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="CanvasLayer/VBoxContainer/Randomize Bear" to="." method="_on_randomize_bear_pressed"]

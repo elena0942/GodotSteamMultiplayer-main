@@ -19,6 +19,7 @@
 [ext_resource type="Script" uid="uid://dce60pfmw3xhx" path="res://Player/Scripts/attack_state.gd" id="15_q6miu"]
 [ext_resource type="PackedScene" uid="uid://cxdkyy3omij2p" path="res://Player/Inventory/Scenes/inventory.tscn" id="17_w24id"]
 [ext_resource type="Script" uid="uid://b00re6y080lj3" path="res://Player/Scripts/progress_bar.gd" id="18_ofhxi"]
+[ext_resource type="Texture2D" uid="uid://bb1hmbipxgow1" path="res://icon.svg" id="20_qqeun"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_w24id"]
 atlas = ExtResource("2_v4f8b")
@@ -985,11 +986,12 @@ properties/3/path = NodePath(".:owner_peer_id")
 properties/3/spawn = true
 properties/3/replication_mode = 2
 
-[node name="CharacterBody2D" type="CharacterBody2D" unique_id=1178074239 groups=["Player", "PlayerPERSON"]]
+[node name="CharacterBody2D" type="CharacterBody2D" unique_id=1178074239 node_paths=PackedStringArray("player") groups=["Player", "PlayerPERSON"]]
 process_mode = 3
 collision_layer = 2
 collision_mask = 15
 script = ExtResource("1_opueo")
+player = NodePath(".")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=555620542]
 
@@ -1051,6 +1053,9 @@ visibility_layer = 7
 position = Vector2(-0.333199, 0.033493)
 shape = SubResource("CapsuleShape2D_b32pr")
 
+[node name="TrailTimer" type="Timer" parent="." unique_id=941502241]
+wait_time = 0.75
+
 [node name="KB Cooldown" type="Timer" parent="." unique_id=930956242]
 
 [node name="PlayerUI" type="Control" parent="." unique_id=1813022155 groups=["Player", "PlayerPERSON"]]
@@ -1099,7 +1104,11 @@ pivot_offset = Vector2(99, 214)
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=2130983591]
 replication_config = SubResource("SceneReplicationConfig_ac4ik")
 
-[node name="Player" type="Node2D" parent="." unique_id=2132629109]
+[node name="TrackPoints" type="Line2D" parent="." unique_id=1768450807]
+top_level = true
+z_index = -1
+texture = ExtResource("20_qqeun")
+texture_mode = 1
 
 [connection signal="area_entered" from="DetectArea" to="StateMachine/Walk" method="_on_detect_area_area_entered"]
 [connection signal="area_entered" from="DetectArea" to="StateMachine/Hurt" method="_on_hitbox_entered"]

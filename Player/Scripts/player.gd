@@ -7,8 +7,11 @@ extends CharacterBody2D
 
 signal healthChanged
 
-#### VARIABLES ####
+#### VARIABLES AND CONSTANTS ####
 
+const MAX_TRAIL_COUNT: int = 50
+
+@export var player: Player
 @export var owner_peer_id: int
 @export var inventory_data: InventoryData
 @export var player_direction: Vector2
@@ -33,6 +36,40 @@ var is_dead: bool
 
 ##### FUNCTIONS ######
 
+func _ready():
+	net_position = global_position
+	camera.enabled = is_multiplayer_authority()
+	player_ui.visible = is_multiplayer_authority()
+	health = max_health
+	#Global.set_player_reference(self) ## INVENTORY V1
+	await get_tree().process_frame
+	
+	# Tracking
+
+	$TrailTimer.timeout.connect(update_trail)
+	$TrailTimer.start()
+
+
+func _process(_delta: float) -> void:
+	# Interaction key (L click) actions
+	
+	if Input.is_action_just_pressed("interact"):
+		print("pressedinteract")
+		self.building = null
+	if player.is_moving:
+		if $TrailTimer.is_stopped(): $TrailTimer.start()
+	else:
+		if not $TrailTimer.is_stopped() and $TrackPoints.points.is_empty():
+			$TrailTimer.stop()
+	
+
+# Tracking
+func update_trail():
+	if $TrackPoints.points.size() == MAX_TRAIL_COUNT:
+		$TrackPoints.remove_point(0)
+	$TrackPoints.add_point(player.global_position)
+	$TrackPoints.TEXTURE_REPEAT_ENABLED
+
 # Inventory
 @export var inventory : Array[Dictionary] = []
 # to access or retrive item: inventory[index]["amount"]
@@ -52,13 +89,6 @@ func set_building(new_building):
 		$KeyPrompt.stop()
 	_building = new_building
 
-func _ready():
-	net_position = global_position
-	camera.enabled = is_multiplayer_authority()
-	player_ui.visible = is_multiplayer_authority()
-	health = max_health
-	#Global.set_player_reference(self) ## INVENTORY V1
-	await get_tree().process_frame
 
 # Spawnpoints
 
@@ -72,7 +102,7 @@ func _ready():
 	#else:
 		#print("No spawn point specified.")
 	
-	set_building(null)
+	#set_building(null)
 
 # Multiplayer
 func _enter_tree() -> void:
@@ -111,18 +141,12 @@ func die() -> bool:
 	is_dead = true
 	return is_dead
 
-# Interaction key (L click) actions
-func _process(delta):
-	if Input.is_action_just_pressed("interact"):
-		print("pressedinteract")
-		self.building = null
-
 # Interaction key (I) actions
 func _input(event):
 	#if event.is_action_pressed("ui_inventory"):
 		#inventory_ui.visible = !inventory_ui.visible # Open/close each time "I" is pressed
 		#get_tree().paused = !get_tree().paused
-		pass
+	pass
 
 func apply_item_effect(item):
 	match item["effect"]:

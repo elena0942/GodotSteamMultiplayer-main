@@ -924,7 +924,7 @@ scale = Vector2(0.23809396, 0.23809421)
 sprite_frames = SubResource("SpriteFrames_egmc7")
 animation = &"walk_l"
 autoplay = "idle_d"
-frame_progress = 0.7994179
+frame_progress = 0.9783387
 offset = Vector2(0, -7)
 
 [node name="StateMachine" type="Node" parent="." unique_id=1573023618 node_paths=PackedStringArray("initial_node_state")]
