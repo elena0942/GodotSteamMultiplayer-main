@@ -19,7 +19,7 @@
 [ext_resource type="Script" uid="uid://dce60pfmw3xhx" path="res://Player/Scripts/attack_state.gd" id="15_q6miu"]
 [ext_resource type="PackedScene" uid="uid://cxdkyy3omij2p" path="res://Player/Inventory/Scenes/inventory.tscn" id="17_w24id"]
 [ext_resource type="Script" uid="uid://b00re6y080lj3" path="res://Player/Scripts/progress_bar.gd" id="18_ofhxi"]
-[ext_resource type="Texture2D" uid="uid://bb1hmbipxgow1" path="res://icon.svg" id="20_qqeun"]
+[ext_resource type="Texture2D" uid="uid://ddy6j2ktqdagj" path="res://Sprites/Player/rounded_rectangle.png" id="20_qqeun"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_w24id"]
 atlas = ExtResource("2_v4f8b")
@@ -1107,6 +1107,8 @@ replication_config = SubResource("SceneReplicationConfig_ac4ik")
 [node name="TrackPoints" type="Line2D" parent="." unique_id=1768450807]
 top_level = true
 z_index = -1
+texture_repeat = 2
+points = PackedVector2Array(0, 0, 100, 0)
 texture = ExtResource("20_qqeun")
 texture_mode = 1
 

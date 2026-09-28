@@ -17,6 +17,7 @@ const MAX_TRAIL_COUNT: int = 50
 @export var player_direction: Vector2
 @export var is_moving: bool
 @export var net_position: Vector2
+@export var trail_color: Color = Color.WHITE
 
 var interactable = null
 var _building: Node = null
@@ -26,6 +27,7 @@ var building: Node:
 	get:
 		return _building
 var is_dead: bool
+var removing: bool = false
 
 @onready var health: float = max_health
 @onready var max_health: float = 100.0
@@ -33,6 +35,8 @@ var is_dead: bool
 @onready var inventory_ui = $PlayerUI/Inventory/InventoryUI
 @onready var camera: Camera2D = $Camera2D
 @onready var player_ui: Control = $PlayerUI
+
+@onready var trail_timer = $TrailTimer
 
 ##### FUNCTIONS ######
 
@@ -45,30 +49,46 @@ func _ready():
 	await get_tree().process_frame
 	
 	# Tracking
-
-	$TrailTimer.timeout.connect(update_trail)
-	$TrailTimer.start()
+	$TrackPoints.self_modulate = trail_color
+	trail_timer.timeout.connect(update_trail)
+	trail_timer.start()
 
 
 func _process(_delta: float) -> void:
 	# Interaction key (L click) actions
-	
 	if Input.is_action_just_pressed("interact"):
-		print("pressedinteract")
 		self.building = null
-	if player.is_moving:
-		if $TrailTimer.is_stopped(): $TrailTimer.start()
-	else:
-		if not $TrailTimer.is_stopped() and $TrackPoints.points.is_empty():
-			$TrailTimer.stop()
 	
+	# Tracking functionality
+	
+	if player.is_moving:
+		removing = false
+		trail_timer.paused = false
+	else:
+		if not removing and not trail_timer.paused:
+			trail_timer.paused = true
+			var wait := get_tree().create_timer(3.0)
+			wait.timeout.connect(_on_pause_finished)
 
 # Tracking
+func _on_pause_finished() -> void:
+	if player.is_moving:
+		return
+	trail_timer.paused = false
+	removing = true
+
 func update_trail():
-	if $TrackPoints.points.size() == MAX_TRAIL_COUNT:
-		$TrackPoints.remove_point(0)
-	$TrackPoints.add_point(player.global_position)
-	$TrackPoints.TEXTURE_REPEAT_ENABLED
+	if player.is_moving:
+		$TrackPoints.TEXTURE_REPEAT_ENABLED
+		$TrackPoints.add_point(player.global_position)
+		if $TrackPoints.points.size() == MAX_TRAIL_COUNT:
+			$TrackPoints.remove_point(0)
+	elif removing:
+		if not $TrackPoints.points.is_empty():
+			$TrackPoints.remove_point(0)
+	else:
+		removing = false
+
 
 # Inventory
 @export var inventory : Array[Dictionary] = []

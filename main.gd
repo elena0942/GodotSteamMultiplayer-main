@@ -2,6 +2,7 @@ extends Node2D
 
 const PLAYER_CONTROLLER = preload("uid://dp0anu84vqtlk")
 const PLAYER_BEAR = preload("uid://swxktdgm3y02")
+const TRAIL_COLORS: Array[Color] = [Color.DARK_RED, Color.DARK_OLIVE_GREEN, Color.DARK_CYAN, Color.GOLDENROD]
 
 @onready var spawner: MultiplayerSpawner = %MultiplayerSpawner
 var players: Dictionary = {}
@@ -15,6 +16,7 @@ func _do_spawn(data: Dictionary) -> Node: #testing
 	var scene: PackedScene = PLAYER_CONTROLLER if data["type"] == "player" else PLAYER_BEAR
 	var node: CharacterBody2D = scene.instantiate()
 	node.owner_peer_id = data["peer_id"]
+	node.trail_color = data["color"]
 	node.name = data["type"] + "_" + str(data["peer_id"])
 	return node
 
@@ -27,18 +29,9 @@ func on_host_created() -> void:
 # The server spawns the player that just connected
 func _on_player_connected(peer_id: int):
 	print("Player connected: ", peer_id)
-	#testing:
-	var new_player: CharacterBody2D = spawner.spawn({"type": "player", "peer_id": peer_id})
+	var color: Color = TRAIL_COLORS[players.size() % TRAIL_COLORS.size()]
+	var new_player: CharacterBody2D = spawner.spawn({"type": "player", "peer_id": peer_id, "color": color,})
 	initialize_player(peer_id, new_player)
-##old, mostly working
-	#var new_player = PLAYER_CONTROLLER.instantiate()
-	#new_player.owner_peer_id = peer_id
-	#new_player.name = "player_" + str(peer_id)
-	#
-	#add_child(new_player)
-	#initialize_player(peer_id, new_player)
-	#
-	#print(players)
 
 func _on_player_disconnected(peer_id: int):
 	print("Player disconnected: ", peer_id)

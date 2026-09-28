@@ -32,6 +32,9 @@ func _on_next_transitions() -> void:
 	elif is_multiplayer_authority() and Input.is_action_pressed("hit"):
 		transition.emit("Hit")
 
+func _on_enter() -> void:
+	pass
+
 ## works for SP, not MP
 #func _on_next_transitions() -> void:
 	#if not player.is_multiplayer_authority():
@@ -42,9 +45,6 @@ func _on_next_transitions() -> void:
 		#transition.emit("Walk")
 	#elif Input.is_action_pressed("hit"):
 		#transition.emit("Hit")
-
-func _on_enter() -> void:
-	pass
 
 func _on_exit() -> void:
 	animated_sprite_2d.stop()
