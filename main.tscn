@@ -21,6 +21,14 @@ text = "HOST"
 layout_mode = 2
 text = "Randomize Bear"
 
+[node name="Make Host Bear" type="Button" parent="CanvasLayer/VBoxContainer" unique_id=1926001314]
+layout_mode = 2
+text = "Make Host Bear"
+
+[node name="Make Client Bear" type="Button" parent="CanvasLayer/VBoxContainer" unique_id=1848237797]
+layout_mode = 2
+text = "Make Client Bear"
+
 [node name="SpawnPoint" type="Node2D" parent="." unique_id=1487529719]
 position = Vector2(569, 291)
 
@@ -37,4 +45,6 @@ position = Vector2(332, 286)
 
 [connection signal="pressed" from="CanvasLayer/VBoxContainer/Host" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="CanvasLayer/VBoxContainer/Randomize Bear" to="." method="_on_randomize_bear_pressed"]
+[connection signal="pressed" from="CanvasLayer/VBoxContainer/Make Host Bear" to="." method="_on_make_host_bear_pressed"]
+[connection signal="pressed" from="CanvasLayer/VBoxContainer/Make Client Bear" to="." method="_on_make_client_bear_pressed"]
 [connection signal="spawned" from="MultiplayerSpawner" to="." method="_on_multiplayer_spawner_spawned"]

@@ -15,6 +15,7 @@ signal can_track(value: bool)
 @export var player_direction: Vector2
 @export var is_moving: bool
 @export var net_position: Vector2
+@export var track_cooldown: float = 1.0
 
 var interactable = null
 var _building: Node = null
@@ -67,6 +68,8 @@ func _ready():
 	health = max_health
 	#Global.set_player_reference(self) ## INVENTORY V1
 	await get_tree().process_frame
+	
+	trail_vis_timer.wait_time = track_cooldown
 	trail_vis_timer.timeout.connect(_on_trail_vis_timer_timeout)
 
 # Spawnpoints
@@ -122,7 +125,7 @@ func die() -> bool:
 
 # Track functionality
 func _on_trail_vis_timer_timeout():
-	trails_visible = false
+	#trails_visible = false
 	can_view_trails = false
 	
 	var cooldown := get_tree().create_timer(3.0)
@@ -131,23 +134,34 @@ func _on_trail_vis_timer_timeout():
 func _on_trail_cooldown():
 	can_view_trails = true
 
+func track():
+	can_view_trails = false
+	trail_vis_timer.start()
+	
+	for player in get_tree().get_nodes_in_group("Player"):
+		if player.has_node("TrackPoints"):
+			player.get_node("TrackPoints").visible# = trails_visible
+			print("track works")
+
 # Interaction key (L click) actions
 func _process(delta):
 	if Input.is_action_just_pressed("interact"):
 		print("pressedinteract")
-	elif Input.is_action_just_pressed("track"):
-		if can_view_trails:
-			print("V pressed. trails_visible: ", trails_visible)
-			print("can_view_trails: ", can_view_trails)
-			trail_vis_timer.start()
-			#TEST
-			trails_visible = true
-			for player in get_tree().get_nodes_in_group("Player"):
-				if player.has_node("TrackPoints"):
-					player.get_node("TrackPoints").visible = trails_visible
-		else:
-			print("DB: should be false: ", trails_visible)
-			print("DB: should be false: ",can_view_trails)
+	elif Input.is_action_just_pressed("track") and can_view_trails:
+		track()
+##testing
+		#if can_view_trails:
+			#print("V pressed. trails_visible: ", trails_visible)
+			#print("can_view_trails: ", can_view_trails)
+			#trail_vis_timer.start()
+			##TEST
+			#trails_visible = true
+			#for player in get_tree().get_nodes_in_group("Player"):
+				#if player.has_node("TrackPoints"):
+					#player.get_node("TrackPoints").visible = trails_visible
+		#else:
+			#print("DB: should be false: ", trails_visible)
+			#print("DB: should be false: ",can_view_trails)
 	self.building = null
 
 
