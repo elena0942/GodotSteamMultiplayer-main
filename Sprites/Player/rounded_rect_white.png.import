@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dcx4cpbt2yghs"
-path="res://.godot/imported/footprint.png-94b575036d6c065d2bf0ce8c4549bd6e.ctex"
+uid="uid://bhnrv1m37312a"
+path="res://.godot/imported/rounded_rect_white.png-980554298437a1ce35c4db7efd970441.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Player/footprint.png"
-dest_files=["res://.godot/imported/footprint.png-94b575036d6c065d2bf0ce8c4549bd6e.ctex"]
+source_file="res://Sprites/Player/rounded_rect_white.png"
+dest_files=["res://.godot/imported/rounded_rect_white.png-980554298437a1ce35c4db7efd970441.ctex"]
 
 [params]
 

@@ -19,7 +19,7 @@
 [ext_resource type="Script" uid="uid://dce60pfmw3xhx" path="res://Player/Scripts/attack_state.gd" id="15_q6miu"]
 [ext_resource type="PackedScene" uid="uid://cxdkyy3omij2p" path="res://Player/Inventory/Scenes/inventory.tscn" id="17_w24id"]
 [ext_resource type="Script" uid="uid://b00re6y080lj3" path="res://Player/Scripts/progress_bar.gd" id="18_ofhxi"]
-[ext_resource type="Texture2D" uid="uid://ddy6j2ktqdagj" path="res://Sprites/Player/rounded_rectangle.png" id="20_qqeun"]
+[ext_resource type="Texture2D" uid="uid://bhnrv1m37312a" path="res://Sprites/Player/rounded_rect_white.png" id="20_qqeun"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_w24id"]
 atlas = ExtResource("2_v4f8b")
@@ -1063,10 +1063,10 @@ z_index = 1
 custom_minimum_size = Vector2(150, 25)
 layout_mode = 3
 anchors_preset = 0
-offset_left = -960.0
-offset_top = -540.0
-offset_right = 960.0
-offset_bottom = 540.0
+offset_left = -1377.0
+offset_top = -564.0
+offset_right = 543.0
+offset_bottom = 516.0
 
 [node name="ProgressBar" type="ProgressBar" parent="PlayerUI" unique_id=1594236400 node_paths=PackedStringArray("player")]
 layout_mode = 1
