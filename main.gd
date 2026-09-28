@@ -7,16 +7,19 @@ const TRAIL_COLORS: Array[Color] = [Color.DARK_RED, Color.DARK_OLIVE_GREEN, Colo
 @onready var spawner: MultiplayerSpawner = %MultiplayerSpawner
 var players: Dictionary = {}
 
+
 func _ready() -> void:
 	spawner.spawn_function = _do_spawn #testing
 	Networking.host_created.connect(on_host_created)
 	print(players)
 
+
 func _do_spawn(data: Dictionary) -> Node: #testing
 	var scene: PackedScene = PLAYER_CONTROLLER if data["type"] == "player" else PLAYER_BEAR
 	var node: CharacterBody2D = scene.instantiate()
 	node.owner_peer_id = data["peer_id"]
-	node.trail_color = data["color"]
+	if data["type"] == "player":
+		node.trail_color = data["color"]
 	node.name = data["type"] + "_" + str(data["peer_id"])
 	return node
 

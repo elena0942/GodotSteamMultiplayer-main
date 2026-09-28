@@ -50,6 +50,7 @@ func _ready():
 	
 	# Tracking
 	$TrackPoints.self_modulate = trail_color
+	$TrackPoints.visible = false
 	trail_timer.timeout.connect(update_trail)
 	trail_timer.start()
 
@@ -71,6 +72,12 @@ func _process(_delta: float) -> void:
 			wait.timeout.connect(_on_pause_finished)
 
 # Tracking
+func _on_trail_node_visible() -> void:
+	$TrackPoints.show()
+
+func _on_trail_node_invisible() -> void:
+	$TrackPoints.hide()
+
 func _on_pause_finished() -> void:
 	if player.is_moving:
 		return

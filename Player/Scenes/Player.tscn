@@ -1108,7 +1108,6 @@ replication_config = SubResource("SceneReplicationConfig_ac4ik")
 top_level = true
 z_index = -1
 texture_repeat = 2
-points = PackedVector2Array(0, 0, 100, 0)
 texture = ExtResource("20_qqeun")
 texture_mode = 1
 

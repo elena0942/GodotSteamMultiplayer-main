@@ -1022,6 +1022,9 @@ replication_config = SubResource("SceneReplicationConfig_ac4ik")
 
 [node name="Player" type="Node2D" parent="." unique_id=2132629109]
 
+[node name="TrailVisTimer" type="Timer" parent="." unique_id=679409068]
+wait_time = 2.0
+
 [connection signal="area_entered" from="DetectArea" to="StateMachine/Walk" method="_on_detect_area_area_entered"]
 [connection signal="area_entered" from="DetectArea" to="StateMachine/Hurt" method="_on_hitbox_entered"]
 [connection signal="area_exited" from="DetectArea" to="StateMachine/Hurt" method="_on_hitbox_exited"]

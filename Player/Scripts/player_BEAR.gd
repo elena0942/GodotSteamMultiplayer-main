@@ -24,7 +24,8 @@ var building: Node:
 	get:
 		return _building
 var is_dead: bool
-
+var trails_visible: bool = false
+var can_view_trails: bool = true
 
 @onready var health: float = max_health
 @onready var max_health: float = 500.0
@@ -32,17 +33,13 @@ var is_dead: bool
 @onready var inventory_ui = $PlayerUI/Inventory/InventoryUI
 @onready var camera: Camera2D = $Camera2D
 @onready var player_ui: Control = $PlayerUI
+@onready var trail_vis_timer: Timer = $TrailVisTimer
 
 ##### DICTIONARIES AND ARRAYS #####
 
 
 
 ##### FUNCTIONS ######
-
-# Tracking
-
-func tracking() -> void:
-	pass
 
 # Inventory
 @export var inventory : Array[Dictionary] = []
@@ -70,6 +67,7 @@ func _ready():
 	health = max_health
 	#Global.set_player_reference(self) ## INVENTORY V1
 	await get_tree().process_frame
+	trail_vis_timer.timeout.connect(_on_trail_vis_timer_timeout)
 
 # Spawnpoints
 
@@ -122,11 +120,36 @@ func die() -> bool:
 	is_dead = true
 	return is_dead
 
+# Track functionality
+func _on_trail_vis_timer_timeout():
+	trails_visible = false
+	can_view_trails = false
+	
+	var cooldown := get_tree().create_timer(3.0)
+	cooldown.timeout.connect(_on_trail_cooldown)
+
+func _on_trail_cooldown():
+	can_view_trails = true
+
 # Interaction key (L click) actions
 func _process(delta):
 	if Input.is_action_just_pressed("interact"):
 		print("pressedinteract")
-		self.building = null
+	elif Input.is_action_just_pressed("track"):
+		if can_view_trails:
+			print("V pressed. trails_visible: ", trails_visible)
+			print("can_view_trails: ", can_view_trails)
+			trail_vis_timer.start()
+			#TEST
+			trails_visible = true
+			for player in get_tree().get_nodes_in_group("Player"):
+				if player.has_node("TrackPoints"):
+					player.get_node("TrackPoints").visible = trails_visible
+		else:
+			print("DB: should be false: ", trails_visible)
+			print("DB: should be false: ",can_view_trails)
+	self.building = null
+
 
 # Interaction key (I) actions
 func _input(event):
