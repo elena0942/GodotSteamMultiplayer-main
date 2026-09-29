@@ -16,7 +16,11 @@ signal can_track(value: bool)
 @export var is_moving: bool
 @export var net_position: Vector2
 @export var track_cooldown: float = 1.0
+@export var wait_time: float = 1.0
+@export var bear_damage: int
 
+var player: CharacterBody2D
+var can_damage: bool
 var interactable = null
 var _building: Node = null
 var building: Node:
@@ -27,6 +31,7 @@ var building: Node:
 var is_dead: bool
 var trails_visible: bool = false
 var can_view_trails: bool = true
+var playerlist: Array = []
 
 @onready var health: float = max_health
 @onready var max_health: float = 500.0
@@ -69,7 +74,6 @@ func _ready():
 	#Global.set_player_reference(self) ## INVENTORY V1
 	await get_tree().process_frame
 	
-	trail_vis_timer.wait_time = track_cooldown
 	trail_vis_timer.timeout.connect(_on_trail_vis_timer_timeout)
 
 # Spawnpoints
@@ -86,13 +90,25 @@ func _ready():
 	
 	set_building(null)
 
+# Knockback and Health
+
+func _on_hitbox_entered(area: Area2D) -> void:
+	#bear_damage = 10.0
+	#can_damage = true
+	print("DB player entered bear HB")
+	#if area.is_in_group("PlayerPERSON"):
+		#if can_damage:
+			#can_damage = false
+			#player.take_damage(bear_damage)
+			#await get_tree().create_timer(wait_time).timeout
+			#can_damage = true
+
 # Multiplayer
 func _enter_tree() -> void:
 	print("node name: ", name, " | authority: ", get_multiplayer_authority(), " | my id: ", multiplayer.get_unique_id(), " | is_authority: ", is_multiplayer_authority())
 	set_multiplayer_authority(owner_peer_id)
 
 func _physics_process(delta: float) -> void:
-	# First check if we have authority over this player
 	if not is_multiplayer_authority():
 		global_position = global_position.lerp(net_position, 0.25)
 		return
@@ -110,14 +126,14 @@ func set_health(value) -> void:
 		die()
 
 # Take damage
-func take_damage(enemy_damage: int) -> void:
-	health -= enemy_damage
-	print("took ", enemy_damage, "damage. Health is now ", health)
+func take_damage(player_damage: int) -> void:
+	health -= player_damage
+	print("took ", player_damage, "damage. Health is now ", health)
 	set_health(health)
 
 # Death
 func die() -> bool:
-	print("player died") #death logic here
+	print("bear died") #death logic here
 	_hitbox.set_deferred("disabled", true)
 	
 	is_dead = true
@@ -127,8 +143,10 @@ func die() -> bool:
 func _on_trail_vis_timer_timeout():
 	#trails_visible = false
 	can_view_trails = false
-	
-	var cooldown := get_tree().create_timer(3.0)
+	for player in get_tree().get_nodes_in_group("Player"):
+		if player.has_node("TrackPoints"):
+			player.get_node("TrackPoints").hide()
+	var cooldown := get_tree().create_timer(10.0)
 	cooldown.timeout.connect(_on_trail_cooldown)
 
 func _on_trail_cooldown():
@@ -140,7 +158,7 @@ func track():
 	
 	for player in get_tree().get_nodes_in_group("Player"):
 		if player.has_node("TrackPoints"):
-			player.get_node("TrackPoints").visible# = trails_visible
+			player.get_node("TrackPoints").show()
 			print("track works")
 
 # Interaction key (L click) actions
@@ -149,19 +167,6 @@ func _process(delta):
 		print("pressedinteract")
 	elif Input.is_action_just_pressed("track") and can_view_trails:
 		track()
-##testing
-		#if can_view_trails:
-			#print("V pressed. trails_visible: ", trails_visible)
-			#print("can_view_trails: ", can_view_trails)
-			#trail_vis_timer.start()
-			##TEST
-			#trails_visible = true
-			#for player in get_tree().get_nodes_in_group("Player"):
-				#if player.has_node("TrackPoints"):
-					#player.get_node("TrackPoints").visible = trails_visible
-		#else:
-			#print("DB: should be false: ", trails_visible)
-			#print("DB: should be false: ",can_view_trails)
 	self.building = null
 
 

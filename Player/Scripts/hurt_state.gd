@@ -5,7 +5,7 @@ class_name HurtState
 @export var animated_sprite_2d: AnimatedSprite2D
 @export var walk_speed: int = 170
 
-@onready var enemy = get_tree().get_first_node_in_group("PlayerBEAR")
+@onready var bear_player = get_tree().get_first_node_in_group("PlayerBEAR")
 @onready var state_machine = get_parent()
 @onready var kb_cooldown := $"../../KB Cooldown"
 @onready var player_walk_script := $"../Walk"
@@ -21,18 +21,20 @@ var is_kb_done: bool
 func on_process(delta : float):
 	pass
 
-
 func knockback():
-	#print("DEBUG: Player KB (hurt_state.gd)")
-	player = get_tree().get_first_node_in_group("PlayerPERSON") as CharacterBody2D
-	enemy = get_tree().get_first_node_in_group("PlayerBEAR") as CharacterBody2D
+	if !is_multiplayer_authority():
+		return
+	print("DEBUG: Player KB (hurt_state.gd)")
+	player = get_tree().get_first_node_in_group("PlayerPERSON") as CharacterBody2D #could be MP error
+	bear_player = get_tree().get_first_node_in_group("PlayerBEAR") as CharacterBody2D #could be MP error
 	
-	if player and enemy:
-		var kb_dir = (player.global_position - enemy.global_position).normalized()
-		var kb_force := 600.0
+	if player and bear_player:
 		
+		var kb_dir = (player.global_position - bear_player.global_position).normalized()
+		var kb_force := 600.0
+
 		player.velocity = kb_dir * kb_force
-	
+
 	animated_sprite_2d.stop()
 	animated_sprite_2d.play(hurt_anim) #change to hurt_anim
 	kb_just_happened = true
@@ -47,8 +49,10 @@ func _on_kb_cooldown_timeout():
 	
 
 func _on_hitbox_entered(area: Area2D) -> void:
-	#print("DEBUG: area ", EnemyAttackArea)
-	pass
+	print("DB KB hitbox")
+	if area.is_in_group("PlayerBEAR"):
+		knockback()
+	
 
 func _on_physics_process(delta: float) -> void:
 	if !is_multiplayer_authority():
@@ -71,11 +75,12 @@ func _on_physics_process(delta: float) -> void:
 		player.move_and_slide()
 
 func _on_next_transitions() -> void:
-	if not player.is_multiplayer_authority():
+	if not is_multiplayer_authority():
 		return
 
 func Enter() -> void:
-	knockback()
+	#knockback()
+	pass
 
 func transition_to():
 	pass

@@ -1063,19 +1063,19 @@ z_index = 1
 custom_minimum_size = Vector2(150, 25)
 layout_mode = 3
 anchors_preset = 0
-offset_left = -1377.0
-offset_top = -564.0
-offset_right = 543.0
-offset_bottom = 516.0
+offset_left = -962.0
+offset_top = -538.0
+offset_right = 958.0
+offset_bottom = 542.0
 
 [node name="ProgressBar" type="ProgressBar" parent="PlayerUI" unique_id=1594236400 node_paths=PackedStringArray("player")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 16.0
+offset_left = 17.0
 offset_top = 16.0
-offset_right = -1754.0
+offset_right = -1753.0
 offset_bottom = -1039.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -1111,7 +1111,10 @@ texture_repeat = 2
 texture = ExtResource("20_qqeun")
 texture_mode = 1
 
+[connection signal="area_entered" from="DetectArea" to="." method="_on_hitbox_entered"]
+[connection signal="area_entered" from="DetectArea" to="StateMachine/Idle" method="_on_hitbox_entered"]
 [connection signal="area_entered" from="DetectArea" to="StateMachine/Walk" method="_on_detect_area_area_entered"]
+[connection signal="area_entered" from="DetectArea" to="StateMachine/Walk" method="_on_hitbox_entered"]
 [connection signal="area_entered" from="DetectArea" to="StateMachine/Hurt" method="_on_hitbox_entered"]
 [connection signal="area_exited" from="DetectArea" to="StateMachine/Hurt" method="_on_hitbox_exited"]
 [connection signal="timeout" from="KB Cooldown" to="StateMachine/Idle" method="_on_kb_cooldown_timeout"]

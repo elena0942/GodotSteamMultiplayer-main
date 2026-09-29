@@ -18,7 +18,11 @@ const MAX_TRAIL_COUNT: int = 50
 @export var is_moving: bool
 @export var net_position: Vector2
 @export var trail_color: Color = Color.WHITE
+@export var wait_time: float = 1.0
+@export var bear_damage: int
 
+var hb_entered: bool
+var can_damage: bool
 var interactable = null
 var _building: Node = null
 var building: Node:
@@ -35,12 +39,13 @@ var removing: bool = false
 @onready var inventory_ui = $PlayerUI/Inventory/InventoryUI
 @onready var camera: Camera2D = $Camera2D
 @onready var player_ui: Control = $PlayerUI
-
+@onready var state_machine: Node = $StateMachine
 @onready var trail_timer = $TrailTimer
 
 ##### FUNCTIONS ######
 
 func _ready():
+	healthChanged.emit(100.0, 100.0)
 	net_position = global_position
 	camera.enabled = is_multiplayer_authority()
 	player_ui.visible = is_multiplayer_authority()
@@ -137,7 +142,6 @@ func _enter_tree() -> void:
 	set_multiplayer_authority(owner_peer_id)
 
 func _physics_process(delta: float) -> void:
-	# First check if we have authority over this player
 	if not is_multiplayer_authority():
 		global_position = global_position.lerp(net_position, 0.25)
 		return
@@ -154,10 +158,23 @@ func set_health(value) -> void:
 	if health <= 0:
 		die()
 
+func _on_hitbox_entered(area: Area2D) -> void:
+	bear_damage = 10.0
+	can_damage = true
+	hb_entered = true
+
+	if area.is_in_group("PlayerBEAR"):
+		if can_damage:
+			state_machine.transition_to("Hurt")
+			can_damage = false
+			player.take_damage(bear_damage)
+			await get_tree().create_timer(wait_time).timeout
+			can_damage = true
+
 # Take damage
-func take_damage(enemy_damage: int) -> void:
-	health -= enemy_damage
-	print("took ", enemy_damage, "damage. Health is now ", health)
+func take_damage(bear_damage: int) -> void:
+	health -= bear_damage
+	print("took ", bear_damage, "damage. Health is now ", health)
 	set_health(health)
 
 # Death

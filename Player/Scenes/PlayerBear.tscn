@@ -961,8 +961,7 @@ texture = ExtResource("16_ya8f8")
 [node name="KeyPrompt" type="AnimationPlayer" parent="." unique_id=704744079 groups=["Player"]]
 libraries/ = SubResource("AnimationLibrary_d4g0h")
 
-[node name="DetectArea" type="Area2D" parent="." unique_id=697093498 groups=["Player"]]
-visible = false
+[node name="DetectArea" type="Area2D" parent="." unique_id=697093498 groups=["Player", "PlayerBEAR"]]
 collision_layer = 2
 collision_mask = 16
 
@@ -1023,8 +1022,9 @@ replication_config = SubResource("SceneReplicationConfig_ac4ik")
 [node name="Player" type="Node2D" parent="." unique_id=2132629109]
 
 [node name="TrailVisTimer" type="Timer" parent="." unique_id=679409068]
-wait_time = 2.0
+wait_time = 5.0
 
+[connection signal="area_entered" from="DetectArea" to="." method="_on_hitbox_entered"]
 [connection signal="area_entered" from="DetectArea" to="StateMachine/Walk" method="_on_detect_area_area_entered"]
 [connection signal="area_entered" from="DetectArea" to="StateMachine/Hurt" method="_on_hitbox_entered"]
 [connection signal="area_exited" from="DetectArea" to="StateMachine/Hurt" method="_on_hitbox_exited"]
