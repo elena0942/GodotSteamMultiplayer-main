@@ -22,8 +22,6 @@ func on_process(delta : float):
 	pass
 
 func knockback():
-	if !is_multiplayer_authority():
-		return
 	print("DEBUG: Player KB (hurt_state.gd)")
 	player = get_tree().get_first_node_in_group("PlayerPERSON") as CharacterBody2D #could be MP error
 	bear_player = get_tree().get_first_node_in_group("PlayerBEAR") as CharacterBody2D #could be MP error
@@ -49,14 +47,10 @@ func _on_kb_cooldown_timeout():
 	
 
 func _on_hitbox_entered(area: Area2D) -> void:
-	print("DB KB hitbox")
 	if area.is_in_group("PlayerBEAR"):
 		knockback()
-	
 
 func _on_physics_process(delta: float) -> void:
-	if !is_multiplayer_authority():
-		return
 	var direction: Vector2 = GameInputEvents.movement_input()
 	if player:
 		player.velocity = player.velocity.move_toward(Vector2.ZERO, 800.0 * delta)

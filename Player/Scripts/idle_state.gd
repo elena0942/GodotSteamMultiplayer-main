@@ -28,14 +28,17 @@ func _on_physics_process(_delta: float) -> void:
 		animated_sprite_2d.play("idle_d")
 
 func _on_hitbox_entered(area: Area2D) -> void:
-	var bear = get_tree().get_first_node_in_group("PlayerBEAR")
-	var bear_hitbox = bear.get_node("DetectArea") as Area2D
-	
-	if bear_hitbox:
-		transition.emit("Hurt")
-	else:
-		print("DB walk state: not bear HB")
+	if !area.is_in_group("PlayerBEAR"):
 		return
+	else:
+		var bear = get_tree().get_first_node_in_group("PlayerBEAR")
+		var bear_hitbox = bear.get_node("DetectArea") as Area2D
+		
+		if bear_hitbox:
+			transition.emit("Hurt")
+		else:
+			print("DB walk state: not bear HB")
+			return
 
 func _on_next_transitions() -> void:
 	if player.is_moving and is_kb_done and not hb_entered:
