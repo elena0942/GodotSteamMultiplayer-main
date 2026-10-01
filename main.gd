@@ -18,6 +18,8 @@ func _do_spawn(data: Dictionary) -> Node: #testing
 	var scene: PackedScene = PLAYER_CONTROLLER if data["type"] == "player" else PLAYER_BEAR
 	var node: CharacterBody2D = scene.instantiate()
 	node.owner_peer_id = data["peer_id"]
+	node.global_position = data["spawn_position"]
+	node.net_position = data["spawn_position"]
 	if data["type"] == "player":
 		node.trail_color = data["color"]
 	node.name = data["type"] + "_" + str(data["peer_id"])
@@ -33,7 +35,7 @@ func on_host_created() -> void:
 func _on_player_connected(peer_id: int):
 	print("Player connected: ", peer_id)
 	var color: Color = TRAIL_COLORS[players.size() % TRAIL_COLORS.size()]
-	var new_player: CharacterBody2D = spawner.spawn({"type": "player", "peer_id": peer_id, "color": color,})
+	var new_player: CharacterBody2D = spawner.spawn({"type": "player", "peer_id": peer_id, "color": color, "spawn_position": $SpawnPoint.position,})
 	initialize_player(peer_id, new_player)
 
 func _on_player_disconnected(peer_id: int):
@@ -114,7 +116,7 @@ func swap_player_type(peer_id: int) -> void:
 	remove_child(old_player)
 	old_player.free()
 	
-	var new_player: CharacterBody2D = spawner.spawn({"type": "playerbear", "peer_id": peer_id})
+	var new_player: CharacterBody2D = spawner.spawn({"type": "playerbear", "peer_id": peer_id, "spawn_position": saved_position})
 	players[peer_id] = new_player
 	new_player.global_position = saved_position
 
