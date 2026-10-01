@@ -1062,7 +1062,7 @@ wait_time = 0.75
 
 [node name="KB Cooldown" type="Timer" parent="." unique_id=930956242]
 
-[node name="PlayerUI" type="Control" parent="." unique_id=1813022155 groups=["Player", "PlayerPERSON"]]
+[node name="PlayerUI" type="Control" parent="." unique_id=1813022155]
 z_index = 1
 custom_minimum_size = Vector2(150, 25)
 layout_mode = 3

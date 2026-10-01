@@ -152,22 +152,24 @@ func die() -> bool:
 func listen(delta):
 	player = get_tree().get_first_node_in_group("PlayerBEAR")
 	target_player = find_nearest_player()
-	var distance_to_player = global_position.distance_to(target_player.global_position)
-	
 	sound_marker.self_modulate.a = 0.0
 	
+	if target_player == null:
+		return
+	if not is_multiplayer_authority():
+		return
+	
+	var distance_to_player = global_position.distance_to(target_player.global_position)
 	var vis_tween: Tween
 
 	if distance_to_player <= 600.0 and target_player.is_moving:
 		vis_tween = create_tween()
 		vis_tween.tween_property(sound_marker, "self_modulate:a", 1.0, 2.0) \
 		.set_ease(Tween.EASE_OUT)
-	elif distance_to_player > 600.0 and not target_player.is_moving:
+	elif distance_to_player > 600.0 or not target_player.is_moving:
 		vis_tween = create_tween()
 		vis_tween.tween_property(sound_marker, "self_modulate:a", 0.0, 1.0) \
 		.set_ease(Tween.EASE_OUT)
-		await vis_tween.finished
-		vis_tween.kill()
 	else:
 		return
 	var target_angle = get_angle_to(target_player.global_position)
@@ -185,12 +187,11 @@ func listen(delta):
 	else:
 		sound_marker.flip_h = false
 
-func find_nearest_player() -> Node2D:
-	var available_players = get_tree().get_nodes_in_group("PlayerPERSON")
-	
+func find_nearest_player() -> Node:
+	var available_players = get_tree().get_nodes_in_group("PlayerPERSON").filter(func(p): return p.owner_peer_id != 0) #adds an auth gate to the script
 	if available_players.is_empty():
 		return null
-	
+
 	var target_player = available_players[0]
 	var nearest_dist = global_position.distance_squared_to(target_player.global_position)
 	
