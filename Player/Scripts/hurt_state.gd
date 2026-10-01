@@ -1,7 +1,7 @@
 extends NodeState
 class_name HurtState
 
-@export var player: Player
+@export var player: CharacterBody2D
 @export var animated_sprite_2d: AnimatedSprite2D
 @export var walk_speed: int = 170
 
