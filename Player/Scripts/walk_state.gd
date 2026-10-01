@@ -6,16 +6,16 @@ class_name WalkState
 @export var walk_speed: int = 170
 @export var run_speed: int = 200
 @export var player_direction: Vector2
+@export var is_running = Input.is_action_pressed("run")
 
 var is_kb_done: bool = true
 var current_speed: int
-
 
 func _on_process(_delta: float) -> void:
 	pass
 
 func _on_physics_process(_delta: float) -> void:
-	var is_running = Input.is_action_pressed("run")
+	is_running = Input.is_action_pressed("run")
 	if player.is_moving:
 		if is_kb_done and not is_running:
 			print("Not running")
@@ -43,18 +43,18 @@ func _on_physics_process(_delta: float) -> void:
 		animated_sprite_2d.speed_scale = 1.0
 		
 	player.velocity = player.player_direction * current_speed
-	if not is_running:
-		match player.player_direction:
-			Vector2.UP:    animated_sprite_2d.play("walk_u")
-			Vector2.RIGHT: animated_sprite_2d.play("walk_r")
-			Vector2.LEFT:  animated_sprite_2d.play("walk_l")
-			Vector2.DOWN:  animated_sprite_2d.play("walk_d")
-	else:
+	if is_running:
 		match player.player_direction:
 			Vector2.UP:    animated_sprite_2d.play("run_u")
 			Vector2.RIGHT: animated_sprite_2d.play("run_r")
 			Vector2.LEFT:  animated_sprite_2d.play("run_l")
 			Vector2.DOWN:  animated_sprite_2d.play("run_d")
+	else:
+		match player.player_direction:
+			Vector2.UP:    animated_sprite_2d.play("walk_u")
+			Vector2.RIGHT: animated_sprite_2d.play("walk_r")
+			Vector2.LEFT:  animated_sprite_2d.play("walk_l")
+			Vector2.DOWN:  animated_sprite_2d.play("walk_d")
 
 func _on_hitbox_entered(area: Area2D) -> void:
 	if !area.is_in_group("PlayerBEAR"):
@@ -123,7 +123,7 @@ func _on_detect_area_area_entered(area: Area2D) -> void:
 
 
 func _on_enter() -> void:
-	pass
+	is_running = false
 
 func _on_exit() -> void:
 	#animated_sprite_2d.stop()

@@ -29,7 +29,8 @@ func knockback():
 		var kb_force := 600.0
 
 		player.velocity = kb_dir * kb_force
-
+	
+	animated_sprite_2d.speed_scale = 1.0
 	animated_sprite_2d.stop()
 	animated_sprite_2d.play(hurt_anim) #change to hurt_anim
 	kb_just_happened = true
