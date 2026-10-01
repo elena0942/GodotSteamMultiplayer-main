@@ -5,7 +5,6 @@ class_name HurtState
 @export var animated_sprite_2d: AnimatedSprite2D
 @export var walk_speed: int = 170
 
-@onready var bear_player = get_tree().get_first_node_in_group("PlayerBEAR")
 @onready var state_machine = get_parent()
 @onready var kb_cooldown := $"../../KB Cooldown"
 @onready var player_walk_script := $"../Walk"
@@ -22,8 +21,7 @@ func on_process(delta : float):
 	pass
 
 func knockback():
-	player = get_tree().get_first_node_in_group("PlayerPERSON") as CharacterBody2D #could be MP error
-	bear_player = get_tree().get_first_node_in_group("PlayerBEAR") as CharacterBody2D #could be MP error
+	var bear_player = get_tree().get_first_node_in_group("PlayerBEAR") as CharacterBody2D #could be MP error only if more than 1 bear
 	
 	if player and bear_player and is_multiplayer_authority():
 		
