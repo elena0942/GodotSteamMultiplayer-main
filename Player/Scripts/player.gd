@@ -59,6 +59,10 @@ func _ready():
 	$TrackPoints.visible = false
 	trail_timer.timeout.connect(update_trail)
 	trail_timer.start()
+	
+	for player in get_tree().get_nodes_in_group("PlayerBEAR"):
+		if player.has_node("SoundMarker"):
+			player.get_node("SoundMarker").hide()
 
 
 func _process(_delta: float) -> void:

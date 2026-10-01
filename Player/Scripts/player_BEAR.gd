@@ -152,15 +152,21 @@ func die() -> bool:
 func listen(delta):
 	player = get_tree().get_first_node_in_group("PlayerBEAR")
 	target_player = find_nearest_player()
+	var distance_to_player = global_position.distance_to(target_player.global_position)
 	
 	sound_marker.self_modulate.a = 0.0
 	
-	var vis_tween: Tween = create_tween()
-	if target_player.is_moving:
-		vis_tween.tween_property(self, "sound_marker.self_modulate.a", 1.0, 2.0) \
-		.set_trans(Tween.TRANS_CUBIC) \
+	var vis_tween: Tween
+
+	if distance_to_player <= 600.0 and target_player.is_moving:
+		vis_tween = create_tween()
+		vis_tween.tween_property(sound_marker, "self_modulate:a", 1.0, 2.0) \
 		.set_ease(Tween.EASE_OUT)
-	elif not target_player.is_moving and vis_tween.is_running():
+	elif distance_to_player > 600.0 and not target_player.is_moving:
+		vis_tween = create_tween()
+		vis_tween.tween_property(sound_marker, "self_modulate:a", 0.0, 1.0) \
+		.set_ease(Tween.EASE_OUT)
+		await vis_tween.finished
 		vis_tween.kill()
 	else:
 		return
@@ -169,7 +175,7 @@ func listen(delta):
 	
 	var radius = 80.0
 	var offset = Vector2(cos(angle), sin(angle)) * radius
-	var distance_to_player = global_position.distance_to(target_player.global_position)
+	
 	
 	sound_marker.global_position = player.global_position + offset
 	sound_marker.look_at(target_player.global_position)
@@ -179,7 +185,7 @@ func listen(delta):
 	else:
 		sound_marker.flip_h = false
 
-func find_nearest_player() -> CharacterBody2D:
+func find_nearest_player() -> Node2D:
 	var available_players = get_tree().get_nodes_in_group("PlayerPERSON")
 	
 	if available_players.is_empty():
@@ -221,7 +227,7 @@ func track():
 # Interaction key (L click) actions
 func _process(delta):
 	if Input.is_action_just_pressed("interact"):
-		print("pressedinteract")
+		pass
 	elif Input.is_action_just_pressed("track") and can_view_trails:
 		track()
 	self.building = null

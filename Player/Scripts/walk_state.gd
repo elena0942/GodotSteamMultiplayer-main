@@ -17,14 +17,10 @@ func _on_process(_delta: float) -> void:
 func _on_physics_process(_delta: float) -> void:
 	if player.is_moving:
 		if is_kb_done and not player.is_running:
-			print("Not running")
 			current_speed = walk_speed
-			print(current_speed)
 			animated_sprite_2d.speed_scale = 1.0
 		elif is_kb_done and player.is_running:
-			print("Running")
 			current_speed = run_speed
-			print(current_speed)
 			animated_sprite_2d.speed_scale = 2.0
 		else:
 			return
