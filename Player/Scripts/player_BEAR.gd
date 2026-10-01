@@ -162,11 +162,15 @@ func listen(delta):
 	var distance_to_player = global_position.distance_to(target_player.global_position)
 	var vis_tween: Tween
 
-	if distance_to_player <= 600.0 and target_player.is_moving:
+	if distance_to_player <= 1000.0 and target_player.is_moving and target_player.is_running: #bear can hear running players from far away + check so that only shift + movement constitutes running
 		vis_tween = create_tween()
 		vis_tween.tween_property(sound_marker, "self_modulate:a", 1.0, 2.0) \
 		.set_ease(Tween.EASE_OUT)
-	elif distance_to_player > 600.0 or not target_player.is_moving:
+	elif distance_to_player <= 300.0 and target_player.is_moving: #bear can hear walking players if they are close
+		vis_tween = create_tween()
+		vis_tween.tween_property(sound_marker, "self_modulate:a", 1.0, 2.0) \
+		.set_ease(Tween.EASE_OUT)
+	elif distance_to_player > 1000.0 or not target_player.is_running: #bear cannot hear players if they are too far away, or only walking
 		vis_tween = create_tween()
 		vis_tween.tween_property(sound_marker, "self_modulate:a", 0.0, 1.0) \
 		.set_ease(Tween.EASE_OUT)
