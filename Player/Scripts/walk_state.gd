@@ -4,33 +4,57 @@ class_name WalkState
 @export var player: Player
 @export var animated_sprite_2d: AnimatedSprite2D
 @export var walk_speed: int = 170
+@export var run_speed: int = 200
 @export var player_direction: Vector2
 
 var is_kb_done: bool = true
 var current_speed: int
 
+
 func _on_process(_delta: float) -> void:
 	pass
 
 func _on_physics_process(_delta: float) -> void:
+	var is_running = Input.is_action_pressed("run")
 	if player.is_moving:
-		if is_kb_done:
+		if is_kb_done and not is_running:
+			print("Not running")
 			current_speed = walk_speed
+			print(current_speed)
 			animated_sprite_2d.speed_scale = 1.0
+		elif is_kb_done and is_running:
+			print("Running")
+			current_speed = run_speed
+			print(current_speed)
+			animated_sprite_2d.speed_scale = 2.0
 		else:
 			return
-		player.velocity = player.player_direction * current_speed
 	else:
 		player.velocity = Vector2.ZERO
+		current_speed = walk_speed
+		animated_sprite_2d.speed_scale = 1.0
+	
 	player.move_and_slide()
 	player.net_position = player.global_position
-
-
-	match player.player_direction:
-		Vector2.UP:    animated_sprite_2d.play("walk_u")
-		Vector2.RIGHT: animated_sprite_2d.play("walk_r")
-		Vector2.LEFT:  animated_sprite_2d.play("walk_l")
-		Vector2.DOWN:  animated_sprite_2d.play("walk_d")
+	
+	if Input.is_action_just_released("run"):
+		print("RUN RELEASED ", animated_sprite_2d.speed_scale)
+		current_speed = walk_speed
+		animated_sprite_2d.speed_scale = 1.0
+		
+	player.velocity = player.player_direction * current_speed
+	if not is_running:
+		match player.player_direction:
+			Vector2.UP:    animated_sprite_2d.play("walk_u")
+			Vector2.RIGHT: animated_sprite_2d.play("walk_r")
+			Vector2.LEFT:  animated_sprite_2d.play("walk_l")
+			Vector2.DOWN:  animated_sprite_2d.play("walk_d")
+	else:
+		match player.player_direction:
+			Vector2.UP:    animated_sprite_2d.play("run_u")
+			Vector2.RIGHT: animated_sprite_2d.play("run_r")
+			Vector2.LEFT:  animated_sprite_2d.play("run_l")
+			Vector2.DOWN:  animated_sprite_2d.play("run_d")
 
 func _on_hitbox_entered(area: Area2D) -> void:
 	if !area.is_in_group("PlayerBEAR"):

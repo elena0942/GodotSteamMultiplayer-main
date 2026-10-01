@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://ceuqqq3clw6qn" path="res://main.gd" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://dpp0tjgjiep6r" path="res://Scenes/background.tscn" id="2_0xm2m"]
-[ext_resource type="PackedScene" uid="uid://dp0anu84vqtlk" path="res://Player/Scenes/Player.tscn" id="3_h2yge"]
 
 [node name="Main" type="Node2D" unique_id=491597528]
 script = ExtResource("1_ig7tw")
@@ -39,9 +38,6 @@ spawn_path = NodePath("..")
 
 [node name="Background" parent="." unique_id=2050609957 instance=ExtResource("2_0xm2m")]
 z_index = -2
-
-[node name="CharacterBody2D" parent="." unique_id=1178074239 instance=ExtResource("3_h2yge")]
-position = Vector2(476, 457)
 
 [connection signal="pressed" from="CanvasLayer/VBoxContainer/Host" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="CanvasLayer/VBoxContainer/Randomize Bear" to="." method="_on_randomize_bear_pressed"]
