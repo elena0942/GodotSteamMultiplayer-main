@@ -19,7 +19,7 @@ signal can_track(value: bool)
 @export var wait_time: float = 1.0
 @export var bear_damage: int
 
-var player: CharacterBody2D
+
 var can_damage: bool
 var interactable = null
 var _building: Node = null
@@ -32,7 +32,10 @@ var is_dead: bool
 var trails_visible: bool = false
 var can_view_trails: bool = true
 var playerlist: Array = []
+var target_player
+var angle: float = 0.0
 
+@onready var player: CharacterBody2D
 @onready var health: float = max_health
 @onready var max_health: float = 500.0
 @onready var _hitbox: CollisionShape2D = $DetectArea/Hitbox
@@ -40,6 +43,7 @@ var playerlist: Array = []
 @onready var camera: Camera2D = $Camera2D
 @onready var player_ui: Control = $PlayerUI
 @onready var trail_vis_timer: Timer = $TrailVisTimer
+@onready var sound_marker: Sprite2D = $SoundMarker
 
 ##### DICTIONARIES AND ARRAYS #####
 
@@ -116,6 +120,11 @@ func _physics_process(delta: float) -> void:
 	is_moving = direction != Vector2.ZERO
 	if direction != Vector2.ZERO:
 		player_direction = direction
+	
+	while get_tree().get_nodes_in_group("PlayerPERSON").is_empty(): #wait until player list populates before running function below
+		await get_tree().process_frame
+	
+	listen(delta)
 
 # Health
 func set_health(value) -> void:
@@ -138,6 +147,54 @@ func die() -> bool:
 	
 	is_dead = true
 	return is_dead
+
+# Hearing functionality
+func listen(delta):
+	player = get_tree().get_first_node_in_group("PlayerBEAR")
+	target_player = find_nearest_player()
+	
+	sound_marker.self_modulate.a = 0.0
+	
+	var vis_tween: Tween = create_tween()
+	if target_player.is_moving:
+		vis_tween.tween_property(self, "sound_marker.self_modulate.a", 1.0, 2.0) \
+		.set_trans(Tween.TRANS_CUBIC) \
+		.set_ease(Tween.EASE_OUT)
+	elif not target_player.is_moving and vis_tween.is_running():
+		vis_tween.kill()
+	else:
+		return
+	var target_angle = get_angle_to(target_player.global_position)
+	angle = lerp_angle(angle, target_angle, 10.0 * delta)
+	
+	var radius = 80.0
+	var offset = Vector2(cos(angle), sin(angle)) * radius
+	var distance_to_player = global_position.distance_to(target_player.global_position)
+	
+	sound_marker.global_position = player.global_position + offset
+	sound_marker.look_at(target_player.global_position)
+
+	if distance_to_player <= 80.0:
+		sound_marker.flip_h = true
+	else:
+		sound_marker.flip_h = false
+
+func find_nearest_player() -> CharacterBody2D:
+	var available_players = get_tree().get_nodes_in_group("PlayerPERSON")
+	
+	if available_players.is_empty():
+		return null
+	
+	var target_player = available_players[0]
+	var nearest_dist = global_position.distance_squared_to(target_player.global_position)
+	
+	for i in range(1, available_players.size()):
+		var player_array_selection = available_players[i]
+		var dist = global_position.distance_squared_to(player_array_selection.global_position)
+		if dist < nearest_dist:
+			nearest_dist = dist
+			target_player = player_array_selection
+	return target_player
 
 # Track functionality
 func _on_trail_vis_timer_timeout():

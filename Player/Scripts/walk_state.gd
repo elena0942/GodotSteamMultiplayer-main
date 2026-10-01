@@ -15,14 +15,13 @@ func _on_process(_delta: float) -> void:
 	pass
 
 func _on_physics_process(_delta: float) -> void:
-	is_running = Input.is_action_pressed("run")
 	if player.is_moving:
-		if is_kb_done and not is_running:
+		if is_kb_done and not player.is_running:
 			print("Not running")
 			current_speed = walk_speed
 			print(current_speed)
 			animated_sprite_2d.speed_scale = 1.0
-		elif is_kb_done and is_running:
+		elif is_kb_done and player.is_running:
 			print("Running")
 			current_speed = run_speed
 			print(current_speed)
@@ -34,16 +33,17 @@ func _on_physics_process(_delta: float) -> void:
 		current_speed = walk_speed
 		animated_sprite_2d.speed_scale = 1.0
 	
-	player.move_and_slide()
-	player.net_position = player.global_position
+	if is_multiplayer_authority():
+		player.move_and_slide()
+		player.net_position = player.global_position
+		player.velocity = player.player_direction * current_speed
 	
-	if Input.is_action_just_released("run"):
-		print("RUN RELEASED ", animated_sprite_2d.speed_scale)
-		current_speed = walk_speed
-		animated_sprite_2d.speed_scale = 1.0
+	#if Input.is_action_just_released("run"):
+		#print("RUN RELEASED ", animated_sprite_2d.speed_scale)
+		#current_speed = walk_speed
+		#animated_sprite_2d.speed_scale = 1.0
 		
-	player.velocity = player.player_direction * current_speed
-	if is_running:
+	if player.is_running:
 		match player.player_direction:
 			Vector2.UP:    animated_sprite_2d.play("run_u")
 			Vector2.RIGHT: animated_sprite_2d.play("run_r")

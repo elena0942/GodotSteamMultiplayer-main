@@ -20,6 +20,7 @@ const MAX_TRAIL_COUNT: int = 50
 @export var trail_color: Color = Color.WHITE
 @export var wait_time: float = 1.0
 @export var bear_damage: int
+@export var is_running: bool
 
 var hb_entered: bool
 var can_damage: bool
@@ -138,6 +139,7 @@ func set_building(new_building):
 
 # Multiplayer
 func _enter_tree() -> void:
+	$Key.hide()
 	print("node name: ", name, " | authority: ", get_multiplayer_authority(), " | my id: ", multiplayer.get_unique_id(), " | is_authority: ", is_multiplayer_authority())
 	set_multiplayer_authority(owner_peer_id)
 
@@ -147,6 +149,7 @@ func _physics_process(delta: float) -> void:
 		return
 	var direction: Vector2 = GameInputEvents.movement_input()
 	is_moving = direction != Vector2.ZERO
+	is_running = Input.is_action_pressed("run")
 	if direction != Vector2.ZERO:
 		player_direction = direction
 
