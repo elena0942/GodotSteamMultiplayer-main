@@ -22,11 +22,10 @@ func on_process(delta : float):
 	pass
 
 func knockback():
-	print("DEBUG: Player KB (hurt_state.gd)")
 	player = get_tree().get_first_node_in_group("PlayerPERSON") as CharacterBody2D #could be MP error
 	bear_player = get_tree().get_first_node_in_group("PlayerBEAR") as CharacterBody2D #could be MP error
 	
-	if player and bear_player:
+	if player and bear_player and is_multiplayer_authority():
 		
 		var kb_dir = (player.global_position - bear_player.global_position).normalized()
 		var kb_force := 600.0
@@ -52,21 +51,18 @@ func _on_hitbox_entered(area: Area2D) -> void:
 
 func _on_physics_process(delta: float) -> void:
 	var direction: Vector2 = GameInputEvents.movement_input()
-	if player:
+	if is_multiplayer_authority():
 		player.velocity = player.velocity.move_toward(Vector2.ZERO, 800.0 * delta)
-		
-		if direction == Vector2.LEFT:
-			hurt_anim = "hurt_l"
-		elif direction == Vector2.RIGHT:
-			hurt_anim = "hurt_r"
-		elif direction == Vector2.UP:
-			hurt_anim = "hurt_u"
-		elif direction == Vector2.DOWN:
-			hurt_anim = "hurt_d"
 			
 		if direction != Vector2.ZERO:
 			player.player_direction = direction
 		player.move_and_slide()
+		player.net_position = player.global_position
+	match player.player_direction:
+		Vector2.UP: hurt_anim = "hurt_u"
+		Vector2.RIGHT: hurt_anim = "hurt_r"
+		Vector2.LEFT: hurt_anim = "hurt_l"
+		Vector2.DOWN: hurt_anim = "hurt_d"
 
 func _on_next_transitions() -> void:
 	if not is_multiplayer_authority():
