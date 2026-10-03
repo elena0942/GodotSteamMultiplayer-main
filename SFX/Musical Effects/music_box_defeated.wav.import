@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bmphfmnk7pyxq"
+path="res://.godot/imported/music_box_defeated.wav-00e34cc3677d4662715ebc8fcde5aacd.sample"
+
+[deps]
+
+source_file="res://SFX/Musical Effects/music_box_defeated.wav"
+dest_files=["res://.godot/imported/music_box_defeated.wav-00e34cc3677d4662715ebc8fcde5aacd.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

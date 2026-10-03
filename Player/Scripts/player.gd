@@ -60,9 +60,9 @@ func _ready():
 	trail_timer.timeout.connect(update_trail)
 	trail_timer.start()
 	
-	for player in get_tree().get_nodes_in_group("PlayerBEAR"):
-		if player.has_node("SoundMarker"):
-			player.get_node("SoundMarker").hide()
+	for item in get_tree().get_nodes_in_group("PlayerBEAR"):
+		if item.has_node("SoundMarker"):
+			item.get_node("SoundMarker").hide()
 
 
 func _process(_delta: float) -> void:
@@ -96,7 +96,7 @@ func _on_pause_finished() -> void:
 
 func update_trail():
 	if player.is_moving:
-		$TrackPoints.TEXTURE_REPEAT_ENABLED
+#		$TrackPoints.TEXTURE_REPEAT_ENABLED
 		$TrackPoints.add_point(player.global_position)
 		if $TrackPoints.points.size() == MAX_TRAIL_COUNT:
 			$TrackPoints.remove_point(0)
@@ -148,6 +148,7 @@ func _enter_tree() -> void:
 	set_multiplayer_authority(owner_peer_id)
 
 func _physics_process(delta: float) -> void:
+	@warning_ignore("unused_parameter")
 	if not is_multiplayer_authority():
 		global_position = global_position.lerp(net_position, 0.25)
 		return
@@ -179,7 +180,8 @@ func _on_hitbox_entered(area: Area2D) -> void:
 			can_damage = true
 
 # Take damage
-func take_damage(bear_damage: int) -> void:
+func take_damage(bear_damage: float) -> void:
+	@warning_ignore("unused_parameter")
 	health -= bear_damage
 	print("took ", bear_damage, "damage. Health is now ", health)
 	set_health(health)
@@ -194,6 +196,7 @@ func die() -> bool:
 
 # Interaction key (I) actions
 func _input(event):
+	@warning_ignore("unused_parameter")
 	#if event.is_action_pressed("ui_inventory"):
 		#inventory_ui.visible = !inventory_ui.visible # Open/close each time "I" is pressed
 		#get_tree().paused = !get_tree().paused

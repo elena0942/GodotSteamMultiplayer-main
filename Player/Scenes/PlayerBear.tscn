@@ -19,7 +19,12 @@
 [ext_resource type="Texture2D" uid="uid://gfning3ba52s" path="res://Sprites/UI/e_small.png" id="17_g3jhl"]
 [ext_resource type="Script" uid="uid://cvufolmgm231g" path="res://Player/Scripts/progress_bar_BEAR.gd" id="18_gewab"]
 [ext_resource type="PackedScene" uid="uid://cxdkyy3omij2p" path="res://Player/Inventory/Scenes/inventory.tscn" id="19_ec8we"]
+[ext_resource type="Texture2D" uid="uid://b6dfrrp273f00" path="res://Sprites/Bear/green-circle-png-15.png" id="20_o1iy5"]
 [ext_resource type="Texture2D" uid="uid://cjxycoe5ibj0w" path="res://Sprites/Bear/sound_marker.png" id="20_ss45x"]
+[ext_resource type="AudioStream" uid="uid://cpdbjimt6d1ej" path="res://SFX/Footsteps_Essentials_NOX_SOUND/Footsteps_Grass/Footsteps_Grass_Walk/Footsteps_Walk_Grass_Mono_01.wav" id="22_qtntw"]
+[ext_resource type="AudioStream" uid="uid://kt5is8yt8tgm" path="res://SFX/Footsteps_Essentials_NOX_SOUND/Footsteps_Grass/Footsteps_Grass_Walk/Footsteps_Walk_Grass_Mono_02.wav" id="23_uwu18"]
+[ext_resource type="AudioStream" uid="uid://buvcpyu1sx4c2" path="res://SFX/Footsteps_Essentials_NOX_SOUND/Footsteps_Grass/Footsteps_Grass_Walk/Footsteps_Walk_Grass_Mono_03.wav" id="24_jsb02"]
+[ext_resource type="AudioStream" uid="uid://dknl3v15oal4c" path="res://SFX/Footsteps_Essentials_NOX_SOUND/Footsteps_Grass/Footsteps_Grass_Walk/Footsteps_Walk_Grass_Mono_04.wav" id="25_s26g4"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_w24id"]
 atlas = ExtResource("2_ss45x")
@@ -902,6 +907,14 @@ properties/3/path = NodePath(".:owner_peer_id")
 properties/3/spawn = true
 properties/3/replication_mode = 2
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_232yk"]
+playback_mode = 1
+streams_count = 4
+stream_0/stream = ExtResource("22_qtntw")
+stream_1/stream = ExtResource("23_uwu18")
+stream_2/stream = ExtResource("24_jsb02")
+stream_3/stream = ExtResource("25_s26g4")
+
 [node name="CharacterBody2D" type="CharacterBody2D" unique_id=1627313156 groups=["Player", "PlayerBEAR"]]
 process_mode = 3
 collision_layer = 2
@@ -972,8 +985,6 @@ position = Vector2(-0.333199, 0.033493)
 rotation = 1.5645651
 shape = SubResource("CapsuleShape2D_b32pr")
 
-[node name="KB Cooldown" type="Timer" parent="." unique_id=930956242]
-
 [node name="PlayerUI" type="Control" parent="." unique_id=1813022155 groups=["Player"]]
 z_index = 1
 custom_minimum_size = Vector2(150, 25)
@@ -1017,21 +1028,57 @@ grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(99, 214)
 
+[node name="TrackAbility" type="TextureProgressBar" parent="PlayerUI" unique_id=688778121]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -16.0
+offset_top = -22.0
+offset_right = 1283.0
+offset_bottom = 1277.0
+grow_horizontal = 0
+grow_vertical = 0
+scale = Vector2(-0.12296307, -0.12296307)
+max_value = 10.0
+step = 0.01
+value = 10.0
+fill_mode = 4
+texture_under = ExtResource("20_o1iy5")
+texture_progress = ExtResource("20_o1iy5")
+tint_progress = Color(0.12156863, 0.22745098, 0.12156863, 0.43529412)
+
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=2130983591]
 replication_config = SubResource("SceneReplicationConfig_ac4ik")
-
-[node name="TrailVisTimer" type="Timer" parent="." unique_id=679409068]
-wait_time = 5.0
 
 [node name="SoundMarker" type="Sprite2D" parent="." unique_id=245213174]
 position = Vector2(92.00001, 0)
 scale = Vector2(0.16489361, 0.1648936)
 texture = ExtResource("20_ss45x")
 
+[node name="Timers" type="Node2D" parent="." unique_id=57987799]
+
+[node name="Cooldown" type="Timer" parent="Timers" unique_id=253478963]
+wait_time = 10.0
+one_shot = true
+
+[node name="TrailVisTimer" type="Timer" parent="Timers" unique_id=679409068]
+wait_time = 5.0
+one_shot = true
+
+[node name="KB Cooldown" type="Timer" parent="Timers" unique_id=930956242]
+
+[node name="Sound" type="Node2D" parent="." unique_id=922156689]
+
+[node name="WalkFootstep_Grass" type="AudioStreamPlayer2D" parent="Sound" unique_id=1026042424]
+stream = SubResource("AudioStreamRandomizer_232yk")
+
 [connection signal="area_entered" from="DetectArea" to="." method="_on_hitbox_entered"]
 [connection signal="area_entered" from="DetectArea" to="StateMachine/Walk" method="_on_detect_area_area_entered"]
 [connection signal="area_entered" from="DetectArea" to="StateMachine/Hurt" method="_on_hitbox_entered"]
 [connection signal="area_exited" from="DetectArea" to="StateMachine/Hurt" method="_on_hitbox_exited"]
-[connection signal="timeout" from="KB Cooldown" to="StateMachine/Idle" method="_on_kb_cooldown_timeout"]
-[connection signal="timeout" from="KB Cooldown" to="StateMachine/Walk" method="_on_kb_cooldown_timeout"]
-[connection signal="timeout" from="KB Cooldown" to="StateMachine/Hurt" method="_on_kb_cooldown_timeout"]
+[connection signal="timeout" from="Timers/KB Cooldown" to="StateMachine/Idle" method="_on_kb_cooldown_timeout"]
+[connection signal="timeout" from="Timers/KB Cooldown" to="StateMachine/Walk" method="_on_kb_cooldown_timeout"]
+[connection signal="timeout" from="Timers/KB Cooldown" to="StateMachine/Hurt" method="_on_kb_cooldown_timeout"]

@@ -18,6 +18,7 @@ var hurt_anim : String
 var is_kb_done: bool
 
 func on_process(delta : float):
+	@warning_ignore("unused_parameter")
 	pass
 
 func knockback():

@@ -7,7 +7,7 @@ class_name HurtStateBear
 
 @onready var enemy = get_tree().get_first_node_in_group("PlayerPERSON")
 @onready var state_machine = get_parent()
-@onready var kb_cooldown := $"../../KB Cooldown"
+@onready var kb_cooldown := $"../../Timers/KB Cooldown"
 @onready var player_walk_script := $"../Walk"
 
 var player_direction: Vector2
@@ -19,6 +19,7 @@ var hurt_anim : String
 var is_kb_done: bool
 
 func on_process(delta : float):
+	@warning_ignore("unused_parameter")
 	pass
 
 
@@ -48,6 +49,7 @@ func _on_kb_cooldown_timeout():
 
 func _on_hitbox_entered(area: Area2D) -> void:
 	#print("DEBUG: area ", EnemyAttackArea)
+	@warning_ignore("unused_parameter")
 	pass
 
 func _on_physics_process(delta: float) -> void:

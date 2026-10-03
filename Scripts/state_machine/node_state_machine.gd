@@ -2,7 +2,7 @@ class_name NodeStateMachine
 extends Node
 
 @export var initial_node_state : NodeState
-
+@warning_ignore("unused_parameter")
 signal transition(new_state: String)
 
 var node_states : Dictionary = {}

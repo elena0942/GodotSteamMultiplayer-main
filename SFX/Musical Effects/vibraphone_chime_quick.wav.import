@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://cranajmj7t0w7"
+path="res://.godot/imported/vibraphone_chime_quick.wav-d3f2e0979a7df4e7b52713ef2b9664a1.sample"
+
+[deps]
+
+source_file="res://SFX/Musical Effects/vibraphone_chime_quick.wav"
+dest_files=["res://.godot/imported/vibraphone_chime_quick.wav-d3f2e0979a7df4e7b52713ef2b9664a1.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

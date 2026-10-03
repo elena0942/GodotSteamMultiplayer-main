@@ -11,20 +11,23 @@ func _on_process(_delta: float) -> void:
 	pass
 
 func _on_physics_process(_delta: float) -> void:
+	if Input.is_action_just_pressed("sneak"):
+		player.is_sneaking = !player.is_sneaking
 	var casted_player = player as CharacterBody2D
 	if casted_player == null:
 		return 
-
-	if player.player_direction == Vector2.UP:
-		animated_sprite_2d.play("idle_u")
-	elif player.player_direction == Vector2.RIGHT:
-		animated_sprite_2d.play("idle_r")
-	elif player.player_direction == Vector2.LEFT:
-		animated_sprite_2d.play("idle_l")
-	elif player.player_direction == Vector2.DOWN:
-		animated_sprite_2d.play("idle_d")
+	if player.is_sneaking:
+		match player.player_direction: #no sneak anim for bear yet
+			Vector2.UP:    animated_sprite_2d.play("idle_u")
+			Vector2.RIGHT: animated_sprite_2d.play("idle_r")
+			Vector2.LEFT:  animated_sprite_2d.play("idle_l")
+			Vector2.DOWN:  animated_sprite_2d.play("idle_d")
 	else:
-		animated_sprite_2d.play("idle_d")
+		match player.player_direction:
+			Vector2.UP:    animated_sprite_2d.play("idle_u")
+			Vector2.RIGHT: animated_sprite_2d.play("idle_r")
+			Vector2.LEFT:  animated_sprite_2d.play("idle_l")
+			Vector2.DOWN:  animated_sprite_2d.play("idle_d")
 
 func _on_next_transitions() -> void:
 	if player.is_moving and is_kb_done:

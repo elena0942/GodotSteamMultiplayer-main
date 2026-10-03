@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://cjh3m8eoa4kap"
+path="res://.godot/imported/sitar_mystery.wav-46871b8a981148cc7f75c9848f352e6b.sample"
+
+[deps]
+
+source_file="res://SFX/Musical Effects/sitar_mystery.wav"
+dest_files=["res://.godot/imported/sitar_mystery.wav-46871b8a981148cc7f75c9848f352e6b.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

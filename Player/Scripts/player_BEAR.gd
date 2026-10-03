@@ -6,19 +6,24 @@ extends CharacterBody2D
 #### SIGNALS ####
 
 signal healthChanged
-signal can_track(value: bool)
+#signal can_track(value: bool)
 
 #### VARIABLES ####
 
 @export var owner_peer_id: int
-@export var inventory_data: InventoryData
-@export var player_direction: Vector2
-@export var is_moving: bool
-@export var net_position: Vector2
-@export var track_cooldown: float = 1.0
-@export var wait_time: float = 1.0
 @export var bear_damage: int
 
+@export var player_direction: Vector2
+@export var net_position: Vector2
+
+@export var is_moving: bool
+@export var is_running: bool
+@export var is_sneaking: bool
+
+@export var track_cooldown: float = 1.0
+@export var wait_time: float = 1.0
+
+@export var inventory_data: InventoryData
 
 var can_damage: bool
 var interactable = null
@@ -29,25 +34,35 @@ var building: Node:
 	get:
 		return _building
 var is_dead: bool
+# Trail ability
 var trails_visible: bool = false
 var can_view_trails: bool = true
-var playerlist: Array = []
+# Hearing ability
 var target_player
 var angle: float = 0.0
+var ability_total_duration: float = 0.0
+var ability_time_remaining: float = 0.0
 
 @onready var player: CharacterBody2D
-@onready var health: float = max_health
-@onready var max_health: float = 500.0
+
 @onready var _hitbox: CollisionShape2D = $DetectArea/Hitbox
 @onready var inventory_ui = $PlayerUI/Inventory/InventoryUI
 @onready var camera: Camera2D = $Camera2D
 @onready var player_ui: Control = $PlayerUI
-@onready var trail_vis_timer: Timer = $TrailVisTimer
+@onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
+@onready var footstep_audio: AudioStreamPlayer2D = $Sound/WalkFootstep_Grass
+
+@onready var track_ability_ui = $PlayerUI/TrackAbility
 @onready var sound_marker: Sprite2D = $SoundMarker
 
+@onready var health: float = max_health
+@onready var max_health: float = 500.0
+
+@onready var trail_vis_timer: Timer = $Timers/TrailVisTimer
+@onready var cooldown: Timer = $Timers/Cooldown
 ##### DICTIONARIES AND ARRAYS #####
 
-
+var playerlist: Array = []
 
 ##### FUNCTIONS ######
 
@@ -77,8 +92,9 @@ func _ready():
 	health = max_health
 	#Global.set_player_reference(self) ## INVENTORY V1
 	await get_tree().process_frame
-	
 	trail_vis_timer.timeout.connect(_on_trail_vis_timer_timeout)
+	
+	#animated_sprite_2d.frame_changed.connect(_on_frame_changed)
 
 # Spawnpoints
 
@@ -97,6 +113,7 @@ func _ready():
 # Knockback and Health
 
 func _on_hitbox_entered(area: Area2D) -> void:
+	@warning_ignore("unused_parameter")
 	#bear_damage = 10.0
 	#can_damage = true
 	print("DB player entered bear HB")
@@ -117,7 +134,14 @@ func _physics_process(delta: float) -> void:
 		global_position = global_position.lerp(net_position, 0.25)
 		return
 	var direction: Vector2 = GameInputEvents.movement_input()
+	
+	if ability_time_remaining > 0.0:
+		ability_time_remaining = max(ability_time_remaining - delta, 0.0) #MP timing fix
+	track_ability_ui.value = ability_time_remaining
+	
 	is_moving = direction != Vector2.ZERO
+	is_running = Input.is_action_pressed("run") #only active while holding
+	
 	if direction != Vector2.ZERO:
 		player_direction = direction
 	
@@ -131,7 +155,7 @@ func set_health(value) -> void:
 	#health = get_node("PlayerUI/ProgressBar").value #connect to ui
 	health = clampi(value, 0.0, max_health)
 	healthChanged.emit(health, max_health)
-	if health <= 0:
+	if health <= 0.0:
 		die()
 
 # Take damage
@@ -148,6 +172,12 @@ func die() -> bool:
 	is_dead = true
 	return is_dead
 
+# Sounds
+#func _on_frame_changed() -> void:
+	#var frame = animated_sprite_2d.frame
+	#if animated_sprite_2d.animation == "walk_u" or animated_sprite_2d.animation == "walk_d" or animated_sprite_2d.animation == "walk_r" or animated_sprite_2d.animation == "walk_l":
+		#if frame == 1:# or frame == 3 or frame == 5:
+			#footstep_audio.play()
 # Hearing functionality
 func listen(delta):
 	player = get_tree().get_first_node_in_group("PlayerBEAR")
@@ -196,7 +226,7 @@ func find_nearest_player() -> Node:
 	if available_players.is_empty():
 		return null
 
-	var target_player = available_players[0]
+	target_player = available_players[0]
 	var nearest_dist = global_position.distance_squared_to(target_player.global_position)
 	
 	for i in range(1, available_players.size()):
@@ -209,41 +239,52 @@ func find_nearest_player() -> Node:
 
 # Track functionality
 func _on_trail_vis_timer_timeout():
-	#trails_visible = false
 	can_view_trails = false
-	for player in get_tree().get_nodes_in_group("Player"):
-		if player.has_node("TrackPoints"):
-			player.get_node("TrackPoints").hide()
-	var cooldown := get_tree().create_timer(10.0)
-	cooldown.timeout.connect(_on_trail_cooldown)
+	for item in get_tree().get_nodes_in_group("Player"):
+		if item.has_node("TrackPoints"):
+			item.get_node("TrackPoints").hide()
+	_on_trail_cooldown()
 
 func _on_trail_cooldown():
+	await cooldown.timeout
 	can_view_trails = true
+	cooldown.stop()
 
 func track():
+	if ability_time_remaining > 0.0:
+		return
+	elif is_running:
+		return
+	
 	can_view_trails = false
 	trail_vis_timer.start()
+	cooldown.start()
 	
-	for player in get_tree().get_nodes_in_group("Player"):
-		if player.has_node("TrackPoints"):
-			player.get_node("TrackPoints").show()
-			print("track works")
+	ability_total_duration = trail_vis_timer.wait_time + cooldown.wait_time
+	ability_time_remaining = ability_total_duration
+	track_ability_ui.max_value = ability_total_duration
+	
+	if !is_running:
+		for item in get_tree().get_nodes_in_group("Player"):
+			if item.has_node("TrackPoints"):
+				item.get_node("TrackPoints").show()
 
 # Interaction key (L click) actions
 func _process(delta):
+	@warning_ignore("unused_parameter")
 	if Input.is_action_just_pressed("interact"):
 		pass
 	elif Input.is_action_just_pressed("track") and can_view_trails:
 		track()
 	self.building = null
 
-
 # Interaction key (I) actions
 func _input(event):
+	@warning_ignore("unused_parameter")
 	#if event.is_action_pressed("ui_inventory"):
 		#inventory_ui.visible = !inventory_ui.visible # Open/close each time "I" is pressed
 		#get_tree().paused = !get_tree().paused
-		pass
+	pass
 
 func apply_item_effect(item):
 	match item["effect"]:

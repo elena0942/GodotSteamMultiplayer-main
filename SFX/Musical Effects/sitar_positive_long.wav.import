@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://ceiuu8baheset"
+path="res://.godot/imported/sitar_positive_long.wav-8420e37929c2145c19f9dca1d23e1382.sample"
+
+[deps]
+
+source_file="res://SFX/Musical Effects/sitar_positive_long.wav"
+dest_files=["res://.godot/imported/sitar_positive_long.wav-8420e37929c2145c19f9dca1d23e1382.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

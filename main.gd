@@ -63,6 +63,7 @@ func _on_host_pressed() -> void:
 
 
 func _input(event: InputEvent) -> void:
+	@warning_ignore("unused_parameter")
 	if Input.is_action_just_pressed("interact"):
 		print("node name: ", name, " | authority: ", get_multiplayer_authority(), " | my id: ", multiplayer.get_unique_id(), " | is_authority: ", is_multiplayer_authority())
 
@@ -110,6 +111,8 @@ func request_swap() -> void:
 	swap_player_type(chosen_id)
 
 func swap_player_type(peer_id: int) -> void:
+	if players.is_empty():
+		return
 	var old_player: Node = players[peer_id]
 	var saved_position: Vector2 = old_player.global_position #possibly unnecessary on scene swap
 
