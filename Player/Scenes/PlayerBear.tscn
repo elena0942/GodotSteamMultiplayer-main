@@ -15,8 +15,10 @@
 [ext_resource type="Script" uid="uid://daq5fwhfn4kk5" path="res://Player/Scripts/walk_state_BEAR.gd" id="13_ss45x"]
 [ext_resource type="Script" uid="uid://7mgusjr5y11a" path="res://Player/Scripts/attack_state_BEAR.gd" id="14_o1iy5"]
 [ext_resource type="Script" uid="uid://bj4ivt3blqewu" path="res://Player/Scripts/hurt_state_BEAR.gd" id="15_ss45x"]
+[ext_resource type="Script" uid="uid://c3l4p4b7fk1gt" path="res://Player/Scripts/run_state_BEAR.gd" id="16_uwu18"]
 [ext_resource type="Texture2D" uid="uid://c1xf6v2veajvp" path="res://Sprites/UI/e_big.png" id="16_ya8f8"]
 [ext_resource type="Texture2D" uid="uid://gfning3ba52s" path="res://Sprites/UI/e_small.png" id="17_g3jhl"]
+[ext_resource type="Script" uid="uid://bynqm42olrxvd" path="res://Player/Scripts/sneak_state_BEAR.gd" id="17_jsb02"]
 [ext_resource type="Script" uid="uid://cvufolmgm231g" path="res://Player/Scripts/progress_bar_BEAR.gd" id="18_gewab"]
 [ext_resource type="PackedScene" uid="uid://cxdkyy3omij2p" path="res://Player/Inventory/Scenes/inventory.tscn" id="19_ec8we"]
 [ext_resource type="Texture2D" uid="uid://b6dfrrp273f00" path="res://Sprites/Bear/green-circle-png-15.png" id="20_o1iy5"]
@@ -965,6 +967,16 @@ script = ExtResource("15_ss45x")
 player = NodePath("../..")
 animated_sprite_2d = NodePath("../../AnimatedSprite2D")
 
+[node name="Run" type="Node" parent="StateMachine" unique_id=1678618568 node_paths=PackedStringArray("player", "animated_sprite_2d")]
+script = ExtResource("16_uwu18")
+player = NodePath("../..")
+animated_sprite_2d = NodePath("../../AnimatedSprite2D")
+
+[node name="Sneak" type="Node" parent="StateMachine" unique_id=251257586 node_paths=PackedStringArray("player", "animated_sprite_2d")]
+script = ExtResource("17_jsb02")
+player = NodePath("../..")
+animated_sprite_2d = NodePath("../../AnimatedSprite2D")
+
 [node name="Key" type="Sprite2D" parent="." unique_id=46848297 groups=["Player"]]
 modulate = Color(0.223529, 0.760784, 0.756863, 1)
 texture_filter = 1
@@ -1049,6 +1061,21 @@ fill_mode = 4
 texture_under = ExtResource("20_o1iy5")
 texture_progress = ExtResource("20_o1iy5")
 tint_progress = Color(0.12156863, 0.22745098, 0.12156863, 0.43529412)
+
+[node name="StateLabel" type="Label" parent="PlayerUI" unique_id=1445263892]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -47.0
+offset_top = -99.0
+offset_right = 48.0
+offset_bottom = -76.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "state"
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=2130983591]
 replication_config = SubResource("SceneReplicationConfig_ac4ik")

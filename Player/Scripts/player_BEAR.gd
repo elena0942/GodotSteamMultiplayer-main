@@ -12,6 +12,9 @@ signal healthChanged
 
 @export var owner_peer_id: int
 @export var bear_damage: int
+@export var run_speed: int = 250
+@export var walk_speed: int = 200
+@export var sneak_speed: int = 160
 
 @export var player_direction: Vector2
 @export var net_position: Vector2
@@ -19,6 +22,7 @@ signal healthChanged
 @export var is_moving: bool
 @export var is_running: bool
 @export var is_sneaking: bool
+@export var is_kb_done: bool
 
 @export var track_cooldown: float = 1.0
 @export var wait_time: float = 1.0
@@ -60,6 +64,7 @@ var ability_time_remaining: float = 0.0
 
 @onready var trail_vis_timer: Timer = $Timers/TrailVisTimer
 @onready var cooldown: Timer = $Timers/Cooldown
+
 ##### DICTIONARIES AND ARRAYS #####
 
 var playerlist: Array = []
@@ -94,8 +99,7 @@ func _ready():
 	await get_tree().process_frame
 	trail_vis_timer.timeout.connect(_on_trail_vis_timer_timeout)
 	
-	#animated_sprite_2d.frame_changed.connect(_on_frame_changed)
-
+	is_kb_done = true
 # Spawnpoints
 
 	#if Global.spawn_name != "": 
@@ -141,6 +145,8 @@ func _physics_process(delta: float) -> void:
 	
 	is_moving = direction != Vector2.ZERO
 	is_running = Input.is_action_pressed("run") #only active while holding
+	if Input.is_action_just_pressed("sneak"):
+		is_sneaking = !is_sneaking
 	
 	if direction != Vector2.ZERO:
 		player_direction = direction

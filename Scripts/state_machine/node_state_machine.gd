@@ -10,6 +10,8 @@ var node_states : Dictionary = {}
 @export var current_node_state_name : String
 var parent_node_name: String
 
+@onready var state_label: Label = $"../PlayerUI/StateLabel"
+
 
 func _ready() -> void:
 	parent_node_name = get_parent().name
@@ -53,5 +55,6 @@ func transition_to(node_state_name : String) -> void:
 	
 	current_node_state = new_node_state
 	current_node_state_name = current_node_state.name.to_lower()
-	print("Current State: ", current_node_state_name)
+	state_label.text = str(current_node_state_name)
+	#print("Current State: ", current_node_state_name)
 	

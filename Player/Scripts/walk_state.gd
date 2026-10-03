@@ -33,24 +33,12 @@ func _on_physics_process(_delta: float) -> void:
 		player.move_and_slide()
 		player.net_position = player.global_position
 		player.velocity = player.player_direction * current_speed
-	
-	#if Input.is_action_just_released("run"):
-		#print("RUN RELEASED ", animated_sprite_2d.speed_scale)
-		#current_speed = walk_speed
-		#animated_sprite_2d.speed_scale = 1.0
 		
-	if player.is_running:
-		match player.player_direction:
-			Vector2.UP:    animated_sprite_2d.play("run_u")
-			Vector2.RIGHT: animated_sprite_2d.play("run_r")
-			Vector2.LEFT:  animated_sprite_2d.play("run_l")
-			Vector2.DOWN:  animated_sprite_2d.play("run_d")
-	else:
-		match player.player_direction:
-			Vector2.UP:    animated_sprite_2d.play("walk_u")
-			Vector2.RIGHT: animated_sprite_2d.play("walk_r")
-			Vector2.LEFT:  animated_sprite_2d.play("walk_l")
-			Vector2.DOWN:  animated_sprite_2d.play("walk_d")
+	match player.player_direction:
+		Vector2.UP:    animated_sprite_2d.play("walk_u")
+		Vector2.RIGHT: animated_sprite_2d.play("walk_r")
+		Vector2.LEFT:  animated_sprite_2d.play("walk_l")
+		Vector2.DOWN:  animated_sprite_2d.play("walk_d")
 
 func _on_hitbox_entered(area: Area2D) -> void:
 	if !area.is_in_group("PlayerBEAR"):
@@ -66,7 +54,7 @@ func _on_hitbox_entered(area: Area2D) -> void:
 			return
 
 func _on_next_transitions() -> void:
-	if not player.is_moving:
+	if !player.is_moving:
 		transition.emit("Idle")
 
 
@@ -116,7 +104,6 @@ func _on_next_transitions() -> void:
 @warning_ignore("unused_parameter")
 func _on_detect_area_area_entered(area: Area2D) -> void:
 	pass
-
 
 func _on_enter() -> void:
 	is_running = false

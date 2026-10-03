@@ -16,7 +16,7 @@ var is_attacking: bool
 var kb_just_happened: bool
 var kb_idle_time : float = 1.0
 var hurt_anim : String
-var is_kb_done: bool
+#var is_kb_done: bool
 
 func on_process(delta : float):
 	@warning_ignore("unused_parameter")
@@ -24,9 +24,10 @@ func on_process(delta : float):
 
 
 func knockback():
-	#print("DEBUG: Player KB (hurt_state.gd)")
 	player = get_tree().get_first_node_in_group("PlayerBEAR") as CharacterBody2D
 	enemy = get_tree().get_first_node_in_group("PlayerPERSON") as CharacterBody2D
+	if get_tree().get_nodes_in_group("PlayerPERSON").size() > 1:
+		push_warning("Error: More than one player in group PlayerPERSON!") #will throw error for MP
 	
 	if player and enemy:
 		var kb_dir = (player.global_position - enemy.global_position).normalized()
@@ -43,13 +44,10 @@ func knockback():
 func _on_kb_cooldown_timeout():
 	transition.emit("Idle")
 	kb_just_happened = false
-	is_kb_done = true
-	return is_kb_done
-	
+	player.is_kb_done = true
+	return player.is_kb_done
 
 func _on_hitbox_entered(area: Area2D) -> void:
-	#print("DEBUG: area ", EnemyAttackArea)
-	@warning_ignore("unused_parameter")
 	pass
 
 func _on_physics_process(delta: float) -> void:
@@ -58,25 +56,22 @@ func _on_physics_process(delta: float) -> void:
 	var direction: Vector2 = GameInputEvents.movement_input()
 	if player:
 		player.velocity = player.velocity.move_toward(Vector2.ZERO, 800.0 * delta)
-		
-		if direction == Vector2.LEFT:
-			hurt_anim = "hurt_l"
-		elif direction == Vector2.RIGHT:
-			hurt_anim = "hurt_r"
-		elif direction == Vector2.UP:
-			hurt_anim = "hurt_u"
-		elif direction == Vector2.DOWN:
-			hurt_anim = "hurt_d"
-			
 		if direction != Vector2.ZERO:
 			player.player_direction = direction
 		player.move_and_slide()
+	
+	match player.player_direction: #no hurt anim for bear yet
+		Vector2.UP:    animated_sprite_2d.play("hurt_u")
+		Vector2.RIGHT: animated_sprite_2d.play("hurt_r")
+		Vector2.LEFT:  animated_sprite_2d.play("hurt_l")
+		Vector2.DOWN:  animated_sprite_2d.play("hurt_d")
 
 func _on_next_transitions() -> void:
 	if not player.is_multiplayer_authority():
 		return
 
 func Enter() -> void:
+	player.is_kb_done = false
 	knockback()
 
 func transition_to():
