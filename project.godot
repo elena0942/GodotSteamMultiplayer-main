@@ -18,6 +18,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 Networking="*uid://cbff071ao1x3t"
+Global="*uid://2ov1cg33jm0m"
 
 [debug]
 
@@ -36,6 +37,7 @@ project/assembly_name="GodotSteamMultiplayer"
 
 PlayerPERSON=""
 PlayerBEAR=""
+InteractableEnvironment=""
 
 [input]
 

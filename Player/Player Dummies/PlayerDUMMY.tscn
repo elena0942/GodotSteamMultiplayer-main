@@ -928,6 +928,9 @@ properties/3/replication_mode = 2
 properties/4/path = NodePath(".:is_running")
 properties/4/spawn = true
 properties/4/replication_mode = 2
+properties/5/path = NodePath(".:is_muddy")
+properties/5/spawn = true
+properties/5/replication_mode = 2
 
 [node name="CharacterBody2D" type="CharacterBody2D" unique_id=1178074239 node_paths=PackedStringArray("player") groups=["Player", "PlayerPERSON"]]
 process_mode = 3
@@ -976,5 +979,11 @@ z_index = -1
 texture_repeat = 2
 texture = ExtResource("20_emhcd")
 texture_mode = 1
+
+[node name="Timers" type="Node" parent="." unique_id=481899905]
+
+[node name="MudWearOff" type="Timer" parent="Timers" unique_id=1165987177]
+wait_time = 8.0
+one_shot = true
 
 [connection signal="area_entered" from="DetectArea" to="." method="_on_hitbox_entered"]

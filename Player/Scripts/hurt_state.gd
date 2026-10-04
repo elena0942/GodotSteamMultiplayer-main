@@ -6,7 +6,7 @@ class_name HurtState
 @export var walk_speed: int = 170
 
 @onready var state_machine = get_parent()
-@onready var kb_cooldown := $"../../KB Cooldown"
+@onready var kb_cooldown := $"../../Timers/KB Cooldown"
 @onready var player_walk_script := $"../Walk"
 
 var player_direction: Vector2

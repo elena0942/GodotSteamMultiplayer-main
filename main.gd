@@ -62,10 +62,10 @@ func _on_host_pressed() -> void:
 		#initialize_player(node.name.to_int(), node)
 
 
-func _input(event: InputEvent) -> void:
-	@warning_ignore("unused_parameter")
-	if Input.is_action_just_pressed("interact"):
-		print("node name: ", name, " | authority: ", get_multiplayer_authority(), " | my id: ", multiplayer.get_unique_id(), " | is_authority: ", is_multiplayer_authority())
+#func _input(event: InputEvent) -> void:
+	#@warning_ignore("unused_parameter")
+	#if Input.is_action_just_pressed("interact"):
+		#print("node name: ", name, " | authority: ", get_multiplayer_authority(), " | my id: ", multiplayer.get_unique_id(), " | is_authority: ", is_multiplayer_authority())
 
 func _on_randomize_bear_pressed() -> void:
 	if multiplayer.is_server():

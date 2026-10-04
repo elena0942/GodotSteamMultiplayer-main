@@ -988,6 +988,9 @@ properties/3/replication_mode = 2
 properties/4/path = NodePath(".:is_running")
 properties/4/spawn = true
 properties/4/replication_mode = 2
+properties/5/path = NodePath(".:is_muddy")
+properties/5/spawn = true
+properties/5/replication_mode = 2
 
 [node name="CharacterBody2D" type="CharacterBody2D" unique_id=1178074239 node_paths=PackedStringArray("player") groups=["Player", "PlayerPERSON"]]
 process_mode = 3
@@ -1057,11 +1060,6 @@ visibility_layer = 7
 position = Vector2(-0.333199, 0.033493)
 shape = SubResource("CapsuleShape2D_b32pr")
 
-[node name="TrailTimer" type="Timer" parent="." unique_id=941502241]
-wait_time = 0.75
-
-[node name="KB Cooldown" type="Timer" parent="." unique_id=930956242]
-
 [node name="PlayerUI" type="Control" parent="." unique_id=1813022155]
 z_index = 1
 custom_minimum_size = Vector2(150, 25)
@@ -1130,12 +1128,24 @@ texture_repeat = 2
 texture = ExtResource("20_qqeun")
 texture_mode = 1
 
+[node name="Timers" type="Node" parent="." unique_id=888034485]
+
+[node name="TrailTimer" type="Timer" parent="Timers" unique_id=941502241]
+wait_time = 0.75
+
+[node name="KB Cooldown" type="Timer" parent="Timers" unique_id=930956242]
+
+[node name="MudWearOff" type="Timer" parent="Timers" unique_id=995420322]
+wait_time = 3.0
+one_shot = true
+
 [connection signal="area_entered" from="DetectArea" to="." method="_on_hitbox_entered"]
 [connection signal="area_entered" from="DetectArea" to="StateMachine/Idle" method="_on_hitbox_entered"]
 [connection signal="area_entered" from="DetectArea" to="StateMachine/Walk" method="_on_detect_area_area_entered"]
 [connection signal="area_entered" from="DetectArea" to="StateMachine/Walk" method="_on_hitbox_entered"]
 [connection signal="area_entered" from="DetectArea" to="StateMachine/Hurt" method="_on_hitbox_entered"]
+[connection signal="area_exited" from="DetectArea" to="." method="_on_hitbox_exited"]
 [connection signal="area_exited" from="DetectArea" to="StateMachine/Hurt" method="_on_hitbox_exited"]
-[connection signal="timeout" from="KB Cooldown" to="StateMachine/Idle" method="_on_kb_cooldown_timeout"]
-[connection signal="timeout" from="KB Cooldown" to="StateMachine/Walk" method="_on_kb_cooldown_timeout"]
-[connection signal="timeout" from="KB Cooldown" to="StateMachine/Hurt" method="_on_kb_cooldown_timeout"]
+[connection signal="timeout" from="Timers/KB Cooldown" to="StateMachine/Idle" method="_on_kb_cooldown_timeout"]
+[connection signal="timeout" from="Timers/KB Cooldown" to="StateMachine/Walk" method="_on_kb_cooldown_timeout"]
+[connection signal="timeout" from="Timers/KB Cooldown" to="StateMachine/Hurt" method="_on_kb_cooldown_timeout"]

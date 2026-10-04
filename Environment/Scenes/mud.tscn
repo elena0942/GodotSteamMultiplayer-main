@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://b26hcatht7r88"]
+
+[ext_resource type="Texture2D" uid="uid://bb1hmbipxgow1" path="res://icon.svg" id="1_1x5n5"]
+[ext_resource type="Script" uid="uid://ttt8huj1ogss" path="res://Environment/Scripts/mud.gd" id="1_6oxrn"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_232yk"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_1x5n5")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_232yk"]
+radius = 72.03471
+
+[node name="Mud" type="StaticBody2D" unique_id=1840137189 groups=["InteractableEnvironment"]]
+script = ExtResource("1_6oxrn")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=343316833]
+scale = Vector2(0.48437503, 0.48437503)
+sprite_frames = SubResource("SpriteFrames_232yk")
+
+[node name="Timers" type="Node2D" parent="." unique_id=1758331563]
+
+[node name="MudUse" type="Timer" parent="Timers" unique_id=508386074]
+wait_time = 2.0
+one_shot = true
+
+[node name="Hitbox" type="Area2D" parent="." unique_id=1977095531 groups=["InteractableEnvironment"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=805399551]
+shape = SubResource("CircleShape2D_232yk")

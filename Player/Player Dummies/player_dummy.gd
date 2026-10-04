@@ -21,6 +21,7 @@ const MAX_TRAIL_COUNT: int = 50
 @export var wait_time: float = 1.0
 @export var bear_damage: int
 @export var is_running: bool
+@export var is_muddy: bool = false
 
 var hb_entered: bool
 var can_damage: bool
@@ -31,6 +32,7 @@ var removing: bool = false
 @onready var max_health: float = 100.0
 @onready var _hitbox: CollisionShape2D = $DetectArea/Hitbox
 @onready var trail_timer = $TrailTimer
+@onready var mud_wear_off: Timer = $Timers/MudWearOff
 
 ##### FUNCTIONS ######
 
@@ -38,24 +40,34 @@ func _ready():
 	healthChanged.emit(100.0, 100.0)
 	net_position = global_position
 	health = max_health
-	#Global.set_player_reference(self) ## INVENTORY V1
 	await get_tree().process_frame
-	
-	# Tracking
+
 	$TrackPoints.self_modulate = trail_color
 	$TrackPoints.visible = false
 	trail_timer.timeout.connect(update_trail)
 	trail_timer.start()
-	
+
 	for item in get_tree().get_nodes_in_group("PlayerBEAR"):
 		if item.has_node("SoundMarker"):
 			item.get_node("SoundMarker").hide()
 
+	if is_multiplayer_authority():
+		is_muddy = randi_range(0, 1) == 0
+		if is_muddy:
+			mud_wear_off.timeout.connect(_on_mud_wear_off)
+			mud_wear_off.start()
+			print("me so moddy! timer: ", mud_wear_off.wait_time)
+		else:
+			print("me clean")
+
+func _on_mud_wear_off() -> void:
+	print("mud wore off")
+	is_muddy = false
 
 func _process(_delta: float) -> void:
 	# Tracking functionality
 	
-	if player.is_moving:
+	if is_moving:
 		removing = false
 		trail_timer.paused = false
 	else:
@@ -69,17 +81,20 @@ func _on_trail_node_visible() -> void:
 	$TrackPoints.show()
 
 func _on_trail_node_invisible() -> void:
-	$TrackPoints.hide()
+	if is_muddy:
+		$TrackPoints.hide()
 
 func _on_pause_finished() -> void:
-	if player.is_moving:
+	if is_moving:
 		return
 	trail_timer.paused = false
 	removing = true
 
 func update_trail():
-	if player.is_moving:
-		$TrackPoints.add_point(player.global_position)
+	if is_muddy:
+		return
+	if is_moving:
+		$TrackPoints.add_point(global_position)
 		if $TrackPoints.points.size() == MAX_TRAIL_COUNT:
 			$TrackPoints.remove_point(0)
 	elif removing:
@@ -87,6 +102,7 @@ func update_trail():
 			$TrackPoints.remove_point(0)
 	else:
 		removing = false
+		print("ME MODDY!")
 
 # Multiplayer
 func _enter_tree() -> void:

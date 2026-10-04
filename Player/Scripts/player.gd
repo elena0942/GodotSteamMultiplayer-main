@@ -6,22 +6,31 @@ extends CharacterBody2D
 #### SIGNALS ####
 
 signal healthChanged
+signal itemInteract(bool)
+signal ownerPeerId(int)
 
 #### VARIABLES AND CONSTANTS ####
 
 const MAX_TRAIL_COUNT: int = 50
 
 @export var player: Player
-@export var owner_peer_id: int
 @export var inventory_data: InventoryData
-@export var player_direction: Vector2
-@export var is_moving: bool
-@export var net_position: Vector2
-@export var trail_color: Color = Color.WHITE
-@export var wait_time: float = 1.0
-@export var bear_damage: int
-@export var is_running: bool
 
+@export var player_direction: Vector2
+@export var net_position: Vector2
+
+@export var owner_peer_id: int
+@export var bear_damage: int
+
+@export var trail_color: Color = Color.WHITE
+
+@export var wait_time: float = 1.0
+
+@export var is_running: bool
+@export var is_moving: bool
+@export var is_muddy: bool = false
+
+var current_interactable: Node = null
 var hb_entered: bool
 var can_damage: bool
 var interactable = null
@@ -41,7 +50,8 @@ var removing: bool = false
 @onready var camera: Camera2D = $Camera2D
 @onready var player_ui: Control = $PlayerUI
 @onready var state_machine: Node = $StateMachine
-@onready var trail_timer = $TrailTimer
+@onready var trail_timer = $Timers/TrailTimer
+@onready var mud_wear_off: Timer = $Timers/MudWearOff
 
 ##### FUNCTIONS ######
 
@@ -60,6 +70,7 @@ func _ready():
 	trail_timer.timeout.connect(update_trail)
 	trail_timer.start()
 	
+	# Sound
 	for item in get_tree().get_nodes_in_group("PlayerBEAR"):
 		if item.has_node("SoundMarker"):
 			item.get_node("SoundMarker").hide()
@@ -67,9 +78,11 @@ func _ready():
 
 func _process(_delta: float) -> void:
 	# Interaction key (L click) actions
-	if Input.is_action_just_pressed("interact"):
+	if Input.is_action_just_pressed("interact") and current_interactable == null:
 		self.building = null
-	
+	elif Input.is_action_just_pressed("interact") and current_interactable != null:
+		#print("Interacting with: ", current_interactable)
+		Global.playerInteracted.emit(current_interactable.name, self)
 	# Tracking functionality
 	
 	if player.is_moving:
@@ -95,16 +108,18 @@ func _on_pause_finished() -> void:
 	removing = true
 
 func update_trail():
-	if player.is_moving:
-#		$TrackPoints.TEXTURE_REPEAT_ENABLED
-		$TrackPoints.add_point(player.global_position)
-		if $TrackPoints.points.size() == MAX_TRAIL_COUNT:
-			$TrackPoints.remove_point(0)
-	elif removing:
-		if not $TrackPoints.points.is_empty():
-			$TrackPoints.remove_point(0)
+	if !player.is_muddy:
+		if player.is_moving:
+			$TrackPoints.add_point(player.global_position)
+			if $TrackPoints.points.size() == MAX_TRAIL_COUNT:
+				$TrackPoints.remove_point(0)
+		elif removing:
+			if not $TrackPoints.points.is_empty():
+				$TrackPoints.remove_point(0)
+		else:
+			removing = false
 	else:
-		removing = false
+		print("ME MODDY!")
 
 
 # Inventory
@@ -170,7 +185,8 @@ func _on_hitbox_entered(area: Area2D) -> void:
 	bear_damage = 10.0
 	can_damage = true
 	hb_entered = true
-
+	
+	print("Area entered: ", area.get_groups())
 	if area.is_in_group("PlayerBEAR"):
 		if can_damage:
 			state_machine.transition_to("Hurt")
@@ -178,6 +194,15 @@ func _on_hitbox_entered(area: Area2D) -> void:
 			player.take_damage(bear_damage)
 			await get_tree().create_timer(wait_time).timeout
 			can_damage = true
+	elif area.is_in_group("InteractableEnvironment"):
+		current_interactable = area.get_parent()
+	else:
+		return
+
+func _on_hitbox_exited(area: Area2D) -> void:
+	if area.get_parent() == current_interactable:
+		current_interactable = null
+		print("DB: ", current_interactable)
 
 # Take damage
 func take_damage(bear_damage: float) -> void:
@@ -195,12 +220,11 @@ func die() -> bool:
 	return is_dead
 
 # Interaction key (I) actions
-func _input(event):
-	@warning_ignore("unused_parameter")
+func _input(event: InputEvent) -> void:
+	pass
 	#if event.is_action_pressed("ui_inventory"):
 		#inventory_ui.visible = !inventory_ui.visible # Open/close each time "I" is pressed
 		#get_tree().paused = !get_tree().paused
-	pass
 
 func apply_item_effect(item):
 	match item["effect"]:

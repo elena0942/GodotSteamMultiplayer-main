@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://ceuqqq3clw6qn" path="res://main.gd" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://dpp0tjgjiep6r" path="res://Scenes/background.tscn" id="2_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://dn24yjxblcwgf" path="res://Player/Player Dummies/PlayerDUMMY.tscn" id="3_h2yge"]
+[ext_resource type="PackedScene" uid="uid://b26hcatht7r88" path="res://Environment/Scenes/mud.tscn" id="4_1bvp3"]
 
 [node name="Main" type="Node2D" unique_id=491597528]
 script = ExtResource("1_ig7tw")
@@ -47,6 +48,12 @@ position = Vector2(482, 486)
 position = Vector2(725, 510)
 
 [node name="BackgroundMusic" type="AudioStreamPlayer" parent="." unique_id=1616542861]
+
+[node name="Mud" parent="." unique_id=1840137189 instance=ExtResource("4_1bvp3")]
+position = Vector2(549, 427)
+
+[node name="Mud2" parent="." unique_id=1170079721 instance=ExtResource("4_1bvp3")]
+position = Vector2(783, 333)
 
 [connection signal="pressed" from="CanvasLayer/VBoxContainer/Host" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="CanvasLayer/VBoxContainer/Randomize Bear" to="." method="_on_randomize_bear_pressed"]

@@ -228,7 +228,8 @@ func listen(delta):
 		sound_marker.flip_h = false
 
 func find_nearest_player() -> Node:
-	var available_players = get_tree().get_nodes_in_group("PlayerPERSON").filter(func(p): return p.owner_peer_id != 0) #adds an auth gate to the script
+	var available_players = get_tree().get_nodes_in_group("PlayerPERSON").filter(
+		func(p): return p is CharacterBody2D and p.owner_peer_id != 0 and not p.is_muddy) #adds an auth gate to the script, filtering out NPCs and muddy people
 	if available_players.is_empty():
 		return null
 

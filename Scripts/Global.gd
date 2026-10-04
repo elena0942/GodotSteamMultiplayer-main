@@ -7,10 +7,11 @@ var player_node: Node = null
 var inventory = []
 
 signal inventory_updated
+signal playerInteracted(object_id: String, player: CharacterBody2D)
 
 var spawnable_items = [
-	{"type": "consumable", "name": "Berry", "effect": "_", "texture": preload("res://Crops/crops/Singular Crops/1px/2.png")},
-	{"type": "consumable", "name": "Orange", "effect": "_", "texture": preload("res://Crops/crops/Singular Crops/1px/13.png")}
+	{"type": "consumable", "name": "Berry", "effect": "_", "texture": null},
+	{"type": "consumable", "name": "Orange", "effect": "_", "texture": null}
 ]
 
 @onready var inventory_slot_scene = preload("res://player/Inventory/Scenes/inventory_slot.tscn")
