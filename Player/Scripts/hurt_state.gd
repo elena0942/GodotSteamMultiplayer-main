@@ -22,7 +22,6 @@ func on_process(delta : float):
 
 func knockback():
 	var bear_player = get_tree().get_first_node_in_group("PlayerBEAR") as CharacterBody2D #could be MP error only if more than 1 bear
-	
 	if player and bear_player and is_multiplayer_authority():
 		
 		var kb_dir = (player.global_position - bear_player.global_position).normalized()
