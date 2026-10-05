@@ -45,6 +45,7 @@ func _on_kb_cooldown_timeout():
 	
 
 func _on_hitbox_entered(area: Area2D) -> void:
+	var bear_player = get_tree().get_first_node_in_group("PlayerBEAR")
 	if area.is_in_group("BearAttackArea"):
 		knockback()
 

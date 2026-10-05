@@ -1000,7 +1000,9 @@ position = Vector2(-0.333199, 0.033493)
 rotation = 1.5645651
 shape = SubResource("CapsuleShape2D_b32pr")
 
-[node name="Attack" type="CollisionShape2D" parent="DetectArea" unique_id=504618996 groups=["BearAttackArea"]]
+[node name="AttackArea" type="Area2D" parent="." unique_id=2111662973 groups=["BearAttackArea"]]
+
+[node name="Attack" type="CollisionShape2D" parent="AttackArea" unique_id=504618996]
 position = Vector2(-80, 1)
 shape = SubResource("RectangleShape2D_232yk")
 

@@ -130,7 +130,8 @@ func _on_hitbox_entered(area: Area2D) -> void:
 	can_damage = true
 	hb_entered = true
 
-	if area.is_in_group("PlayerBEAR"):
+	if area.is_in_group("BearAttackArea"):
+		print("works")
 		if can_damage:
 			can_damage = false
 			player.take_damage(bear_damage)

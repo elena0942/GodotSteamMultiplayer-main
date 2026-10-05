@@ -50,7 +50,7 @@ var ability_time_remaining: float = 0.0
 
 @onready var player: CharacterBody2D
 
-@onready var _attack_area: CollisionShape2D = $DetectArea/Attack
+@onready var _attack_area: CollisionShape2D = $AttackArea/Attack
 @onready var _hitbox: CollisionShape2D = $DetectArea/Hitbox
 @onready var inventory_ui = $PlayerUI/Inventory/InventoryUI
 @onready var camera: Camera2D = $Camera2D
