@@ -994,6 +994,8 @@ properties/5/replication_mode = 2
 
 [node name="CharacterBody2D" type="CharacterBody2D" unique_id=1178074239 node_paths=PackedStringArray("player") groups=["Player", "PlayerPERSON"]]
 process_mode = 3
+y_sort_enabled = true
+position = Vector2(0, -20)
 collision_layer = 2
 collision_mask = 15
 script = ExtResource("1_opueo")
@@ -1052,7 +1054,7 @@ texture = ExtResource("11_b32pr")
 [node name="KeyPrompt" type="AnimationPlayer" parent="." unique_id=704744079 groups=["Player"]]
 libraries/ = SubResource("AnimationLibrary_d4g0h")
 
-[node name="DetectArea" type="Area2D" parent="." unique_id=697093498 groups=["Player"]]
+[node name="DetectArea" type="Area2D" parent="." unique_id=697093498 groups=["Player", "PlayerHB"]]
 collision_mask = 7
 
 [node name="Hitbox" type="CollisionShape2D" parent="DetectArea" unique_id=123508072 groups=["Player"]]

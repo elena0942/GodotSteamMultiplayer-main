@@ -34,3 +34,6 @@ one_shot = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=805399551]
 shape = SubResource("CircleShape2D_232yk")
+
+[connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
+[connection signal="area_exited" from="Hitbox" to="." method="_on_hitbox_area_exited"]

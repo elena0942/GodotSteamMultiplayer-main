@@ -16,16 +16,11 @@ func _on_physics_process(_delta: float) -> void:
 	if casted_player == null:
 		return 
 
-	if player.player_direction == Vector2.UP:
-		animated_sprite_2d.play("idle_u")
-	elif player.player_direction == Vector2.RIGHT:
-		animated_sprite_2d.play("idle_r")
-	elif player.player_direction == Vector2.LEFT:
-		animated_sprite_2d.play("idle_l")
-	elif player.player_direction == Vector2.DOWN:
-		animated_sprite_2d.play("idle_d")
-	else:
-		animated_sprite_2d.play("idle_d")
+	match player.player_direction:
+		Vector2.UP: animated_sprite_2d.play("idle_u")
+		Vector2.DOWN: animated_sprite_2d.play("idle_d")
+		Vector2.RIGHT: animated_sprite_2d.play("idle_r")
+		Vector2.LEFT: animated_sprite_2d.play("idle_l")
 
 func _on_hitbox_entered(area: Area2D) -> void:
 	if !area.is_in_group("PlayerBEAR"):
@@ -37,7 +32,6 @@ func _on_hitbox_entered(area: Area2D) -> void:
 		if bear_hitbox:
 			transition.emit("Hurt")
 		else:
-			print("DB walk state: not bear HB")
 			return
 
 func _on_next_transitions() -> void:

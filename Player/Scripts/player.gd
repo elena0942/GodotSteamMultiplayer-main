@@ -6,7 +6,6 @@ extends CharacterBody2D
 #### SIGNALS ####
 
 signal healthChanged
-signal itemInteract(bool)
 signal ownerPeerId(int)
 
 #### VARIABLES AND CONSTANTS ####
@@ -33,7 +32,6 @@ const MAX_TRAIL_COUNT: int = 50
 var current_interactable: Node = null
 var hb_entered: bool
 var can_damage: bool
-var interactable = null
 var _building: Node = null
 var building: Node:
 	set(value):
@@ -42,6 +40,8 @@ var building: Node:
 		return _building
 var is_dead: bool
 var removing: bool = false
+var can_interact: bool
+var is_attacking: bool = false
 
 @onready var health: float = max_health
 @onready var max_health: float = 100.0
@@ -77,12 +77,13 @@ func _ready():
 
 
 func _process(_delta: float) -> void:
-	# Interaction key (L click) actions
+	# Interaction key actions
+	
 	if Input.is_action_just_pressed("interact") and current_interactable == null:
 		self.building = null
 	elif Input.is_action_just_pressed("interact") and current_interactable != null:
-		#print("Interacting with: ", current_interactable)
 		Global.playerInteracted.emit(current_interactable.name, self)
+	
 	# Tracking functionality
 	
 	if player.is_moving:
@@ -141,7 +142,6 @@ func set_building(new_building):
 		$KeyPrompt.stop()
 	_building = new_building
 
-
 # Spawnpoints
 
 	#if Global.spawn_name != "": 
@@ -187,7 +187,7 @@ func _on_hitbox_entered(area: Area2D) -> void:
 	hb_entered = true
 	
 	print("Area entered: ", area.get_groups())
-	if area.is_in_group("PlayerBEAR"):
+	if area.is_in_group("BearAttackArea"):
 		if can_damage:
 			state_machine.transition_to("Hurt")
 			can_damage = false
@@ -202,7 +202,6 @@ func _on_hitbox_entered(area: Area2D) -> void:
 func _on_hitbox_exited(area: Area2D) -> void:
 	if area.get_parent() == current_interactable:
 		current_interactable = null
-		print("DB: ", current_interactable)
 
 # Take damage
 func take_damage(bear_damage: float) -> void:

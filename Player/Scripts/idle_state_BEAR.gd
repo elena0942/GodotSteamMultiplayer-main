@@ -32,8 +32,8 @@ func _on_physics_process(_delta: float) -> void:
 func _on_next_transitions() -> void:
 	if player.is_moving and is_kb_done:
 		transition.emit("Walk")
-	elif is_multiplayer_authority() and Input.is_action_pressed("hit"):
-		transition.emit("Hit")
+	elif is_multiplayer_authority() and Input.is_action_just_pressed("hit"):
+		transition.emit("Attack")
 
 ## works for SP, not MP
 #func _on_next_transitions() -> void:

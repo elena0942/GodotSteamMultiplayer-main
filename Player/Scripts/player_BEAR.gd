@@ -38,6 +38,7 @@ var building: Node:
 	get:
 		return _building
 var is_dead: bool
+var is_attacking: bool = false
 # Trail ability
 var trails_visible: bool = false
 var can_view_trails: bool = true
@@ -49,6 +50,7 @@ var ability_time_remaining: float = 0.0
 
 @onready var player: CharacterBody2D
 
+@onready var _attack_area: CollisionShape2D = $DetectArea/Attack
 @onready var _hitbox: CollisionShape2D = $DetectArea/Hitbox
 @onready var inventory_ui = $PlayerUI/Inventory/InventoryUI
 @onready var camera: Camera2D = $Camera2D
@@ -99,6 +101,7 @@ func _ready():
 	await get_tree().process_frame
 	trail_vis_timer.timeout.connect(_on_trail_vis_timer_timeout)
 	
+	_attack_area.disabled = true
 	is_kb_done = true
 # Spawnpoints
 
@@ -151,6 +154,21 @@ func _physics_process(delta: float) -> void:
 	if direction != Vector2.ZERO:
 		player_direction = direction
 	
+	if !is_attacking:
+		match player_direction:
+			Vector2.UP:
+				_attack_area.position = Vector2(0.0, -70.0)
+				_attack_area.rotation_degrees = 90
+			Vector2.RIGHT:
+				_attack_area.position = Vector2(80.0, 0.0)
+				_attack_area.rotation_degrees = 0
+			Vector2.LEFT:
+				_attack_area.position = Vector2(-80.0, 0.0)
+				_attack_area.rotation_degrees = 0
+			Vector2.DOWN:
+				_attack_area.position = Vector2(0.0, 70.0)
+				_attack_area.rotation_degrees = 90
+	
 	while get_tree().get_nodes_in_group("PlayerPERSON").is_empty(): #wait until player list populates before running function below
 		await get_tree().process_frame
 	
@@ -184,6 +202,7 @@ func die() -> bool:
 	#if animated_sprite_2d.animation == "walk_u" or animated_sprite_2d.animation == "walk_d" or animated_sprite_2d.animation == "walk_r" or animated_sprite_2d.animation == "walk_l":
 		#if frame == 1:# or frame == 3 or frame == 5:
 			#footstep_audio.play()
+
 # Hearing functionality
 func listen(delta):
 	player = get_tree().get_first_node_in_group("PlayerBEAR")

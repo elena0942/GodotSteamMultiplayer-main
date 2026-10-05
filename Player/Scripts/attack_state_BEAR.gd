@@ -3,38 +3,44 @@ class_name AttackStateBear
 
 @export var player: CharacterBody2D
 @export var animated_sprite_2d: AnimatedSprite2D
-@onready var state_machine = get_parent()
 
+@onready var state_machine = get_parent()
+@onready var attack_cooldown: Timer = $"../../Timers/Attack Cooldown"
+
+var current_speed: int
 var player_direction: Vector2
 
-func _on_process(_delta: float) -> void:
-	pass
+func _ready() -> void:
+	attack_cooldown.timeout.connect(_on_attack_cooldown) #switch from using  timer to on_animation_finished when slash is done
 
-func _on_enter() -> void:
-	var casted_player = player as Player
-	if casted_player == null:
-		return 
-	if Input.is_action_pressed("hit"):
-		if player.player_direction == Vector2.UP:
-			animated_sprite_2d.play("hit_u")
-		elif player.player_direction == Vector2.RIGHT:
-			animated_sprite_2d.play("hit_r")
-		elif player.player_direction == Vector2.LEFT:
-			animated_sprite_2d.play("hit_l")
-		elif player.player_direction == Vector2.DOWN:
-			animated_sprite_2d.play("hit_d")
-		else:
-			animated_sprite_2d.play("hit_d")
-	match player.player_direction: #no hurt anim for bear yet
+func _on_physics_process(_delta: float) -> void:
+	if player.is_sneaking:
+		transition.emit("Sneak")
+	
+	match player.player_direction: #no attack anim for bear yet
 		Vector2.UP:    animated_sprite_2d.play("hurt_u")
 		Vector2.RIGHT: animated_sprite_2d.play("hurt_r")
 		Vector2.LEFT:  animated_sprite_2d.play("hurt_l")
 		Vector2.DOWN:  animated_sprite_2d.play("hurt_d")
 
+func _on_attack_cooldown() -> bool: #on animated sprite finished, when it exists
+	player.is_attacking = false
+	#if animated_sprite_2d.animation == "Attack":
+	player._attack_area.disabled = true
+	return player.is_attacking
+
+func _on_enter() -> void:
+	player.is_attacking = true
+	player._attack_area.disabled = false #use enabled?
+	attack_cooldown.start()
+	if not is_multiplayer_authority():
+		return
+
 func _on_next_transitions() -> void:
 	if not player.is_multiplayer_authority():
 		return
-	
+	if !attack_cooldown.is_stopped() and player.is_attacking: #don't transition until bear is done attacking
+		return
 	if player.is_moving:
 		transition.emit("Walk")
 	else:
@@ -42,3 +48,4 @@ func _on_next_transitions() -> void:
 
 func _on_exit() -> void:
 	animated_sprite_2d.stop()
+	player.is_attacking = false

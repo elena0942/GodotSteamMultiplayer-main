@@ -72,4 +72,6 @@ func _on_next_transitions() -> void:
 		transition.emit("Idle")
 	elif player.is_running and player.is_sneaking:
 		player.is_sneaking = false
+	elif Input.is_action_just_pressed("hit"):
+		transition.emit("Attack")
 		return

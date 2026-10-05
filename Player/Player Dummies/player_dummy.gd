@@ -56,9 +56,8 @@ func _ready():
 		if is_muddy:
 			mud_wear_off.timeout.connect(_on_mud_wear_off)
 			mud_wear_off.start()
-			print("me so moddy! timer: ", mud_wear_off.wait_time)
 		else:
-			print("me clean")
+			return
 
 func _on_mud_wear_off() -> void:
 	print("mud wore off")
@@ -102,7 +101,6 @@ func update_trail():
 			$TrackPoints.remove_point(0)
 	else:
 		removing = false
-		print("ME MODDY!")
 
 # Multiplayer
 func _enter_tree() -> void:
@@ -114,10 +112,10 @@ func _physics_process(delta: float) -> void:
 	if not is_multiplayer_authority():
 		global_position = global_position.lerp(net_position, 0.25)
 		return
-	is_moving = true
-	player_direction = Vector2.UP
-	velocity = Vector2.UP * speed
-	move_and_slide()
+	#is_moving = true
+	#player_direction = Vector2.UP
+	#velocity = Vector2.UP * speed
+	#move_and_slide()
 	net_position = global_position
 
 # Health
@@ -152,4 +150,6 @@ func die() -> bool:
 	_hitbox.set_deferred("disabled", true)
 	
 	is_dead = true
+	if is_dead:
+		queue_free()
 	return is_dead

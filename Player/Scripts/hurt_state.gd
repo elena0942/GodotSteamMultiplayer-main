@@ -11,7 +11,6 @@ class_name HurtState
 
 var player_direction: Vector2
 
-var is_attacking: bool
 var kb_just_happened: bool
 var kb_idle_time : float = 1.0
 var hurt_anim : String
@@ -46,7 +45,7 @@ func _on_kb_cooldown_timeout():
 	
 
 func _on_hitbox_entered(area: Area2D) -> void:
-	if area.is_in_group("PlayerBEAR"):
+	if area.is_in_group("BearAttackArea"):
 		knockback()
 
 func _on_physics_process(delta: float) -> void:
