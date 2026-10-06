@@ -23,14 +23,16 @@ func _on_physics_process(_delta: float) -> void:
 		Vector2.LEFT: animated_sprite_2d.play("idle_l")
 
 func _on_hitbox_entered(area: Area2D) -> void:
-	if !area.is_in_group("PlayerBEAR"):
+	if !area.is_in_group("BearAttackArea"):
 		return
 	else:
-		var bear = get_tree().get_first_node_in_group("PlayerBEAR")
-		var bear_hitbox = bear.get_node("DetectArea") as Area2D
-		
-		if bear_hitbox:
+		#var bear = get_tree().get_first_node_in_group("PlayerBEAR")
+		#var bear_hitbox = bear.get_node("DetectArea") as Area2D
+		#
+		if area.is_in_group("BearAttackArea"):
 			transition.emit("Hurt")
+			print("DB idle to hurt")
+			hb_entered = true
 		else:
 			return
 
@@ -38,6 +40,7 @@ func _on_next_transitions() -> void:
 	if player.is_moving and is_kb_done and not hb_entered:
 		transition.emit("Walk")
 	elif hb_entered:
+		print("DB hurt to hurt")
 		transition.emit("Hurt")
 	elif is_multiplayer_authority() and Input.is_action_pressed("hit"):
 		transition.emit("Hit")

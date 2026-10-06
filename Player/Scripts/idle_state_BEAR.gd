@@ -13,9 +13,7 @@ func _on_process(_delta: float) -> void:
 func _on_physics_process(_delta: float) -> void:
 	if Input.is_action_just_pressed("sneak"):
 		player.is_sneaking = !player.is_sneaking
-	var casted_player = player as CharacterBody2D
-	if casted_player == null:
-		return 
+
 	if player.is_sneaking:
 		match player.player_direction: #no sneak anim for bear yet
 			Vector2.UP:    animated_sprite_2d.play("idle_u")
@@ -28,7 +26,9 @@ func _on_physics_process(_delta: float) -> void:
 			Vector2.RIGHT: animated_sprite_2d.play("idle_r")
 			Vector2.LEFT:  animated_sprite_2d.play("idle_l")
 			Vector2.DOWN:  animated_sprite_2d.play("idle_d")
-
+	var casted_player = player as CharacterBody2D
+	if casted_player == null:
+		return 
 func _on_next_transitions() -> void:
 	if player.is_moving and is_kb_done:
 		transition.emit("Walk")

@@ -41,16 +41,10 @@ func _on_kb_cooldown_timeout():
 	kb_just_happened = false
 	is_kb_done = true
 	return is_kb_done
-	
 
 func _on_hitbox_entered(area: Area2D) -> void:
-	var bear_player = get_tree().get_first_node_in_group("PlayerBEAR")
 	if area.is_in_group("BearAttackArea"):
 		knockback()
-
-#func _on_hitbox_exited(area: Area2D) -> void:
-	#if is_kb_done:#area.is_in_group("BearAttackArea"):
-		#transition.emit("Idle")
 
 func _on_physics_process(delta: float) -> void:
 	var direction: Vector2 = GameInputEvents.movement_input()

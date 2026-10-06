@@ -151,7 +151,7 @@ func _physics_process(delta: float) -> void:
 			Vector2.DOWN:
 				_attack_area.position = Vector2(0.0, 70.0)
 				_attack_area.rotation_degrees = 90
-	
+
 	if not is_multiplayer_authority():
 		global_position = global_position.lerp(net_position, 0.25)
 		return
