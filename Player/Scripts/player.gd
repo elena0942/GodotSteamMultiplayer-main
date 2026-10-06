@@ -70,11 +70,11 @@ func _ready():
 	trail_timer.timeout.connect(update_trail)
 	trail_timer.start()
 	
-	# Sound
-	await get_tree().get_nodes_in_group("PlayerBEAR")
-	for item in get_tree().get_nodes_in_group("PlayerBEAR"):
-		if item.has_node("SoundMarker"):
-			item.get_node("SoundMarker").hide()
+	## Sound
+	#await get_tree().get_nodes_in_group("PlayerBEAR")
+	#for item in get_tree().get_nodes_in_group("PlayerBEAR"):
+		#if item.has_node("SoundMarker"):
+			#item.get_node("SoundMarker").hide()
 
 
 func _process(_delta: float) -> void:

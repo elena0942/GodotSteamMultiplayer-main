@@ -15,6 +15,7 @@ var kb_just_happened: bool
 var kb_idle_time : float = 1.0
 var hurt_anim : String
 var is_kb_done: bool
+var bear_attack_area: Area2D
 
 func on_process(delta : float):
 	@warning_ignore("unused_parameter")
@@ -22,7 +23,18 @@ func on_process(delta : float):
 
 func knockback():
 	var bear_player = get_tree().get_first_node_in_group("PlayerBEAR") as CharacterBody2D #could be MP error only if more than 1 bear
-	if player and bear_player and is_multiplayer_authority():
+	
+	match player.player_direction:
+		Vector2.UP:
+			hurt_anim = "hurt_u"
+		Vector2.RIGHT:
+			hurt_anim = "hurt_r"
+		Vector2.LEFT:
+			hurt_anim = "hurt_l"
+		Vector2.DOWN:
+			hurt_anim = "hurt_d"
+	
+	if player and bear_attack_area and is_multiplayer_authority():
 		
 		var kb_dir = (player.global_position - bear_player.global_position).normalized()
 		var kb_force := 600.0
@@ -44,6 +56,7 @@ func _on_kb_cooldown_timeout():
 
 func _on_hitbox_entered(area: Area2D) -> void:
 	if area.is_in_group("BearAttackArea"):
+		bear_attack_area = area
 		knockback()
 
 func _on_physics_process(delta: float) -> void:

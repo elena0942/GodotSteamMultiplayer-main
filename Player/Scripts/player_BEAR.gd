@@ -103,6 +103,8 @@ func _ready():
 	
 	_attack_area.disabled = true
 	is_kb_done = true
+	sound_marker.self_modulate.a = 0.0
+	
 # Spawnpoints
 
 	#if Global.spawn_name != "": 

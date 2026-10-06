@@ -39,9 +39,9 @@ func _on_hitbox_entered(area: Area2D) -> void:
 func _on_next_transitions() -> void:
 	if player.is_moving and is_kb_done and not hb_entered:
 		transition.emit("Walk")
-	elif hb_entered:
-		print("DB hurt to hurt")
-		transition.emit("Hurt")
+	#elif hb_entered:
+		#print("DB hurt to hurt")
+		#transition.emit("Hurt")
 	elif is_multiplayer_authority() and Input.is_action_pressed("hit"):
 		transition.emit("Hit")
 
