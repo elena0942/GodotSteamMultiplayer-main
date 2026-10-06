@@ -49,5 +49,7 @@ func _on_next_transitions() -> void:
 		transition.emit("Idle")
 
 func _on_exit() -> void:
+	if not player.is_multiplayer_authority():
+		return
 	animated_sprite_2d.stop()
 	player.is_attacking = false

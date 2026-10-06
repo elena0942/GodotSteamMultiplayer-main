@@ -137,6 +137,21 @@ func _enter_tree() -> void:
 	set_multiplayer_authority(owner_peer_id)
 
 func _physics_process(delta: float) -> void:
+	if !is_attacking:
+		match player_direction:
+			Vector2.UP:
+				_attack_area.position = Vector2(0.0, -70.0)
+				_attack_area.rotation_degrees = 90
+			Vector2.RIGHT:
+				_attack_area.position = Vector2(80.0, 0.0)
+				_attack_area.rotation_degrees = 0
+			Vector2.LEFT:
+				_attack_area.position = Vector2(-80.0, 0.0)
+				_attack_area.rotation_degrees = 0
+			Vector2.DOWN:
+				_attack_area.position = Vector2(0.0, 70.0)
+				_attack_area.rotation_degrees = 90
+	
 	if not is_multiplayer_authority():
 		global_position = global_position.lerp(net_position, 0.25)
 		return
@@ -154,21 +169,7 @@ func _physics_process(delta: float) -> void:
 	if direction != Vector2.ZERO:
 		player_direction = direction
 	
-	if !is_attacking:
-		match player_direction:
-			Vector2.UP:
-				_attack_area.position = Vector2(0.0, -70.0)
-				_attack_area.rotation_degrees = 90
-			Vector2.RIGHT:
-				_attack_area.position = Vector2(80.0, 0.0)
-				_attack_area.rotation_degrees = 0
-			Vector2.LEFT:
-				_attack_area.position = Vector2(-80.0, 0.0)
-				_attack_area.rotation_degrees = 0
-			Vector2.DOWN:
-				_attack_area.position = Vector2(0.0, 70.0)
-				_attack_area.rotation_degrees = 90
-	
+
 	while get_tree().get_nodes_in_group("PlayerPERSON").is_empty(): #wait until player list populates before running function below
 		await get_tree().process_frame
 	

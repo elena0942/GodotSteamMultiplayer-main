@@ -913,7 +913,7 @@ properties/3/spawn = true
 properties/3/replication_mode = 2
 properties/4/path = NodePath("Sound/WalkFootstep_Grass:playing")
 properties/4/spawn = true
-properties/4/replication_mode = 1
+properties/4/replication_mode = 2
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_232yk"]
 playback_mode = 1
