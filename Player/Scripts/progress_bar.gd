@@ -9,5 +9,5 @@ func _ready():
 	update(health, max_health)
 
 func update(health, max_health):
-	@warning_ignore("unused_parameter")
+	max_value = max_health
 	value = health

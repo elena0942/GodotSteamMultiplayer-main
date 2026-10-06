@@ -15,8 +15,6 @@ func _on_process(_delta: float) -> void:
 	pass
 
 func _on_physics_process(_delta: float) -> void:
-	if !is_multiplayer_authority():
-		return
 	if player.is_moving:
 		if !player.is_running:
 			if player.is_kb_done and player.is_sneaking:
@@ -47,22 +45,23 @@ func _play_footstep() -> void:
 		footstep_audio.play()
 
 func _on_enter() -> void:
-	if not is_multiplayer_authority():
-		return
-	
-	player.is_running = false
 	animated_sprite_2d.speed_scale = 0.5
-	
+
 	var anim_name: StringName = animated_sprite_2d.animation
 	var frame_count: int = animated_sprite_2d.sprite_frames.get_frame_count(anim_name)
 	var fps: float = animated_sprite_2d.sprite_frames.get_animation_speed(anim_name)
 	var cycle_duration: float = frame_count / fps / max(animated_sprite_2d.speed_scale, 0.01)
-	
+
 	footstep_timer = Timer.new()
 	footstep_timer.wait_time = cycle_duration / 4.0
 	footstep_timer.timeout.connect(_play_footstep)
 	add_child(footstep_timer)
 	footstep_timer.start()
+
+	if not is_multiplayer_authority():
+		return
+
+	player.is_running = false
 
 func _on_exit() -> void:
 	if footstep_timer:

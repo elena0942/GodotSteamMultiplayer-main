@@ -1142,9 +1142,6 @@ wait_time = 3.0
 one_shot = true
 
 [connection signal="area_entered" from="DetectArea" to="." method="_on_hitbox_entered"]
-[connection signal="area_entered" from="DetectArea" to="StateMachine/Idle" method="_on_hitbox_entered"]
-[connection signal="area_entered" from="DetectArea" to="StateMachine/Walk" method="_on_detect_area_area_entered"]
-[connection signal="area_entered" from="DetectArea" to="StateMachine/Walk" method="_on_hitbox_entered"]
 [connection signal="area_entered" from="DetectArea" to="StateMachine/Hurt" method="_on_hitbox_entered"]
 [connection signal="area_exited" from="DetectArea" to="." method="_on_hitbox_exited"]
 [connection signal="area_exited" from="DetectArea" to="StateMachine/Hurt" method="_on_hitbox_exited"]

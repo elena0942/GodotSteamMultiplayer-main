@@ -40,20 +40,6 @@ func _on_physics_process(_delta: float) -> void:
 		Vector2.LEFT:  animated_sprite_2d.play("walk_l")
 		Vector2.DOWN:  animated_sprite_2d.play("walk_d")
 
-func _on_hitbox_entered(area: Area2D) -> void:
-	if !area.is_in_group("BearAttackArea"):
-		return
-	else:
-		#var bear = get_tree().get_first_node_in_group("PlayerBEAR")
-		#var bear_hitbox = bear.get_node("DetectArea") as Area2D
-		
-		if area.is_in_group("BearAttackArea"):
-			print("DB walk state: bear attack, entering hurt")
-			transition.emit("Hurt")
-		else:
-			print("DB walk state: not bear HB")
-			return
-
 func _on_next_transitions() -> void:
 	if !player.is_moving:
 		transition.emit("Idle")
@@ -102,10 +88,6 @@ func _on_next_transitions() -> void:
 	##elif Input.is_action_just_pressed("hit"):
 		##animated_sprite_2d.stop()
 		##transition.emit("Hit")
-@warning_ignore("unused_parameter")
-func _on_detect_area_area_entered(area: Area2D) -> void:
-	pass
-
 func _on_enter() -> void:
 	is_running = false
 

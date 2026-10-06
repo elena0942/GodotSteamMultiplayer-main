@@ -69,9 +69,6 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 	if player is CharacterBody2D and "is_muddy" in player:
 		print("DB player: ", player)
 		player_in_range = player
-		var key = player_in_range.get_node_or_null("Key")
-		if key:
-			key.show()
 
 func _on_hitbox_area_exited(area: Area2D) -> void:
 	if !area.is_in_group("PlayerHB"):

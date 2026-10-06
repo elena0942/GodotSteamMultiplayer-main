@@ -917,6 +917,9 @@ properties/4/replication_mode = 2
 properties/5/path = NodePath(".:is_running")
 properties/5/spawn = true
 properties/5/replication_mode = 2
+properties/6/path = NodePath("AttackArea/Attack:disabled")
+properties/6/spawn = true
+properties/6/replication_mode = 2
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_232yk"]
 playback_mode = 1

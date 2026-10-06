@@ -14,8 +14,6 @@ func _on_process(_delta: float) -> void:
 	pass
 
 func _on_physics_process(_delta: float) -> void:
-	if !is_multiplayer_authority():
-		return
 	if player.is_moving:
 		if player.is_kb_done and not player.is_sneaking:
 			current_speed = player.run_speed
@@ -25,12 +23,12 @@ func _on_physics_process(_delta: float) -> void:
 	else:
 		animated_sprite_2d.speed_scale = 1.0
 		transition.emit("Idle")
-	
+
 	if is_multiplayer_authority():
 		player.move_and_slide()
 		player.net_position = player.global_position
 		player.velocity = player.player_direction * current_speed
-	
+
 	match player.player_direction: #no run anim for bear yet
 		Vector2.UP:    animated_sprite_2d.play("walk_u")
 		Vector2.RIGHT: animated_sprite_2d.play("walk_r")
@@ -43,22 +41,23 @@ func _play_footstep() -> void:
 		footstep_audio.play()
 
 func _on_enter() -> void:
-	if not is_multiplayer_authority():
-		return
-	
-	player.is_running = false
 	animated_sprite_2d.speed_scale = 2.0
-	
+
 	var anim_name: StringName = animated_sprite_2d.animation
 	var frame_count: int = animated_sprite_2d.sprite_frames.get_frame_count(anim_name)
 	var fps: float = animated_sprite_2d.sprite_frames.get_animation_speed(anim_name)
 	var cycle_duration: float = frame_count / fps / max(animated_sprite_2d.speed_scale, 0.01)
-	
+
 	footstep_timer = Timer.new()
 	footstep_timer.wait_time = cycle_duration / 4.0
 	footstep_timer.timeout.connect(_play_footstep)
 	add_child(footstep_timer)
 	footstep_timer.start()
+
+	if not is_multiplayer_authority():
+		return
+
+	player.is_running = false
 
 func _on_exit() -> void:
 	if footstep_timer:

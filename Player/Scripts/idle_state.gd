@@ -6,7 +6,6 @@ class_name IdleState
 
 var player_direction: Vector2
 var is_kb_done: bool = true
-var hb_entered: bool
 
 func _on_process(_delta: float) -> void:
 	pass
@@ -14,7 +13,7 @@ func _on_process(_delta: float) -> void:
 func _on_physics_process(_delta: float) -> void:
 	var casted_player = player as Player
 	if casted_player == null:
-		return 
+		return
 
 	match player.player_direction:
 		Vector2.UP: animated_sprite_2d.play("idle_u")
@@ -22,26 +21,9 @@ func _on_physics_process(_delta: float) -> void:
 		Vector2.RIGHT: animated_sprite_2d.play("idle_r")
 		Vector2.LEFT: animated_sprite_2d.play("idle_l")
 
-func _on_hitbox_entered(area: Area2D) -> void:
-	if !area.is_in_group("BearAttackArea"):
-		return
-	else:
-		#var bear = get_tree().get_first_node_in_group("PlayerBEAR")
-		#var bear_hitbox = bear.get_node("DetectArea") as Area2D
-		#
-		if area.is_in_group("BearAttackArea"):
-			transition.emit("Hurt")
-			print("DB idle to hurt")
-			hb_entered = true
-		else:
-			return
-
 func _on_next_transitions() -> void:
-	if player.is_moving and is_kb_done and not hb_entered:
+	if player.is_moving and is_kb_done:
 		transition.emit("Walk")
-	#elif hb_entered:
-		#print("DB hurt to hurt")
-		#transition.emit("Hurt")
 	elif is_multiplayer_authority() and Input.is_action_pressed("hit"):
 		transition.emit("Hit")
 

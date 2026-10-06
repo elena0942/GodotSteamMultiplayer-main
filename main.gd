@@ -78,7 +78,7 @@ func _on_make_host_bear_pressed() -> void:
 	if multiplayer.is_server():
 		swap_player_type(1)
 	else:
-		request_swap_specific.rpc_id(1) #1 means server
+		request_swap_specific.rpc_id(1, 1) #1 means server
 	print("Player: ", players.keys(), " Authority: ", get_multiplayer_authority())
 
 func _on_make_client_bear_pressed() -> void:
@@ -87,7 +87,7 @@ func _on_make_client_bear_pressed() -> void:
 		if client_id != 0:
 			swap_player_type(client_id)
 	else:
-		request_swap_specific(-1)
+		request_swap_specific.rpc_id(1, -1)
 
 @rpc("any_peer", "reliable")
 func request_swap_specific(target_peer_id: int) -> void:
