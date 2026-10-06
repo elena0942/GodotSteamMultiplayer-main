@@ -48,6 +48,10 @@ func _on_hitbox_entered(area: Area2D) -> void:
 	if area.is_in_group("BearAttackArea"):
 		knockback()
 
+#func _on_hitbox_exited(area: Area2D) -> void:
+	#if is_kb_done:#area.is_in_group("BearAttackArea"):
+		#transition.emit("Idle")
+
 func _on_physics_process(delta: float) -> void:
 	var direction: Vector2 = GameInputEvents.movement_input()
 	if is_multiplayer_authority():
@@ -66,6 +70,8 @@ func _on_physics_process(delta: float) -> void:
 func _on_next_transitions() -> void:
 	if not is_multiplayer_authority():
 		return
+	#if is_kb_done:
+		#transition.emit("Idle")
 
 func Enter() -> void:
 	#knockback()
