@@ -14,15 +14,16 @@ func _ready() -> void:
 	attack_cooldown.timeout.connect(_on_attack_cooldown) #switch from using  timer to on_animation_finished when slash is done
 
 func _on_physics_process(_delta: float) -> void:
-	if player.is_sneaking:
-		transition.emit("Sneak")
-	
 	match player.player_direction: #no attack anim for bear yet
 		Vector2.UP:    animated_sprite_2d.play("hurt_u")
 		Vector2.RIGHT: animated_sprite_2d.play("hurt_r")
 		Vector2.LEFT:  animated_sprite_2d.play("hurt_l")
 		Vector2.DOWN:  animated_sprite_2d.play("hurt_d")
-
+	if !is_multiplayer_authority():
+		return
+	if player.is_sneaking:
+		transition.emit("Sneak")
+	
 func _on_attack_cooldown() -> bool: #on animated sprite finished, when it exists
 	player.is_attacking = false
 	#if animated_sprite_2d.animation == "Attack":
@@ -30,11 +31,12 @@ func _on_attack_cooldown() -> bool: #on animated sprite finished, when it exists
 	return player.is_attacking
 
 func _on_enter() -> void:
+	#if not is_multiplayer_authority():
+		#return
 	player.is_attacking = true
-	player._attack_area.disabled = false #use enabled?
+	player._attack_area.disabled = false
 	attack_cooldown.start()
-	if not is_multiplayer_authority():
-		return
+
 
 func _on_next_transitions() -> void:
 	if not player.is_multiplayer_authority():
