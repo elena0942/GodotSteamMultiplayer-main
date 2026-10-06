@@ -1,9 +1,10 @@
-[gd_scene format=3 uid="uid://dp3ckme4ui35i"]
+[gd_scene format=4 uid="uid://dp3ckme4ui35i"]
 
 [ext_resource type="Script" uid="uid://ceuqqq3clw6qn" path="res://main.gd" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://dpp0tjgjiep6r" path="res://Scenes/background.tscn" id="2_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://dn24yjxblcwgf" path="res://Player/Player Dummies/PlayerDUMMY.tscn" id="3_h2yge"]
 [ext_resource type="PackedScene" uid="uid://b26hcatht7r88" path="res://Environment/Scenes/mud.tscn" id="4_1bvp3"]
+[ext_resource type="TileSet" uid="uid://bqktcg0k8ejow" path="res://Environment/background.tres" id="5_dg77c"]
 [ext_resource type="Texture2D" uid="uid://b4ogxyydwai5i" path="res://Environment/Sprites and Tilesets/TX Props.png" id="5_efxa6"]
 [ext_resource type="Texture2D" uid="uid://fyt0atw8v0b0" path="res://Environment/Sprites and Tilesets/TX Plant.png" id="6_dg77c"]
 [ext_resource type="Texture2D" uid="uid://boegseh2c2rmm" path="res://Environment/Sprites and Tilesets/TX Tileset Stone Ground.png" id="7_ycdy4"]
@@ -241,7 +242,7 @@ layout_mode = 2
 text = "Make Client Bear"
 
 [node name="SpawnPoint" type="Node2D" parent="." unique_id=1487529719]
-position = Vector2(569, 291)
+position = Vector2(301, 152)
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=1177078280]
 unique_name_in_owner = true
@@ -260,21 +261,23 @@ position = Vector2(725, 510)
 y_sort_enabled = true
 
 [node name="Mud" parent="Environment" unique_id=1840137189 instance=ExtResource("4_1bvp3")]
-position = Vector2(549, 427)
+position = Vector2(260, 294)
 
 [node name="Mud2" parent="Environment" unique_id=1170079721 instance=ExtResource("4_1bvp3")]
-position = Vector2(783, 333)
+position = Vector2(494, 200)
 
 [node name="Background2" parent="Environment" unique_id=2050609957 instance=ExtResource("2_0xm2m")]
 z_index = -2
 
-[node name="Background" type="TileMapLayer" parent="Environment" unique_id=398740048]
+[node name="Background Top" type="TileMapLayer" parent="Environment" unique_id=398740048]
+texture_filter = 1
+tile_map_data = PackedByteArray("AAAIAAUAAAAAAAoAAAAIAAYAAAAAAAsAAAAJAAUAAAABAAoAAAAJAAgAAAABAAsAAAAJAAcAAAABAAsAAAAJAAYAAAABAAsAAAAKAAYAAAABAAsAAAALAAYAAAABAAsAAAAMAAYAAAABAAsAAAANAAYAAAABAAsAAAANAAUAAAABAAsAAAAOAAUAAAAGAAoAAAAOAAQAAAABAAsAAAAPAAQAAAAGAAoAAAAQAAQAAAABAAwAAAAQAAMAAAABAAsAAAARAAMAAAAGAAoAAAASAAMAAAABAAwAAAASAAIAAAABAAsAAAATAAIAAAABAAsAAAAUAAIAAAABAAsAAAAVAAIAAAABAAsAAAAVAAMAAAAHAAoAAAAWAAMAAAAGAAsAAAAWAAQAAAABAAwAAAAXAAQAAAAHAAoAAAAYAAQAAAABAAsAAAAYAAUAAAABAAsAAAAZAAUAAAABAAsAAAAZAAQAAAABAAsAAAAKAAUAAAABAAoAAAALAAUAAAABAAoAAAAMAAUAAAAHAAsAAAANAAQAAAAHAAsAAAAOAAMAAAABAAoAAAAPAAMAAAAHAAsAAAAQAAIAAAABAAoAAAARAAIAAAAHAAsAAAASAAEAAAABAAoAAAATAAEAAAABAAoAAAAUAAEAAAABAAoAAAAVAAEAAAABAAoAAAAWAAIAAAACAAsAAAAXAAMAAAABAAoAAAAYAAMAAAABAAoAAAAZAAMAAAABAAoAAAAaAAMAAAACAAoAAAAaAAQAAAACAAsAAAAWAAEAAAACAAoAAAAMAAQAAAAAAAoAAAANAAMAAAAAAAoAAAAPAAIAAAAAAAoAAAARAAEAAAAAAAoAAAAIAAcAAAAAAAsAAAAIAAgAAAAAAAsAAAAKAAgAAAACAAsAAAAOAAYAAAACAAsAAAAPAAUAAAACAAwAAAARAAQAAAACAAwAAAAaAAUAAAACAAsAAAAaAAYAAAACAAwAAAAKAAkAAAACAAwAAAAIAAkAAAAAAAwAAAAJAAkAAAABAAwAAAAXAAYAAAAAAAwAAAAYAAYAAAABAAwAAAAXAAUAAAAAAAsAAAAVAAQAAAAAAAwAAAAKAAcAAAAGAAoAAAALAAcAAAABAAwAAAAMAAcAAAABAAwAAAANAAcAAAABAAwAAAAOAAcAAAACAAwAAAATAAMAAAABAAwAAAAUAAMAAAABAAwAAAAZAAYAAAABAAwAAAA=")
+tile_set = ExtResource("5_dg77c")
 
 [node name="Plants and Rocks" type="TileMapLayer" parent="Environment" unique_id=364818602]
 y_sort_enabled = true
 texture_filter = 1
-scale = Vector2(2, 2)
-tile_map_data = PackedByteArray(0, 0, 12, 0, 11, 0, 7, 0, 10, 0, 8, 0, 0, 0)
+tile_map_data = PackedByteArray("AAAMAAsABwAKAAgAAAA=")
 tile_set = SubResource("TileSet_232yk")
 
 [connection signal="pressed" from="CanvasLayer/VBoxContainer/Host" to="." method="_on_host_pressed"]

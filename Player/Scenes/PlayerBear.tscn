@@ -939,16 +939,16 @@ script = ExtResource("1_gewab")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=1762238580]
 visibility_layer = 7
-position = Vector2(-14.753278, 16.03349)
-scale = Vector2(11.057245, 2.7666693)
+position = Vector2(-3, -8.000001)
+scale = Vector2(5.4972453, 1.3754835)
 polygon = PackedVector2Array(-3.49854, 5.78313, 4.81049, 5.78313, 4.81049, 5.06024, 0.437317, 3.61445, -3.49854, 5.06024)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=2042436102]
 z_as_relative = false
 y_sort_enabled = true
 texture_filter = 1
-position = Vector2(0.666801, 2.3334675)
-scale = Vector2(0.23809396, 0.23809421)
+position = Vector2(0.66680145, -13.666534)
+scale = Vector2(0.118371345, 0.11837147)
 sprite_frames = SubResource("SpriteFrames_egmc7")
 animation = &"walk_l"
 autoplay = "idle_d"
@@ -992,14 +992,16 @@ animated_sprite_2d = NodePath("../../AnimatedSprite2D")
 [node name="Key" type="Sprite2D" parent="." unique_id=46848297 groups=["Player"]]
 modulate = Color(0.223529, 0.760784, 0.756863, 1)
 texture_filter = 1
-position = Vector2(0, -48)
-scale = Vector2(2, 2)
+position = Vector2(0, -52)
+scale = Vector2(0.99432456, 0.99432456)
 texture = ExtResource("16_ya8f8")
 
 [node name="KeyPrompt" type="AnimationPlayer" parent="." unique_id=704744079 groups=["Player"]]
 libraries/ = SubResource("AnimationLibrary_d4g0h")
 
 [node name="DetectArea" type="Area2D" parent="." unique_id=697093498 groups=["Player", "PlayerBEAR"]]
+position = Vector2(0, -16)
+scale = Vector2(0.49716228, 0.49716228)
 collision_layer = 4
 collision_mask = 15
 
@@ -1010,6 +1012,8 @@ rotation = 1.5645651
 shape = SubResource("CapsuleShape2D_b32pr")
 
 [node name="AttackArea" type="Area2D" parent="." unique_id=2111662973 groups=["BearAttackArea"]]
+position = Vector2(0, -16)
+scale = Vector2(0.49716228, 0.49716228)
 
 [node name="Attack" type="CollisionShape2D" parent="AttackArea" unique_id=504618996]
 position = Vector2(-80, 1)
@@ -1087,20 +1091,21 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -47.0
-offset_top = -99.0
-offset_right = 48.0
-offset_bottom = -76.0
+offset_left = -30.0
+offset_top = 6.0
+offset_right = 65.0
+offset_bottom = 29.0
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(0.56000125, 0.56000125)
 text = "state"
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=2130983591]
 replication_config = SubResource("SceneReplicationConfig_ac4ik")
 
 [node name="SoundMarker" type="Sprite2D" parent="." unique_id=245213174]
-position = Vector2(92.00001, 0)
-scale = Vector2(0.16489361, 0.1648936)
+position = Vector2(44.000008, -16)
+scale = Vector2(0.08197889, 0.08197888)
 texture = ExtResource("20_ss45x")
 
 [node name="Timers" type="Node2D" parent="." unique_id=57987799]

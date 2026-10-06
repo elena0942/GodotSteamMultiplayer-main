@@ -1002,11 +1002,13 @@ script = ExtResource("1_opueo")
 player = NodePath(".")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=555620542]
+position = Vector2(0, 13)
+zoom = Vector2(2, 2)
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=1762238580]
 visibility_layer = 7
-position = Vector2(-2.3332, 4.03349)
-scale = Vector2(2.28667, 2.76667)
+position = Vector2(-1, 12)
+scale = Vector2(1.129561, 1.3666697)
 polygon = PackedVector2Array(-3.49854, 5.78313, 4.81049, 5.78313, 4.81049, 5.06024, 0.437317, 3.61445, -3.49854, 5.06024)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=2042436102]
@@ -1014,7 +1016,7 @@ z_as_relative = false
 y_sort_enabled = true
 texture_filter = 1
 position = Vector2(0.666801, 20.0335)
-scale = Vector2(2.76667, 2.76667)
+scale = Vector2(1.3666697, 1.3666697)
 sprite_frames = SubResource("SpriteFrames_egmc7")
 animation = &"run_l"
 autoplay = "idle_d"
@@ -1047,14 +1049,16 @@ animated_sprite_2d = NodePath("../../AnimatedSprite2D")
 [node name="Key" type="Sprite2D" parent="." unique_id=46848297 groups=["Player"]]
 modulate = Color(0.223529, 0.760784, 0.756863, 1)
 texture_filter = 1
-position = Vector2(0, -48)
-scale = Vector2(2, 2)
+position = Vector2(0, -23.000002)
+scale = Vector2(0.9879528, 0.9879528)
 texture = ExtResource("11_b32pr")
 
 [node name="KeyPrompt" type="AnimationPlayer" parent="." unique_id=704744079 groups=["Player"]]
 libraries/ = SubResource("AnimationLibrary_d4g0h")
 
 [node name="DetectArea" type="Area2D" parent="." unique_id=697093498 groups=["Player", "PlayerHB"]]
+position = Vector2(0, 9.999999)
+scale = Vector2(0.4939764, 0.4939764)
 collision_mask = 7
 
 [node name="Hitbox" type="CollisionShape2D" parent="DetectArea" unique_id=123508072 groups=["Player"]]
@@ -1112,12 +1116,13 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -46.0
-offset_top = -84.0
-offset_right = 49.0
-offset_bottom = -61.0
+offset_left = -15.999939
+offset_top = 21.0
+offset_right = 79.0
+offset_bottom = 44.0
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(0.36000243, 0.36000243)
 text = "state"
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=2130983591]

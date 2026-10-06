@@ -15,6 +15,7 @@ const MAX_TRAIL_COUNT: int = 50
 @export var player: Player
 @export var inventory_data: InventoryData
 
+
 @export var player_direction: Vector2
 @export var net_position: Vector2
 
@@ -42,6 +43,7 @@ var is_dead: bool
 var removing: bool = false
 var can_interact: bool
 var is_attacking: bool = false
+var is_in_water: bool = false
 
 @onready var health: float = max_health
 @onready var max_health: float = 100.0
@@ -95,6 +97,17 @@ func _process(_delta: float) -> void:
 			trail_timer.paused = true
 			var wait := get_tree().create_timer(3.0)
 			wait.timeout.connect(_on_pause_finished)
+	
+	# Mud wash off logic
+	var main_root = get_tree().current_scene
+	var tilemap_layer: TileMapLayer = main_root.get_node_or_null("Environment/Background Top")
+	var map_pos: Vector2i = tilemap_layer.local_to_map(global_position)
+	var tile_data: TileData = tilemap_layer.get_cell_tile_data(map_pos)
+	if tile_data:
+		is_in_water = tile_data.get_custom_data("water")
+		if is_in_water:
+			is_muddy = false
+			await get_tree().create_timer(1.0).timeout
 
 # Tracking
 func _on_trail_node_visible() -> void:

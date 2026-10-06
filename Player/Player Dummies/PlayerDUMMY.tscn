@@ -942,22 +942,24 @@ player = NodePath(".")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=1762238580]
 visibility_layer = 7
-position = Vector2(-2.3332, 4.03349)
-scale = Vector2(2.28667, 2.76667)
+position = Vector2(-0.3331988, -7.9665136)
+scale = Vector2(1.1295607, 1.3666694)
 polygon = PackedVector2Array(-3.49854, 5.78313, 4.81049, 5.78313, 4.81049, 5.06024, 0.437317, 3.61445, -3.49854, 5.06024)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=2042436102]
 z_as_relative = false
 y_sort_enabled = true
 texture_filter = 1
-position = Vector2(0.666801, 20.0335)
-scale = Vector2(2.76667, 2.76667)
+position = Vector2(0.66680145, 0.03350067)
+scale = Vector2(1.3666694, 1.3666694)
 sprite_frames = SubResource("SpriteFrames_egmc7")
 animation = &"run_l"
 autoplay = "idle_d"
 offset = Vector2(0, -7)
 
 [node name="DetectArea" type="Area2D" parent="." unique_id=697093498 groups=["Player"]]
+position = Vector2(0, -10.999996)
+scale = Vector2(0.4939763, 0.4939763)
 collision_mask = 7
 
 [node name="Hitbox" type="CollisionShape2D" parent="DetectArea" unique_id=123508072 groups=["Player"]]

@@ -3,7 +3,7 @@ class_name HurtState
 
 @export var player: CharacterBody2D
 @export var animated_sprite_2d: AnimatedSprite2D
-@export var walk_speed: int = 170
+@export var walk_speed: int = 70
 
 @onready var state_machine = get_parent()
 @onready var kb_cooldown := $"../../Timers/KB Cooldown"

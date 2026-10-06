@@ -12,9 +12,9 @@ signal healthChanged
 
 @export var owner_peer_id: int
 @export var bear_damage: int
-@export var run_speed: int = 250
-@export var walk_speed: int = 200
-@export var sneak_speed: int = 160
+@export var run_speed: int = 150
+@export var walk_speed: int = 100
+@export var sneak_speed: int = 60
 
 @export var player_direction: Vector2
 @export var net_position: Vector2

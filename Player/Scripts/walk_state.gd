@@ -3,8 +3,8 @@ class_name WalkState
 
 @export var player: Player
 @export var animated_sprite_2d: AnimatedSprite2D
-@export var walk_speed: int = 170
-@export var run_speed: int = 200
+@export var walk_speed: int = 70
+@export var run_speed: int = 100
 @export var player_direction: Vector2
 @export var is_running = Input.is_action_pressed("run")
 
