@@ -1,0 +1,248 @@
+[gd_resource type="TileSet" format=3 uid="uid://bw0tmwhkmqd4f"]
+
+[ext_resource type="Texture2D" uid="uid://b4ogxyydwai5i" path="res://Environment/Sprites and Tilesets/TX Props.png" id="1_magw2"]
+[ext_resource type="Texture2D" uid="uid://fyt0atw8v0b0" path="res://Environment/Sprites and Tilesets/TX Plant.png" id="2_q2xw2"]
+[ext_resource type="Texture2D" uid="uid://boegseh2c2rmm" path="res://Environment/Sprites and Tilesets/TX Tileset Stone Ground.png" id="3_iq1es"]
+[ext_resource type="Texture2D" uid="uid://b8gxe3kmvglmu" path="res://Environment/Sprites and Tilesets/TX Tileset Grass.png" id="4_0r3ay"]
+[ext_resource type="Texture2D" uid="uid://v507541sufhd" path="res://Environment/Sprites and Tilesets/TX Struct.png" id="5_i3llh"]
+[ext_resource type="Texture2D" uid="uid://dojsk0h0bl7n" path="res://Environment/Sprites and Tilesets/TX Player.png" id="6_ttg6b"]
+[ext_resource type="Shader" uid="uid://cpj2gytykc06x" path="res://Environment/Shaders/plant_sway.tres" id="7_kw1s1"]
+[ext_resource type="Shader" uid="uid://jjaqjrltx2om" path="res://Environment/Shaders/underwater_plants.tres" id="7_q2xw2"]
+[ext_resource type="Texture2D" uid="uid://chohs4hd4q2p8" path="res://Environment/Sprites and Tilesets/Decorations.png" id="8_oxkf3"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_074og"]
+texture = ExtResource("1_magw2")
+2:1/size_in_atlas = Vector2i(2, 3)
+2:1/0 = 0
+10:1/size_in_atlas = Vector2i(2, 3)
+10:1/0 = 0
+14:0/size_in_atlas = Vector2i(2, 4)
+14:0/0 = 0
+18:1/size_in_atlas = Vector2i(4, 3)
+18:1/0 = 0
+18:5/size_in_atlas = Vector2i(4, 3)
+18:5/0 = 0
+1:6/size_in_atlas = Vector2i(2, 4)
+1:6/0 = 0
+3:6/size_in_atlas = Vector2i(2, 4)
+3:6/0 = 0
+1:10/size_in_atlas = Vector2i(2, 4)
+1:10/0 = 0
+3:10/size_in_atlas = Vector2i(2, 4)
+3:10/0 = 0
+6:1/size_in_atlas = Vector2i(2, 3)
+6:1/0 = 0
+6:4/size_in_atlas = Vector2i(2, 4)
+6:4/0 = 0
+10:5/size_in_atlas = Vector2i(2, 3)
+10:5/0 = 0
+6:10/size_in_atlas = Vector2i(2, 2)
+6:10/0 = 0
+10:9/size_in_atlas = Vector2i(2, 3)
+10:9/0 = 0
+6:14/size_in_atlas = Vector2i(2, 2)
+6:14/0 = 0
+10:13/size_in_atlas = Vector2i(2, 3)
+10:13/0 = 0
+10:18/size_in_atlas = Vector2i(2, 2)
+10:18/0 = 0
+10:21/size_in_atlas = Vector2i(2, 3)
+10:21/0 = 0
+14:18/size_in_atlas = Vector2i(2, 4)
+14:18/0 = 0
+18:19/size_in_atlas = Vector2i(2, 3)
+18:19/0 = 0
+22:16/size_in_atlas = Vector2i(6, 6)
+22:16/0 = 0
+26:22/size_in_atlas = Vector2i(4, 4)
+26:22/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cegan"]
+texture = ExtResource("2_q2xw2")
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_82xsv"]
+texture = ExtResource("3_iq1es")
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_getpj"]
+texture = ExtResource("4_0r3ay")
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ryguw"]
+texture = ExtResource("5_i3llh")
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_d13ii"]
+texture = ExtResource("6_ttg6b")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2x3hr"]
+shader = ExtResource("7_q2xw2")
+shader_parameter/sway_amount = 1.0000000475
+shader_parameter/sway_speed = 0.5
+shader_parameter/tile_size = Vector2(16, 16)
+shader_parameter/water_level = 0.6
+shader_parameter/ripple_amplitude = 0.03
+shader_parameter/ripple_frequency = 8.0
+shader_parameter/ripple_speed = 2.0
+shader_parameter/water_tint = Color(0.117, 0.27, 0.58, 0.45)
+shader_parameter/waterline_color = Color(1, 1, 1, 0.6)
+shader_parameter/waterline_thickness = 0.015
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fmgdv"]
+shader = ExtResource("7_kw1s1")
+shader_parameter/sway_amount = 2.0
+shader_parameter/sway_speed = 0.5
+shader_parameter/tile_size = Vector2(16, 16)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1u8w0"]
+texture = ExtResource("8_oxkf3")
+10:8/size_in_atlas = Vector2i(2, 2)
+10:8/0 = 0
+10:8/0/y_sort_origin = 5
+10:8/0/physics_layer_0/polygon_0/points = PackedVector2Array(-9.982162, 5.1259727, -4.946121, 5.485691, 0.449646, 9.442585, 8, 8, 8, 3.3273888, -10.162018, 3.6871033)
+12:8/size_in_atlas = Vector2i(2, 2)
+12:8/0 = 0
+12:8/0/y_sort_origin = 5
+12:8/0/physics_layer_0/polygon_0/points = PackedVector2Array(-9.982162, 5.1259727, -4.946121, 5.485691, 0.449646, 9.442585, 8, 8, 8, 3.3273888, -10.162018, 3.6871033)
+14:8/size_in_atlas = Vector2i(2, 2)
+14:8/0 = 0
+14:8/0/y_sort_origin = 5
+14:8/0/physics_layer_0/polygon_0/points = PackedVector2Array(-9.982162, 5.1259727, -4.946121, 5.485691, 0.449646, 9.442585, 8, 8, 8, 3.3273888, -10.162018, 3.6871033)
+14:6/size_in_atlas = Vector2i(2, 2)
+14:6/0 = 0
+14:6/0/y_sort_origin = 5
+12:6/size_in_atlas = Vector2i(2, 2)
+12:6/0 = 0
+12:6/0/y_sort_origin = 5
+10:6/size_in_atlas = Vector2i(2, 2)
+10:6/0 = 0
+10:6/0/y_sort_origin = 5
+8:6/size_in_atlas = Vector2i(2, 2)
+8:6/0 = 0
+6:6/size_in_atlas = Vector2i(2, 2)
+6:6/0 = 0
+6:6/0/texture_origin = Vector2i(0, 4)
+6:6/0/material = SubResource("ShaderMaterial_2x3hr")
+6:6/0/y_sort_origin = 5
+4:6/size_in_atlas = Vector2i(2, 2)
+4:6/0 = 0
+4:6/0/texture_origin = Vector2i(0, 4)
+4:6/0/material = SubResource("ShaderMaterial_2x3hr")
+4:6/0/y_sort_origin = 5
+2:6/size_in_atlas = Vector2i(2, 2)
+2:6/0 = 0
+2:6/0/texture_origin = Vector2i(0, 2)
+2:6/0/material = SubResource("ShaderMaterial_2x3hr")
+2:6/0/y_sort_origin = 5
+0:6/size_in_atlas = Vector2i(2, 2)
+0:6/0 = 0
+0:6/0/texture_origin = Vector2i(0, 2)
+0:6/0/material = SubResource("ShaderMaterial_2x3hr")
+0:6/0/y_sort_origin = 5
+0:4/size_in_atlas = Vector2i(2, 2)
+0:4/0 = 0
+0:4/0/texture_origin = Vector2i(0, 3)
+0:4/0/material = SubResource("ShaderMaterial_2x3hr")
+0:4/0/y_sort_origin = 5
+2:4/size_in_atlas = Vector2i(2, 2)
+2:4/0 = 0
+2:4/0/texture_origin = Vector2i(0, 3)
+2:4/0/material = SubResource("ShaderMaterial_2x3hr")
+2:4/0/y_sort_origin = 5
+4:4/size_in_atlas = Vector2i(2, 2)
+4:4/0 = 0
+4:4/0/texture_origin = Vector2i(0, 4)
+4:4/0/material = SubResource("ShaderMaterial_2x3hr")
+4:4/0/y_sort_origin = 5
+6:4/size_in_atlas = Vector2i(2, 2)
+6:4/0 = 0
+6:4/0/texture_origin = Vector2i(0, 4)
+6:4/0/material = SubResource("ShaderMaterial_2x3hr")
+6:4/0/y_sort_origin = 5
+0:2/size_in_atlas = Vector2i(4, 2)
+0:2/0 = 0
+0:2/0/texture_origin = Vector2i(0, 4)
+0:2/0/material = SubResource("ShaderMaterial_2x3hr")
+0:2/0/y_sort_origin = 4
+0:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-5.665558, 3.507248, 8, 2.9676704, 12.140457, 6.384983, 6.9245605, 10.881451, -4.046829, 11.241169, -12.140472, 4.2266808)
+0:0/size_in_atlas = Vector2i(4, 2)
+0:0/0 = 0
+0:0/0/texture_origin = Vector2i(0, 4)
+0:0/0/material = SubResource("ShaderMaterial_2x3hr")
+0:0/0/y_sort_origin = 4
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-5.75548, 5.215904, 8, 5.215904, 12.230394, 7.5540676, 6.4749146, 12.230394, -3.7770338, 12.590111, -14.208839, 6.6547737)
+4:0/size_in_atlas = Vector2i(4, 2)
+4:0/0 = 0
+4:0/0/texture_origin = Vector2i(-13, 8)
+4:0/0/y_sort_origin = 3
+4:2/size_in_atlas = Vector2i(4, 2)
+4:2/0 = 0
+4:2/0/texture_origin = Vector2i(-13, 8)
+4:2/0/y_sort_origin = 3
+8:0/size_in_atlas = Vector2i(2, 2)
+8:0/0 = 0
+8:0/0/y_sort_origin = 4
+8:2/size_in_atlas = Vector2i(2, 2)
+8:2/0 = 0
+8:2/0/texture_origin = Vector2i(0, -2)
+8:2/0/y_sort_origin = 4
+10:2/size_in_atlas = Vector2i(2, 2)
+10:2/0 = 0
+10:2/0/texture_origin = Vector2i(0, -2)
+10:2/0/y_sort_origin = 5
+10:0/size_in_atlas = Vector2i(2, 2)
+10:0/0 = 0
+10:0/0/texture_origin = Vector2i(0, -2)
+10:0/0/y_sort_origin = 5
+12:0/size_in_atlas = Vector2i(2, 2)
+12:0/0 = 0
+12:0/0/texture_origin = Vector2i(0, -2)
+12:0/0/y_sort_origin = 5
+12:2/size_in_atlas = Vector2i(2, 2)
+12:2/0 = 0
+12:2/0/texture_origin = Vector2i(0, -2)
+12:2/0/y_sort_origin = 5
+14:0/size_in_atlas = Vector2i(2, 2)
+14:0/0 = 0
+14:0/0/texture_origin = Vector2i(0, -2)
+14:2/size_in_atlas = Vector2i(2, 2)
+14:2/0 = 0
+14:2/0/texture_origin = Vector2i(0, -2)
+14:4/size_in_atlas = Vector2i(2, 2)
+14:4/0 = 0
+14:4/0/texture_origin = Vector2i(0, -2)
+12:4/size_in_atlas = Vector2i(2, 2)
+12:4/0 = 0
+12:4/0/texture_origin = Vector2i(0, -2)
+12:4/0/y_sort_origin = 5
+10:4/size_in_atlas = Vector2i(2, 2)
+10:4/0 = 0
+10:4/0/texture_origin = Vector2i(0, -2)
+10:4/0/y_sort_origin = 5
+0:8/size_in_atlas = Vector2i(5, 8)
+0:8/animation_columns = 2
+0:8/0 = 0
+0:8/0/texture_origin = Vector2i(4, 38)
+0:8/0/material = SubResource("ShaderMaterial_fmgdv")
+0:8/0/physics_layer_0/polygon_0/points = PackedVector2Array(-3.956892, -3.2374563, 4.856186, -3.2374563, 8, 0.35971832, 4.4964676, 5.5756207, -6.4749146, 2.6978817)
+10:10/size_in_atlas = Vector2i(3, 6)
+10:10/0 = 0
+10:10/0/texture_origin = Vector2i(-2, 20)
+10:10/0/material = SubResource("ShaderMaterial_2x3hr")
+10:10/0/physics_layer_0/polygon_0/points = PackedVector2Array(-3.956892, -3.2374563, 4.856186, -3.2374563, 8, 0.35971832, 3.057598, 5.5756207, -8, 1.4388714)
+13:10/size_in_atlas = Vector2i(3, 6)
+13:10/0 = 0
+13:10/0/texture_origin = Vector2i(-2, 20)
+13:10/0/material = SubResource("ShaderMaterial_2x3hr")
+5:8/size_in_atlas = Vector2i(5, 8)
+5:8/0 = 0
+5:8/0/texture_origin = Vector2i(2, 38)
+5:8/0/material = SubResource("ShaderMaterial_2x3hr")
+5:8/0/physics_layer_0/polygon_0/points = PackedVector2Array(-3.956892, -3.2374563, 4.856186, -3.2374563, 8, 0.35971832, 3.057598, 5.5756207, -8, 1.4388714)
+
+[resource]
+physics_layer_0/collision_layer = 2
+sources/0 = SubResource("TileSetAtlasSource_074og")
+sources/1 = SubResource("TileSetAtlasSource_cegan")
+sources/2 = SubResource("TileSetAtlasSource_82xsv")
+sources/3 = SubResource("TileSetAtlasSource_getpj")
+sources/4 = SubResource("TileSetAtlasSource_ryguw")
+sources/5 = SubResource("TileSetAtlasSource_d13ii")
+sources/7 = SubResource("TileSetAtlasSource_1u8w0")

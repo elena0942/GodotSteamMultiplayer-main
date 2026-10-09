@@ -1,0 +1,45 @@
+shader_type canvas_item;
+
+uniform vec2 tile_size = vec2(16.0, 16.0);
+
+uniform float water_level : hint_range(0.0, 1.0, 0.01) = 0.55;
+uniform float ripple_amplitude : hint_range(0.0, 0.1, 0.001) = 0.006;
+uniform float ripple_frequency : hint_range(1.0, 30.0, 0.5) = 12.0;
+uniform float ripple_speed : hint_range(0.0, 10.0, 0.1) = 5.0;
+uniform vec4 water_tint : source_color = vec4(0.117, 0.27, 0.58, 0.45);
+uniform vec4 waterline_color : source_color = vec4(1.0, 1.0, 1.0, 0.6);
+uniform float waterline_thickness : hint_range(0.0, 0.05, 0.001) = 0.015;
+
+varying vec2 local_uv;
+
+void vertex() {
+	vec2 corner[4] = vec2[](
+		vec2(0.0, 0.0), vec2(0.0, 1.0), vec2(1.0, 1.0), vec2(1.0, 0.0)
+	);
+	local_uv = corner[VERTEX_ID % 4];
+
+	vec2 tile_anchor = floor(VERTEX / tile_size) * tile_size;
+	float phase = fract(sin(dot(tile_anchor, vec2(12.9898, 78.233))) * 43758.5453) * TAU;
+	float weight = 1.0 - local_uv.y;
+}
+
+void fragment() {
+	float wave = sin(local_uv.x * ripple_frequency + TIME * ripple_speed) * ripple_amplitude;
+	float line = water_level + wave;
+	bool under = local_uv.y > line;
+	float depth = clamp((local_uv.y - line) / (1.0 - line + 0.0001), 0.0, 1.0);
+
+	vec4 tex_color = texture(TEXTURE, UV);
+
+	if (under) {
+		tex_color.rgb = mix(tex_color.rgb, water_tint.rgb, water_tint.a * (0.5 + 0.5 * depth));
+	}
+
+	float edge_dist = abs(local_uv.y - line);
+	if (edge_dist < waterline_thickness) {
+		float edge_strength = 1.0 - edge_dist / waterline_thickness;
+		tex_color.rgb = mix(tex_color.rgb, waterline_color.rgb, waterline_color.a * edge_strength);
+	}
+
+	COLOR = tex_color;
+}

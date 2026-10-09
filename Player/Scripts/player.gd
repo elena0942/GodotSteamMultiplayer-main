@@ -43,6 +43,7 @@ var is_dead: bool
 var removing: bool = false
 var can_interact: bool
 var is_attacking: bool = false
+var water_layer: TileMapLayer = null
 var is_in_water: bool = false
 
 @onready var health: float = max_health
@@ -54,6 +55,17 @@ var is_in_water: bool = false
 @onready var state_machine: Node = $StateMachine
 @onready var trail_timer = $Timers/TrailTimer
 @onready var mud_wear_off: Timer = $Timers/MudWearOff
+@onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
+
+enum WaterState { NONE, EDGE, DEEP }
+
+const WATER_LEVEL_DRY: float = 1.0
+const WATER_LEVEL_EDGE: float = 0.58
+const WATER_LEVEL_DEEP: float = 0.55
+
+const TRANSITION_DURATION: float = 0.5
+
+var water_state: WaterState = WaterState.NONE
 
 ##### FUNCTIONS ######
 
@@ -97,17 +109,40 @@ func _process(_delta: float) -> void:
 			trail_timer.paused = true
 			var wait := get_tree().create_timer(3.0)
 			wait.timeout.connect(_on_pause_finished)
-	
-	# Mud wash off logic
-	var main_root = get_tree().current_scene
-	var tilemap_layer: TileMapLayer = main_root.get_node_or_null("Environment/Background Top")
-	var map_pos: Vector2i = tilemap_layer.local_to_map(global_position)
-	var tile_data: TileData = tilemap_layer.get_cell_tile_data(map_pos)
-	if tile_data:
-		is_in_water = tile_data.get_custom_data("water")
-		if is_in_water:
-			is_muddy = false
-			await get_tree().create_timer(1.0).timeout
+	_ensure_water_layer()
+	_update_water_state()
+
+func _ensure_water_layer() -> void:
+	if water_layer != null:
+		return
+	water_layer = get_tree().current_scene.get_node_or_null("Environment/Water")
+
+func _update_water_state() -> void:
+	var map_pos: Vector2i = water_layer.local_to_map(global_position)
+	var tile_data: TileData = water_layer.get_cell_tile_data(map_pos)
+
+	var new_state := WaterState.NONE
+	if tile_data != null:
+		if tile_data.get_custom_data("water"):
+			new_state = WaterState.DEEP
+		elif tile_data.get_custom_data("water_edge"):
+			new_state = WaterState.EDGE
+
+	if new_state == water_state:
+		return
+
+	water_state = new_state
+	var target_level: float = WATER_LEVEL_DRY
+	match water_state:
+		WaterState.DEEP:
+			target_level = WATER_LEVEL_DEEP
+		WaterState.EDGE:
+			target_level = WATER_LEVEL_EDGE
+		WaterState.NONE:
+			target_level = WATER_LEVEL_DRY
+
+	create_tween().tween_property(sprite.material, "shader_parameter/water_level", target_level, TRANSITION_DURATION)
+	print(target_level)
 
 # Tracking
 func _on_trail_node_visible() -> void:

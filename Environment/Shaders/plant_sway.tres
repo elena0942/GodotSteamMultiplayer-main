@@ -1,0 +1,23 @@
+[gd_resource type="Shader" format=3 uid="uid://cpj2gytykc06x"]
+
+[resource]
+code = "shader_type canvas_item;
+
+uniform float sway_amount : hint_range(0.0, 10.0) = 2.0; //hint_range(min, max, [step], [extra_options]) = [default_value]
+uniform float sway_speed : hint_range(0.0, 5.0) = 0.5;
+uniform vec2 tile_size = vec2(16.0, 16.0); 
+
+void vertex() { // called once per vertex for every vertex of every tile drawn with the material, every frame (in this instance, 4 vertices, so 4x per tile per frame)
+	vec2 corner[4] = vec2[](
+		vec2(0.0, 0.0), //top left
+		vec2(0.0, 1.0), // bottom left
+		vec2(1.0, 1.0), // bottom right
+		vec2(1.0, 0.0) // top right
+	);
+	vec2 local_uv = corner[VERTEX_ID % 4]; // VERTEX_ID tells you which of the 4 corners of the rectangle you are processing, giving you the local uv map instead of global
+	vec2 tile_anchor = floor(VERTEX / tile_size) * tile_size; // every corner of the one tile collapses into one point (top left), so every corner computes to the same tile anchor
+	float phase = fract(sin(dot(tile_anchor, vec2(12.9898, 78.233))) * 43758.5453) * TAU; // keeps individual waving tiles slightly out of sync with one another; numbers are from a widely used GLSL hash passed around the community for ages, verifiable trick to give a stable fake-random number
+	float weight = 1.0 - local_uv.y; // bottom of the tile stays put
+	VERTEX.x += sin(TIME * sway_speed + phase) * sway_amount * weight; // displacement; advances every frame automatically without a script
+}
+"

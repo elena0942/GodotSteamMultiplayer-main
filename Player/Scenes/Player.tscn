@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://dp0anu84vqtlk"]
 
+[ext_resource type="Shader" uid="uid://c8euxvc87xy00" path="res://Player/Shaders/Player.gdshader" id="1_nsxpy"]
 [ext_resource type="Script" uid="uid://dwacxugev0phj" path="res://Player/Scripts/player.gd" id="1_opueo"]
 [ext_resource type="Texture2D" uid="uid://b6gvn67malv00" path="res://Sprites/Player/death.png" id="2_v4f8b"]
 [ext_resource type="Texture2D" uid="uid://w2ooem4l8x3b" path="res://Sprites/Player/idle.png" id="2_xu0gf"]
@@ -20,6 +21,17 @@
 [ext_resource type="PackedScene" uid="uid://cxdkyy3omij2p" path="res://Player/Inventory/Scenes/inventory.tscn" id="17_w24id"]
 [ext_resource type="Script" uid="uid://b00re6y080lj3" path="res://Player/Scripts/progress_bar.gd" id="18_ofhxi"]
 [ext_resource type="Texture2D" uid="uid://bhnrv1m37312a" path="res://Sprites/Player/rounded_rect_white.png" id="20_qqeun"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vivmo"]
+shader = ExtResource("1_nsxpy")
+shader_parameter/tile_size = Vector2(16, 16)
+shader_parameter/water_level = 0.999999977648
+shader_parameter/ripple_amplitude = 0.006000000285
+shader_parameter/ripple_frequency = 12.0
+shader_parameter/ripple_speed = 5.000000074506
+shader_parameter/water_tint = Color(0.11764706, 0.5568628, 0.5803922, 1)
+shader_parameter/waterline_color = Color(1, 1, 1, 0.6)
+shader_parameter/waterline_thickness = 0.002000000095
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_w24id"]
 atlas = ExtResource("2_v4f8b")
@@ -995,19 +1007,18 @@ properties/5/replication_mode = 2
 [node name="CharacterBody2D" type="CharacterBody2D" unique_id=1178074239 node_paths=PackedStringArray("player") groups=["Player", "PlayerPERSON"]]
 process_mode = 3
 y_sort_enabled = true
-position = Vector2(0, -20)
 collision_layer = 2
 collision_mask = 15
 script = ExtResource("1_opueo")
 player = NodePath(".")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=555620542]
-position = Vector2(0, 13)
-zoom = Vector2(2, 2)
+position = Vector2(0, -7)
+zoom = Vector2(5, 5)
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=1762238580]
 visibility_layer = 7
-position = Vector2(-1, 12)
+position = Vector2(-1, -8)
 scale = Vector2(1.129561, 1.3666697)
 polygon = PackedVector2Array(-3.49854, 5.78313, 4.81049, 5.78313, 4.81049, 5.06024, 0.437317, 3.61445, -3.49854, 5.06024)
 
@@ -1015,11 +1026,14 @@ polygon = PackedVector2Array(-3.49854, 5.78313, 4.81049, 5.78313, 4.81049, 5.060
 z_as_relative = false
 y_sort_enabled = true
 texture_filter = 1
-position = Vector2(0.666801, 20.0335)
+material = SubResource("ShaderMaterial_vivmo")
+position = Vector2(0.66680145, 0.033504486)
 scale = Vector2(1.3666697, 1.3666697)
 sprite_frames = SubResource("SpriteFrames_egmc7")
 animation = &"run_l"
 autoplay = "idle_d"
+frame = 3
+frame_progress = 0.7872415
 offset = Vector2(0, -7)
 
 [node name="StateMachine" type="Node" parent="." unique_id=1573023618 node_paths=PackedStringArray("initial_node_state")]
@@ -1049,7 +1063,7 @@ animated_sprite_2d = NodePath("../../AnimatedSprite2D")
 [node name="Key" type="Sprite2D" parent="." unique_id=46848297 groups=["Player"]]
 modulate = Color(0.223529, 0.760784, 0.756863, 1)
 texture_filter = 1
-position = Vector2(0, -23.000002)
+position = Vector2(0, -42.999996)
 scale = Vector2(0.9879528, 0.9879528)
 texture = ExtResource("11_b32pr")
 
@@ -1057,7 +1071,7 @@ texture = ExtResource("11_b32pr")
 libraries/ = SubResource("AnimationLibrary_d4g0h")
 
 [node name="DetectArea" type="Area2D" parent="." unique_id=697093498 groups=["Player", "PlayerHB"]]
-position = Vector2(0, 9.999999)
+position = Vector2(0, -9.999996)
 scale = Vector2(0.4939764, 0.4939764)
 collision_mask = 7
 
@@ -1116,10 +1130,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -15.999939
-offset_top = 21.0
+offset_left = -16.0
+offset_top = 5.000122
 offset_right = 79.0
-offset_bottom = 44.0
+offset_bottom = 28.000122
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(0.36000243, 0.36000243)

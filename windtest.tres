@@ -1,0 +1,35 @@
+[gd_resource type="VisualShader" format=3 uid="uid://dk4xj4un1q22e"]
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_rgx45"]
+input_name = "vertex"
+
+[sub_resource type="VisualShaderNodeVectorDecompose" id="VisualShaderNodeVectorDecompose_v46qw"]
+default_input_values = [0, Vector2(0, 0)]
+op_type = 0
+
+[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_rnu5n"]
+parameter_name = "WindStrength"
+hint = 1
+min = 2.0
+max = 10.0
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_e32k3"]
+
+[sub_resource type="VisualShaderNodeVectorCompose" id="VisualShaderNodeVectorCompose_4bbuq"]
+op_type = 0
+
+[resource]
+mode = 1
+flags/light_only = false
+nodes/vertex/0/position = Vector2(820, 180)
+nodes/vertex/2/node = SubResource("VisualShaderNodeInput_rgx45")
+nodes/vertex/2/position = Vector2(-566.4601, 61.469982)
+nodes/vertex/3/node = SubResource("VisualShaderNodeVectorDecompose_v46qw")
+nodes/vertex/3/position = Vector2(-144.17006, 115.91998)
+nodes/vertex/4/node = SubResource("VisualShaderNodeFloatParameter_rnu5n")
+nodes/vertex/4/position = Vector2(-530.1601, 344.61)
+nodes/vertex/5/node = SubResource("VisualShaderNodeFloatOp_e32k3")
+nodes/vertex/5/position = Vector2(90.569954, 322.83)
+nodes/vertex/6/node = SubResource("VisualShaderNodeVectorCompose_4bbuq")
+nodes/vertex/6/position = Vector2(493.49997, 251.43999)
+nodes/vertex/connections = PackedInt32Array(2, 0, 3, 0, 3, 0, 5, 0, 4, 0, 5, 1, 5, 0, 6, 0, 3, 1, 6, 1, 6, 0, 0, 0)
