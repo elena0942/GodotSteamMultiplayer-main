@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://swxktdgm3y02"]
 
 [ext_resource type="Script" uid="uid://c465of6bmi6dx" path="res://Player/Scripts/player_BEAR.gd" id="1_gewab"]
+[ext_resource type="Shader" uid="uid://c8euxvc87xy00" path="res://Player/Shaders/Player.gdshader" id="2_s26g4"]
 [ext_resource type="Texture2D" uid="uid://b6gvn67malv00" path="res://Sprites/Player/death.png" id="2_ss45x"]
 [ext_resource type="Texture2D" uid="uid://cwmqdb7itwo4x" path="res://Sprites/Player/hurt.png" id="3_o1iy5"]
 [ext_resource type="Texture2D" uid="uid://d0yi3gr241074" path="res://Sprites/Player/hurt(REVERSE).png" id="4_ra5by"]
@@ -27,6 +28,17 @@
 [ext_resource type="AudioStream" uid="uid://kt5is8yt8tgm" path="res://SFX/Footsteps_Essentials_NOX_SOUND/Footsteps_Grass/Footsteps_Grass_Walk/Footsteps_Walk_Grass_Mono_02.wav" id="23_uwu18"]
 [ext_resource type="AudioStream" uid="uid://buvcpyu1sx4c2" path="res://SFX/Footsteps_Essentials_NOX_SOUND/Footsteps_Grass/Footsteps_Grass_Walk/Footsteps_Walk_Grass_Mono_03.wav" id="24_jsb02"]
 [ext_resource type="AudioStream" uid="uid://dknl3v15oal4c" path="res://SFX/Footsteps_Essentials_NOX_SOUND/Footsteps_Grass/Footsteps_Grass_Walk/Footsteps_Walk_Grass_Mono_04.wav" id="25_s26g4"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jsb02"]
+shader = ExtResource("2_s26g4")
+shader_parameter/tile_size = Vector2(16, 16)
+shader_parameter/water_level = 1.0
+shader_parameter/ripple_amplitude = 0.006
+shader_parameter/ripple_frequency = 12.0
+shader_parameter/ripple_speed = 5.0
+shader_parameter/water_tint = Color(0.117, 0.27, 0.58, 0.45)
+shader_parameter/waterline_color = Color(1, 1, 1, 0.6)
+shader_parameter/waterline_thickness = 0.015
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_w24id"]
 atlas = ExtResource("2_ss45x")
@@ -936,6 +948,7 @@ collision_mask = 15
 script = ExtResource("1_gewab")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=555620542]
+zoom = Vector2(2.5, 2.5)
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=1762238580]
 visibility_layer = 7
@@ -947,6 +960,7 @@ polygon = PackedVector2Array(-3.49854, 5.78313, 4.81049, 5.78313, 4.81049, 5.060
 z_as_relative = false
 y_sort_enabled = true
 texture_filter = 1
+material = SubResource("ShaderMaterial_jsb02")
 position = Vector2(0.66680145, -13.666534)
 scale = Vector2(0.118371345, 0.11837147)
 sprite_frames = SubResource("SpriteFrames_egmc7")

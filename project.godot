@@ -33,6 +33,10 @@ window/size/viewport_height=1080
 
 project/assembly_name="GodotSteamMultiplayer"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/gaea-1.X/addons/gaea/plugin.cfg", "res://addons/gaea-2.0/addons/gaea/plugin.cfg", "res://addons/gaea/editor/plugin.cfg", "res://addons/gaea/plugin.cfg", "res://addons/gaea/runtime/plugin.cfg")
+
 [global_group]
 
 PlayerPERSON=""

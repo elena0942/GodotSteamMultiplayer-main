@@ -48,6 +48,9 @@ var angle: float = 0.0
 var ability_total_duration: float = 0.0
 var ability_time_remaining: float = 0.0
 
+var water_layer: TileMapLayer = null
+var water_state: WaterState = WaterState.NONE
+
 @onready var player: CharacterBody2D
 
 @onready var _attack_area: CollisionShape2D = $AttackArea/Attack
@@ -66,6 +69,14 @@ var ability_time_remaining: float = 0.0
 
 @onready var trail_vis_timer: Timer = $Timers/TrailVisTimer
 @onready var cooldown: Timer = $Timers/Cooldown
+
+enum WaterState { NONE, EDGE, DEEP }
+
+const WATER_LEVEL_DRY: float = 1.0
+const WATER_LEVEL_EDGE: float = 1.0
+const WATER_LEVEL_DEEP: float = 0.70
+
+const TRANSITION_DURATION: float = 0.5
 
 ##### DICTIONARIES AND ARRAYS #####
 
@@ -176,6 +187,41 @@ func _physics_process(delta: float) -> void:
 		await get_tree().process_frame
 	
 	listen(delta)
+	_ensure_water_layer()
+	_update_water_state()
+
+func _ensure_water_layer() -> void:
+	if water_layer != null:
+		return
+	water_layer = get_tree().current_scene.get_node_or_null("Environment/Water")
+
+func _update_water_state() -> void:
+	var map_pos: Vector2i = water_layer.local_to_map(global_position)
+	var tile_data: TileData = water_layer.get_cell_tile_data(map_pos)
+
+	var new_state := WaterState.NONE
+	if tile_data != null:
+		if tile_data.get_custom_data("water"):
+			new_state = WaterState.DEEP
+		elif tile_data.get_custom_data("water_edge"):
+			new_state = WaterState.EDGE
+
+	if new_state == water_state:
+		return
+
+	water_state = new_state
+	var target_level: float = WATER_LEVEL_DRY
+	match water_state:
+		WaterState.DEEP:
+			target_level = WATER_LEVEL_DEEP
+		WaterState.EDGE:
+			target_level = WATER_LEVEL_EDGE
+		WaterState.NONE:
+			target_level = WATER_LEVEL_DRY
+
+	create_tween().tween_property(animated_sprite_2d.material, "shader_parameter/water_level", target_level, TRANSITION_DURATION)
+	print(target_level)
+
 
 # Health
 func set_health(value) -> void:
